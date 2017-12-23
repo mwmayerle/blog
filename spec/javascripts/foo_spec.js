@@ -1,4 +1,3 @@
-
 // include app/assets/javascripts/foo.js
 
 describe('Foo', function() {
