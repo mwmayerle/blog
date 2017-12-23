@@ -83,7 +83,7 @@ var el = function(xCoord, yCoord) {
 	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord + 50, 50, 50);
 }
 
-var ess = function(xCoord, yCoord) {
+var es = function(xCoord, yCoord) {
 	var tetrisBackground = document.getElementById("tetris");
 	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
 
