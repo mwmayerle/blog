@@ -1,8 +1,5 @@
 /*
 The tetris NES window is 10 blocks wide and 20 blocks tall
-
-fillRect(x coordinate, y coordinate, width, height)
-
 Current plan:
 	Each shape will be an object composed of blocks made with a constructor function
 	Each shape has an arrangement of blocks (their coordinates) and a color as inputs
@@ -13,30 +10,24 @@ window.onload = function() {
 	drawBackground();
 };
 
-
-/* Background consists of 10 x 20 cubes colored black. Each row is generated within the
-	drawRow() function. drawRow() increments x coordinates while holding y coordinates steady
-*/
 var drawBackground = function() {
-	var tetrisMain = document.getElementById("tetris");
-	var tetrisMainContext = tetrisMain.getContext("2d");
+	var tetrisBackground = document.getElementById("tetris");
+	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
 
-	var rowNum;
-	var cubeY = 0;
+	tetrisBackgroundContext.fillStyle = "black";
+	tetrisBackgroundContext.fillRect(0, 0, 500, 1000); //fillRect(x coordinate, y coordinate, width, height)
 
-	for (rowNum = 0; rowNum < 20; rowNum++) {
-		drawRow(tetrisMain, tetrisMainContext, rowNum);
-	}
+	// cube(200, 0);
+	// stick(200, 0);
+	// cross(200, 0);
+	// zed(200, 0);
+	// jay(200, 0);
+	// el(200, 0);
+	// ess(200, 0);
+	// zed(200, 0);
 }
 
-var drawRow = function(tetrisMain, tetrisMainContext, rowNum) {
-	rowNum *= 50; 
-	var cubeX = 0;
-	var currentBlock;
-
-	for (currentBlock = 0; currentBlock < 10; currentBlock++) {
-		tetrisMainContext.fillStyle = "black";
-		tetrisMainContext.fillRect(cubeX, rowNum, 50, 50);
-		cubeX += 50;
-	}
+var generateRandomShape = function() {
+	var shapes = ["jay", "el", "cube", "stick", "ZED", "cross", "ESS"];
+	return shapes[Math.floor(Math.random() * (7))];
 }
