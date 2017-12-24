@@ -1,5 +1,5 @@
 window.onload = function() {
-	drawBackground();
+	startGame();
 };
 
 var xCoord = 200;
@@ -11,58 +11,103 @@ var offsetDown = yCoord + 50;
 var offsetFarDown = yCoord + 100;
 var offsetDownMore = yCoord + 150;
 
+var startGame = function() {
+	drawBackground();
+	var currentTetromino = selectTetromino();
+	currentTetromino.drawTetromino();
+}
+
 var drawBackground = function() {
 	var tetrisBackground = document.getElementById("tetris");
 	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
 
 	tetrisBackgroundContext.fillStyle = "black";
 	tetrisBackgroundContext.fillRect(0, 0, 500, 1000);
-
-	new Tetromino(generateRandomShape(), xCoord, yCoord);
 }
 
+var selectTetromino = function() {
+	shape = generateRandomShape();
+	return new Tetromino(selectShape(shape));
+}
+	
 var generateRandomShape = function() {
 	var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
 	return shapes[Math.floor(Math.random() * (7))];
 }
 
-var drawShape = function(shape) {
+var selectShape = function(shape) {
 	switch (shape) {
 		case "jay":
-			var positions = [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [xCoord, offsetDown]];
-			jay(positions);
+			var attributes = {
+					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [xCoord, offsetDown]],
+					color: 'red',
+					outlineColor: 'red',
+					solid: true,
+					shape: 'jay'
+			}
 			break;
-
+			
 		case "el":
-			var positions = [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetFarRight, offsetDown]];
-			el(positions);
+			var attributes = {
+					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetFarRight, offsetDown]],
+					color: 'blue',
+					outlineColor: 'blue',
+					solid: true,
+					shape: 'el'
+			}
 			break;
 
 		case "cube":
-			var positions = [[xCoord, yCoord], [offsetRight, yCoord], [xCoord, offsetDown], [offsetRight, offsetDown]];
-			cube(positions);
+			var attributes = {
+					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [xCoord, offsetDown], [offsetRight, offsetDown]],
+					color: 'white',
+					outlineColor: 'blue',
+					solid: false,
+					shape: 'cube'
+			}
 			break;
 
 		case "stick":
-			var positions = [[offsetLeft, yCoord], [xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord]];
-			stick(positions);
+			var attributes = {
+					cubePositions: [[offsetLeft, yCoord], [xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord]],
+					color: 'white',
+					outlineColor: 'blue',
+					solid: false,
+					shape: 'stick'
+			}
 			break;
 
 		case "zed":
-			var positions = [[xCoord, yCoord], [offsetRight, yCoord], [offsetRight, offsetDown], [offsetFarRight, offsetDown]];
-			zed(positions);
+			var attributes = {
+					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetRight, offsetDown], [offsetFarRight, offsetDown]],
+					color: 'red',
+					outlineColor: 'red',
+					solid: true,
+					shape: 'zed'
+			}
 			break;
 
 		case "cross":
-			var positions = [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown]];
-			cross(positions);
+			var attributes = {
+					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown]],
+					color: 'white',
+					outlineColor: 'blue',
+					solid: false,
+					shape: 'cross'
+			}
 			break;
 
 		case "es":
-			var positions = [[offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown], [xCoord, offsetDown]];
-			es(positions);
+			var attributes = {
+					cubePositions: [[offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown], [xCoord, offsetDown]],
+					color: 'blue',
+					outlineColor: 'blue',
+					solid: true,
+					shape: 'es'
+			}
 			break;
 	}
+	return attributes;
 }
 
 /*
