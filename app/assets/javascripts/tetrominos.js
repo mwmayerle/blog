@@ -1,118 +1,91 @@
-var cube = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "red"; //top left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "green";  //top right
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "blue"; //bottom left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord + 50, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom right
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord + 50, 50, 50);
+var Tetromino = function(shape, xCoord, yCoord) {
+	this.shape = drawShape(shape);
 }
 
-var stick = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
+Tetromino.prototype.rotateShape = function() {
+// code here
+};
 
-	tetrisBackgroundContext.fillStyle = "red"; //top
-	tetrisBackgroundContext.fillRect(xCoord - 50, yCoord, 50, 50);
+var drawTetromino = function(positions, context, color, outlineColor, solid) {
+	positions.forEach(function(position) {
 
-	tetrisBackgroundContext.fillStyle = "green";  //middle
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
+		context.fillStyle = 'black';
+		context.fillRect(position[0], position[1], 50, 50);
 
-	tetrisBackgroundContext.fillStyle = "blue"; //middle
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
+		context.fillStyle = outlineColor;
+		context.fillRect(position[0] + 5, position[1] + 5, 45, 45);
 
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord, 50, 50);
+		context.fillStyle = color;
+		context.fillRect(position[0] + 10, position[1] + 10, 35, 35);
+
+		context.fillStyle = 'white';
+		context.fillRect(position[0] + 5, position[1] + 5, 5, 5); // sparkle in top left corner
+
+		if (solid == true) { // makes the shine on solid tetrominos
+			context.fillRect(position[0] + 10, position[1] + 10, 10, 5);
+			context.fillRect(position[0] + 10, position[1] + 15, 5, 5);
+		}
+	});
 }
 
-var cross = function(xCoord, yCoord) {
+var getContext = function() {
 	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "red"; //top left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "green";  //top middle
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "blue"; //top right
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord + 50, 50, 50);
+	var context = tetrisBackground.getContext("2d");
+	return context;
 }
 
-var jay = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "red"; //top left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "green";  //top middle
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "blue"; //top right
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom
-	tetrisBackgroundContext.fillRect(xCoord, yCoord + 50, 50, 50);
+var cube = function(positions) {
+	var context = getContext();
+	var color = 'white';
+	var outlineColor = 'blue';
+	var solid = false;
+	drawTetromino(positions, context, color, outlineColor, solid);
 }
 
-var el = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "red"; //top left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "green";  //top middle
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "blue"; //top right
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord + 50, 50, 50);
+var stick = function(positions) {
+	var context = getContext();
+	var color = 'white';
+	var outlineColor = 'blue';
+	var solid = false;
+	drawTetromino(positions, context, color, outlineColor, solid);
 }
 
-var es = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "red"; //top center
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "green";  //top right
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "blue"; //bottom right
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord + 50, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord + 50, 50, 50);
+var cross = function(positions) {
+	var context = getContext();
+	var color = 'white';
+	var outlineColor = 'blue';
+	var solid = false;
+	drawTetromino(positions, context, color, outlineColor, solid);
 }
 
-var zed = function(xCoord, yCoord) {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
+var jay = function(positions) {
+	var context = getContext();
+	var color = 'red';
+	var outlineColor = 'red';
+	var solid = true;
+	drawTetromino(positions, context, color, outlineColor, solid);
+}
 
-	tetrisBackgroundContext.fillStyle = "red"; //top left
-	tetrisBackgroundContext.fillRect(xCoord, yCoord, 50, 50);
+var el = function(positions) {
+	var context = getContext();
+	var color = 'blue';
+	var outlineColor = 'blue';
+	var solid = true;
+	drawTetromino(positions, context, color, outlineColor, solid);
+}
 
-	tetrisBackgroundContext.fillStyle = "green";  //top right
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord, 50, 50);
+var es = function(positions) {
+	var context = getContext();
+	var color = 'blue';
+	var outlineColor = 'blue';
+	var solid = true;
+	drawTetromino(positions, context, color, outlineColor, solid);
+}
 
-	tetrisBackgroundContext.fillStyle = "blue"; //bottom left
-	tetrisBackgroundContext.fillRect(xCoord + 50, yCoord + 50, 50, 50);
-
-	tetrisBackgroundContext.fillStyle = "orange"; //bottom right
-	tetrisBackgroundContext.fillRect(xCoord + 100, yCoord + 50, 50, 50);
+var zed = function(positions) {
+	var context = getContext();
+	var color = 'red';
+	var outlineColor = 'red';
+	var solid = true;
+	drawTetromino(positions, context, color, outlineColor, solid);
 }
