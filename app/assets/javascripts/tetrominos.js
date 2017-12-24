@@ -10,8 +10,6 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 	var context = getContext();
 	that = this;
 	this.cubePositions.forEach(function(position) {
-		// context.fillStyle = 'black';
-		// context.fillRect(position[0], position[1], 50, 50);
 		context.fillStyle = that.outlineColor;
 		context.fillRect(position[0] + 5, position[1] + 5, 45, 45);
 
@@ -26,6 +24,15 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 			context.fillRect(position[0] + 10, position[1] + 15, 5, 5);
 		}
 	});
+}
+
+Tetromino.prototype.redrawBackground = function() {
+	var context = getContext();
+	this.cubePositions.forEach(function(position) {
+		context.clearRect(position[0], position[1], 50, 50)
+		context.fillStyle = 'black';
+		context.fillRect(position[0], position[1], 50, 50);
+	})
 }
 
 Tetromino.prototype.autoMoveShape = function() {

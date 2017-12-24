@@ -15,6 +15,10 @@ var startGame = function() {
 	drawBackground();
 	var currentTetromino = selectTetromino();
 	currentTetromino.drawTetromino();
+	
+	currentTetromino.redrawBackground();
+	currentTetromino.autoMoveShape();
+	currentTetromino.drawTetromino();
 }
 
 var drawBackground = function() {
@@ -46,7 +50,6 @@ var selectShape = function(shape) {
 					shape: 'jay'
 			}
 			break;
-			
 		case "el":
 			var attributes = {
 					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetFarRight, offsetDown]],
@@ -56,7 +59,6 @@ var selectShape = function(shape) {
 					shape: 'el'
 			}
 			break;
-
 		case "cube":
 			var attributes = {
 					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [xCoord, offsetDown], [offsetRight, offsetDown]],
@@ -66,7 +68,6 @@ var selectShape = function(shape) {
 					shape: 'cube'
 			}
 			break;
-
 		case "stick":
 			var attributes = {
 					cubePositions: [[offsetLeft, yCoord], [xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord]],
@@ -76,7 +77,6 @@ var selectShape = function(shape) {
 					shape: 'stick'
 			}
 			break;
-
 		case "zed":
 			var attributes = {
 					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetRight, offsetDown], [offsetFarRight, offsetDown]],
@@ -86,7 +86,6 @@ var selectShape = function(shape) {
 					shape: 'zed'
 			}
 			break;
-
 		case "cross":
 			var attributes = {
 					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown]],
@@ -96,7 +95,6 @@ var selectShape = function(shape) {
 					shape: 'cross'
 			}
 			break;
-
 		case "es":
 			var attributes = {
 					cubePositions: [[offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown], [xCoord, offsetDown]],
