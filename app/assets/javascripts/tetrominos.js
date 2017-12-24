@@ -35,15 +35,9 @@ Tetromino.prototype.redrawBackground = function() {
 	})
 }
 
-Tetromino.prototype.autoMoveShape = function() {
+Tetromino.prototype.moveShapeDown = function() {
 	this.cubePositions.map(function(position) {
 		position[1] += 50; //adds 50 to the vertical position of all cubes
 		return position;
 	});
 };
-
-var getContext = function() {
-	var tetrisBackground = document.getElementById("tetris");
-	var context = tetrisBackground.getContext("2d");
-	return context;
-}

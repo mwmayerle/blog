@@ -15,18 +15,19 @@ var startGame = function() {
 	drawBackground();
 	var currentTetromino = selectTetromino();
 	currentTetromino.drawTetromino();
-	
-	currentTetromino.redrawBackground();
-	currentTetromino.autoMoveShape();
-	currentTetromino.drawTetromino();
+	createInterval(currentTetromino);
+}
+
+var getContext = function() {
+	var tetrisBackground = document.getElementById("tetris");
+	var context = tetrisBackground.getContext("2d");
+	return context;
 }
 
 var drawBackground = function() {
-	var tetrisBackground = document.getElementById("tetris");
-	var tetrisBackgroundContext = tetrisBackground.getContext("2d");
-
-	tetrisBackgroundContext.fillStyle = "black";
-	tetrisBackgroundContext.fillRect(0, 0, 500, 1000);
+	var context = getContext();
+	context.fillStyle = "black";
+	context.fillRect(0, 0, 500, 1000);
 }
 
 var selectTetromino = function() {
@@ -37,6 +38,15 @@ var selectTetromino = function() {
 var generateRandomShape = function() {
 	var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
 	return shapes[Math.floor(Math.random() * (7))];
+}
+
+var createInterval = function(currentTetromino) {
+	var interval = setInterval(moveDownOnce, 1000);
+	function moveDownOnce() {
+		currentTetromino.redrawBackground();
+		currentTetromino.moveShapeDown();
+		currentTetromino.drawTetromino();
+	}
 }
 
 var selectShape = function(shape) {
