@@ -7,15 +7,21 @@ var yCoord = 0;
 var offsetLeft = xCoord - 50;
 var offsetRight = xCoord + 50;
 var offsetFarRight = xCoord + 100;
+var offsetUp = yCoord - 50;
+var offsetFarUp = yCoord - 100;
 var offsetDown = yCoord + 50;
 var offsetFarDown = yCoord + 100;
 var offsetDownMore = yCoord + 150;
 
 var startGame = function() {
 	drawBackground();
+	var currentGame = new Game();
 	var currentTetromino = selectTetromino();
+
 	currentTetromino.drawTetromino();
-	createInterval(currentTetromino);
+	createInterval(currentTetromino, currentGame);
+
+	// currentTetromino.rotateTetromino();
 }
 
 var getContext = function() {
@@ -40,11 +46,11 @@ var generateRandomShape = function() {
 	return shapes[Math.floor(Math.random() * (7))];
 }
 
-var createInterval = function(currentTetromino) {
-	var interval = setInterval(moveDownOnce, 1000);
+var createInterval = function(currentTetromino, currentGame) {
+	var interval = setInterval(moveDownOnce, currentGame.speed);
 	function moveDownOnce() {
 		currentTetromino.redrawBackground();
-		currentTetromino.moveShapeDown();
+		currentTetromino.movePositionDown();
 		currentTetromino.drawTetromino();
 	}
 }

@@ -4,11 +4,12 @@ var Tetromino = function(attributes) {
 	this.color = attributes.color;
 	this.outlineColor = attributes.outlineColor;
 	this.solid = attributes.solid;
+	this.rotations = 0;
 }
 
 Tetromino.prototype.drawTetromino = function(attributes) {
 	var context = getContext();
-	that = this;
+	var that = this;
 	this.cubePositions.forEach(function(position) {
 		context.fillStyle = that.outlineColor;
 		context.fillRect(position[0] + 5, position[1] + 5, 45, 45);
@@ -29,15 +30,49 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 Tetromino.prototype.redrawBackground = function() {
 	var context = getContext();
 	this.cubePositions.forEach(function(position) {
-		context.clearRect(position[0], position[1], 50, 50)
+		context.clearRect(position[0], position[1], 50, 50);
 		context.fillStyle = 'black';
 		context.fillRect(position[0], position[1], 50, 50);
 	})
 }
 
-Tetromino.prototype.moveShapeDown = function() {
+Tetromino.prototype.movePositionDown = function() {
 	this.cubePositions.map(function(position) {
 		position[1] += 50; //adds 50 to the vertical position of all cubes
 		return position;
 	});
 };
+
+Tetromino.prototype.rotateTetromino = function() {
+	var context = getContext();
+	this.cubePositions.forEach(function(position) {
+		context.clearRect(position[0], position[1], 50, 50);
+	});
+	this.redrawBackground();
+
+	switch (this.shape) {
+		case 'stick':
+			if (this.rotations === 0) {
+				this.cubePositions = [[offsetRight, offsetUp], [offsetRight, offsetFarUp], [offsetRight, offsetFarUp - 50], [offsetRight, yCoord]];
+				this.rotations += 1;
+			}
+			break;
+		case 'cross':
+			if (this.rotations === 0) {
+				this.cubePositions = [[xCoord, offsetUp], [offsetRight, offsetUp], [offsetRight, offsetFarUp], [offsetRight, yCoord]];
+				this.rotations += 1;
+			}
+			break;
+		case 'es':
+			if (this.rotations === 0) {
+				this.cubePositions = [[offsetFarRight, yCoord], [offsetFarRight, offsetUp], [offsetRight, offsetUp], [offsetRight, offsetFarUp]];
+				this.rotations += 1;
+			}
+			break;
+		case 'zed':
+		if (this.rotations === 0) {
+			this.cubePositions = [[offsetRight, offsetUp], [offsetFarRight, offsetUp], [offsetFarRight, offsetFarUp], [offsetRight, yCoord]];
+			this.rotations += 1;
+		}
+	}
+}
