@@ -56,7 +56,7 @@ Tetromino.prototype.rotateTetromino = function() {
 				this.cubePositions = [[offsetRight, offsetUp], [offsetRight, offsetFarUp], [offsetRight, offsetFarUp - 50], [offsetRight, yCoord]];
 				this.rotations += 1;
 			} else {
-				this.cubePositions = [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [xCoord, offsetDown]];
+				this.cubePositions = [[offsetLeft, offsetUp], [xCoord, offsetUp], [offsetRight, offsetUp], [offsetFarRight, offsetUp]];
 				this.rotations -= 1;
 			}
 			break;

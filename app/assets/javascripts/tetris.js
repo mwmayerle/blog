@@ -19,10 +19,8 @@ var startGame = function() {
 	var currentTetromino = selectTetromino();
 	currentTetromino.drawTetromino();
 
-	document.addEventListener("keyup", spinTetromino.bind(currentTetromino), true);
+	document.addEventListener("keyup", spinTetromino.bind(currentTetromino));
 	createInterval(currentTetromino, currentGame);
-
-	// currentTetromino.rotateTetromino();
 }
 
 var spinTetromino = function() {
