@@ -17,11 +17,16 @@ var startGame = function() {
 	drawBackground();
 	var currentGame = new Game();
 	var currentTetromino = selectTetromino();
-
 	currentTetromino.drawTetromino();
+
+	document.addEventListener("keyup", spinTetromino.bind(currentTetromino), true);
 	createInterval(currentTetromino, currentGame);
 
 	// currentTetromino.rotateTetromino();
+}
+
+var spinTetromino = function() {
+	this.rotateTetromino();
 }
 
 var getContext = function() {
