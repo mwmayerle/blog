@@ -50,7 +50,7 @@ var selectShape = function(shape) {
 			break;
 		case "el":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 0], [300, 0], [300, 50]],
+					cubePositions: [[200, 0], [300, 0], [250, 0], [300, 50]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,
