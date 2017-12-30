@@ -2,6 +2,12 @@ window.onload = function() {
 	startGame();
 };
 
+var Game = function() { //occupiedCols will start in the top left corner like the canvas grid
+	this.score = 0;
+	this.speed = 750;
+	this.occupiedColumns = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: '', 10: ''};
+}
+
 var left = -50;
 var up = -50;
 var right = 50;
@@ -86,7 +92,7 @@ var selectShape = function(shape) {
 			break;
 		case "cross":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 0], [250, 50], [300, 0]],
+					cubePositions: [[200, 0], [250, 50], [250, 0], [300, 0]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
