@@ -27,11 +27,6 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 	});
 }
 
-Tetromino.prototype.drawCycle = function() {
-	this.redrawBackground();
-	this.drawTetromino();
-}
-
 Tetromino.prototype.redrawBackground = function() {
 	var context = getContext();
 	this.cubePositions.forEach(function(position) {
@@ -80,10 +75,16 @@ Tetromino.prototype.getDirection = function() {
 				that.moveRight();
 				that.drawTetromino();
 				break;
+			default:
+				that.redrawBackground();
+				that.rotateTetromino();
+				that.drawTetromino();
+				break;
 			}
 	});
 }
 
+// All functions starting with "move" ONLY adjust the cubePositions, they do not draw/redraw the altered cubePositions
 Tetromino.prototype.moveLeft = function() {
 	if (this.cubePositions[0][0] > 0) {
 		this.cubePositions.map(function(position) {
@@ -108,7 +109,61 @@ Tetromino.prototype.moveDown = function() {
 	}
 }
 
+Tetromino.prototype.rotateTetromino = function() {
+	switch (this.shape) {
+		case 'stick':
+			if (this.rotations === 1) {
+				this.cubePositions[0][0] += right * 2;
+				this.cubePositions[0][1] += up * 2;
+				this.cubePositions[1][0] += right;
+				this.cubePositions[1][1] += up;
+				this.cubePositions[3][0] += left;
+				this.cubePositions[3][1] += down;
+				this.rotations += 1;
+			} else {
+				this.cubePositions[0][0] += up * 2;
+				this.cubePositions[0][1] += down * 2;
+				this.cubePositions[1][0] += left;
+				this.cubePositions[1][1] += down;
+				this.cubePositions[3][0] += right;
+				this.cubePositions[3][1] += up;
+				this.rotations -= 1;
+			}
+			break;
+		case 'es':
+			if (this.rotations === 1) {
+				this.cubePositions[0][0] += right;
+				this.cubePositions[0][1] += up * 2;
+				this.cubePositions[1][0] += right;
+				this.rotations += 1;
+			} else {
+				this.cubePositions[0][0] += left;
+				this.cubePositions[0][1] += down * 2;
+				this.cubePositions[1][0] += left;
+				this.rotations -= 1;
+			}
+			break;
+		case 'zed':
+			if (this.rotations === 1) {
+				this.cubePositions[0][0] += right * 2;
+				this.cubePositions[0][1] += up;
+				this.cubePositions[3][1] += up;
+				this.rotations += 1;
+			} else {
+				this.cubePositions[0][0] += left * 2;
+				this.cubePositions[0][1] += down;
+				this.cubePositions[3][1] += down;
+				this.rotations -= 1
+			}
+			break;
+// var left = -50;
+// var up = -50;
+// var right = 50;
+// var down = 50;
 
+
+	}
+}
 
 
 
@@ -122,15 +177,6 @@ Tetromino.prototype.rotateTetromino = function() {
 	this.redrawBackground();
 
 	switch (this.shape) { //cube omitted b/c it doesn't rotate
-		case 'stick':
-			if (this.rotations === 1) {
-				this.cubePositions = [[offsetRight, offsetUp], [offsetRight, offsetFarUp], [offsetRight, offsetFarUp - 50], [offsetRight, yCoord]];
-				this.rotations += 1;
-			} else {
-				this.cubePositions = [[offsetLeft, offsetUp], [xCoord, offsetUp], [offsetRight, offsetUp], [offsetFarRight, offsetUp]];
-				this.rotations -= 1;
-			}
-			break;
 		case 'es':
 			if (this.rotations === 1) {
 				this.cubePositions = [[offsetFarRight, yCoord], [offsetFarRight, offsetUp], [offsetRight, offsetUp], [offsetRight, offsetFarUp]];
