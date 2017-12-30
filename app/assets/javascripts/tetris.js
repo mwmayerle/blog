@@ -41,7 +41,7 @@ var selectShape = function(shape) {
 	switch (shape) {
 		case "jay":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 0], [200, 50], [300, 0]],
+					cubePositions: [[200, 0], [200, 50], [250, 0], [300, 0]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
