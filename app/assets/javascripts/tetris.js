@@ -2,29 +2,12 @@ window.onload = function() {
 	startGame();
 };
 
-var xCoord = 200;
-var yCoord = 0;
-var offsetLeft = xCoord - 50;
-var offsetRight = xCoord + 50;
-var offsetFarRight = xCoord + 100;
-var offsetUp = yCoord - 50;
-var offsetFarUp = yCoord - 100;
-var offsetDown = yCoord + 50;
-var offsetFarDown = yCoord + 100;
-var offsetDownMore = yCoord + 150;
-
 var startGame = function() {
 	drawBackground();
 	var currentGame = new Game();
-	var currentTetromino = selectTetromino();
+	var currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
-
-	document.addEventListener("keyup", spinTetromino.bind(currentTetromino));
-	createInterval(currentTetromino, currentGame);
-}
-
-var spinTetromino = function() {
-	this.rotateTetromino();
+	currentTetromino.getDirection();
 }
 
 var getContext = function() {
@@ -33,13 +16,7 @@ var getContext = function() {
 	return context;
 }
 
-var drawBackground = function() {
-	var context = getContext();
-	context.fillStyle = "black";
-	context.fillRect(0, 0, 500, 1000);
-}
-
-var selectTetromino = function() {
+var getNewTetromino = function() {
 	shape = generateRandomShape();
 	return new Tetromino(selectShape(shape));
 }
@@ -49,20 +26,17 @@ var generateRandomShape = function() {
 	return shapes[Math.floor(Math.random() * (7))];
 }
 
-var createInterval = function(currentTetromino, currentGame) {
-	var interval = setInterval(moveDownOnce, currentGame.speed);
-	function moveDownOnce() {
-		currentTetromino.redrawBackground();
-		currentTetromino.movePositionDown();
-		currentTetromino.drawTetromino();
-	}
+var drawBackground = function() {
+	var context = getContext();
+	context.fillStyle = "black";
+	context.fillRect(0, 0, 500, 1000);
 }
 
 var selectShape = function(shape) {
 	switch (shape) {
 		case "jay":
 			var attributes = {
-					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [xCoord, offsetDown]],
+					cubePositions: [[200, 0], [250, 0], [200, 50], [300, 0]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
@@ -71,7 +45,7 @@ var selectShape = function(shape) {
 			break;
 		case "el":
 			var attributes = {
-					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetFarRight, offsetDown]],
+					cubePositions: [[200, 0], [250, 0], [300, 0], [300, 50]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,
@@ -80,7 +54,7 @@ var selectShape = function(shape) {
 			break;
 		case "cube":
 			var attributes = {
-					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [xCoord, offsetDown], [offsetRight, offsetDown]],
+					cubePositions: [[200, 0], [250, 0], [200, 50], [250, 50]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -89,7 +63,7 @@ var selectShape = function(shape) {
 			break;
 		case "stick":
 			var attributes = {
-					cubePositions: [[offsetLeft, yCoord], [xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord]],
+					cubePositions: [[150, 0], [200, 0], [250, 0], [300, 0]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -98,7 +72,7 @@ var selectShape = function(shape) {
 			break;
 		case "zed":
 			var attributes = {
-					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetRight, offsetDown], [offsetFarRight, offsetDown]],
+					cubePositions: [[200, 0], [250, 0], [250, 50], [300, 50]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
@@ -107,7 +81,7 @@ var selectShape = function(shape) {
 			break;
 		case "cross":
 			var attributes = {
-					cubePositions: [[xCoord, yCoord], [offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown]],
+					cubePositions: [[200, 0], [250, 0], [250, 50], [300, 0]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -116,7 +90,7 @@ var selectShape = function(shape) {
 			break;
 		case "es":
 			var attributes = {
-					cubePositions: [[offsetRight, yCoord], [offsetFarRight, yCoord], [offsetRight, offsetDown], [xCoord, offsetDown]],
+					cubePositions: [[200, 50], [250, 0], [250, 50], [300, 0]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,

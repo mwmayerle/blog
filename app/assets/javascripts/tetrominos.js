@@ -27,6 +27,11 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 	});
 }
 
+Tetromino.prototype.drawCycle = function() {
+	this.redrawBackground();
+	this.drawTetromino();
+}
+
 Tetromino.prototype.redrawBackground = function() {
 	var context = getContext();
 	this.cubePositions.forEach(function(position) {
@@ -36,18 +41,84 @@ Tetromino.prototype.redrawBackground = function() {
 	})
 }
 
-Tetromino.prototype.movePositionDown = function() {
-	this.cubePositions.map(function(position) {
-		position[1] += 50; //adds 50 to the vertical position of all cubes
-		return position;
-	});
-};
+Tetromino.prototype.drawTetromino = function(attributes) {
+	var context = getContext();
+	var that = this;
+	this.cubePositions.forEach(function(position) {
+		context.fillStyle = that.outlineColor;
+		context.fillRect(position[0] + 5, position[1] + 5, 45, 45);
 
+		context.fillStyle = that.color;
+		context.fillRect(position[0] + 10, position[1] + 10, 35, 35);
+
+		context.fillStyle = 'white';
+		context.fillRect(position[0] + 5, position[1] + 5, 5, 5); // sparkle in top left corner
+
+		if (that.solid == true) { // makes the shine on solid tetrominos
+			context.fillRect(position[0] + 10, position[1] + 10, 10, 5);
+			context.fillRect(position[0] + 10, position[1] + 15, 5, 5);
+		}
+	});
+}
+
+Tetromino.prototype.getDirection = function() {
+	var that = this;
+	document.addEventListener("keypress", function(event) {
+		switch (event.keyCode) { //this is the document here
+			case 97: // A
+				that.redrawBackground();
+				that.moveLeft();
+				that.drawTetromino();
+				break;
+			case 115: // S
+				that.redrawBackground();
+				that.moveDown()
+				that.drawTetromino();
+				break;
+			case 100:// D
+				that.redrawBackground();
+				that.moveRight();
+				that.drawTetromino();
+				break;
+			}
+	});
+}
+
+Tetromino.prototype.moveLeft = function() {
+	if (this.cubePositions[0][0] > 0) {
+		this.cubePositions.map(function(position) {
+			position[0] -= 50;
+		});
+	}
+}
+
+Tetromino.prototype.moveRight = function() {
+	if (this.cubePositions[3][0] < 450) {
+		this.cubePositions.map(function(position) {
+			position[0] += 50;
+		});
+	}
+}
+
+Tetromino.prototype.moveDown = function() {
+	if (this.cubePositions[0][1] >= 0) {
+		this.cubePositions.map(function(position) {
+			position[1] += 50;
+		});
+	}
+}
+
+
+
+
+
+
+
+
+
+/*////////////////////////////OG Rotate method
 Tetromino.prototype.rotateTetromino = function() {
 	var context = getContext();
-	// this.cubePositions.forEach(function(position) {
-	// 	context.clearRect(position[0], position[1], 50, 50);
-	// });
 	this.redrawBackground();
 
 	switch (this.shape) { //cube omitted b/c it doesn't rotate
@@ -93,3 +164,4 @@ Tetromino.prototype.rotateTetromino = function() {
 			break;
 	}
 }
+*/
