@@ -56,26 +56,41 @@ Tetromino.prototype.drawTetromino = function(attributes) {
 	});
 }
 
-Tetromino.prototype.getDirection = function() {
+Tetromino.prototype.getKeyboardInput = function() {
 	var that = this;
 	document.addEventListener("keypress", function(event) {
 		that.redrawBackground();
-		switch (event.keyCode) { //this is the document here
-			case 97: // A
-				that.moveLeft();
-				break;
-			case 115: // S
-				that.moveDown()
-				break;
-			case 100:// D
-				that.moveRight();
-				break;
-			default:
-				that.rotateTetromino();
-				break;
+		if (that.allowedDown()) {
+			switch (event.keyCode) { //this is the document here
+				case 97: // A
+					that.moveLeft();
+					break;
+				case 115: // S
+					that.moveDown()
+					break;
+				case 100:// D
+					that.moveRight();
+					break;
+				default:
+					that.rotateTetromino();
+					break;
+				}
 			}
-			that.drawTetromino();
+		that.drawTetromino();
 	});
+}
+
+// Determine if it's possible to move a piece in a given direction
+Tetromino.prototype.allowedDown = function() {
+	var yCoords = [];
+	this.cubePositions.forEach(function(position) {
+		if (position[1] > 900) {
+			yCoords.push(position[1]);
+		}
+	});
+	if (yCoords.length === 0) {
+		return true;
+	}
 }
 
 Tetromino.prototype.allowedLeft = function() {
@@ -92,7 +107,7 @@ Tetromino.prototype.allowedRight = function() {
 
 // All functions starting with "move" only adjust the cubePositions, they do not draw/redraw
 Tetromino.prototype.moveLeft = function() {
-	if (this.allowedLeft()) { //left edge
+	if (this.allowedLeft()) {
 		this.cubePositions.map(function(position) {
 			position[0] -= 50;
 		});
@@ -108,32 +123,35 @@ Tetromino.prototype.moveRight = function() {
 }
 
 Tetromino.prototype.moveDown = function() {
-	this.cubePositions.map(function(position) {
-		position[1] += 50;
-	});
+	if (this.allowedDown()) {
+		this.cubePositions.map(function(position) {
+			position[1] += 50;
+		});
+	}
 }
 
 Tetromino.prototype.rotateTetromino = function() {
-	console.log(this.shape)
-	switch (this.shape) {
-		case 'stick':
-			this.rotateStick();
-			break;
-		case 'cross':
-			this.rotateCross();
-			break;
-		case 'es':
-			this.rotateEs();
-			break;
-		case 'zed':
-			this.rotateZed();
-			break;
-		case 'jay':
-			this.rotateJay();
-			break;
-		case 'el':
-			this.rotateEl();
-			break;
+	if (this.allowedDown()) {
+		switch (this.shape) {
+			case 'stick':
+				this.rotateStick();
+				break;
+			case 'cross':
+				this.rotateCross();
+				break;
+			case 'es':
+				this.rotateEs();
+				break;
+			case 'zed':
+				this.rotateZed();
+				break;
+			case 'jay':
+				this.rotateJay();
+				break;
+			case 'el':
+				this.rotateEl();
+				break;
+		}
 	}
 }
 

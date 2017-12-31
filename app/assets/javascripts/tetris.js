@@ -13,24 +13,17 @@ const up = -50;
 const right = 50;
 const down = 50;
 
-var getContext = function() {
-	var tetrisBackground = document.getElementById("tetris");
-	var context = tetrisBackground.getContext("2d");
-	return context;
-}
-
 var startGame = function() {
 	drawBackground();
 	var currentGame = new Game();
-	var currentTetromino = getNewTetromino();
-	currentTetromino.drawTetromino();
-	currentTetromino.getDirection();
+	var currentTetromino = spawnTetromino();
+	currentTetromino.getKeyboardInput();
 }
 
-var drawBackground = function() {
-	var context = getContext();
-	context.fillStyle = "black";
-	context.fillRect(0, 0, 500, 1000);
+var spawnTetromino = function() {
+	var newTetromino = getNewTetromino();
+	newTetromino.drawTetromino();
+	return newTetromino;
 }
 
 var generateRandomShape = function() {
