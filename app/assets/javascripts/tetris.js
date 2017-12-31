@@ -8,10 +8,10 @@ var Game = function() { //occupiedCols will start in the top left corner like th
 	this.occupiedColumns = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: '', 10: ''};
 }
 
-var left = -50;
-var up = -50;
-var right = 50;
-var down = 50;
+const left = -50;
+const up = -50;
+const right = 50;
+const down = 50;
 
 var getContext = function() {
 	var tetrisBackground = document.getElementById("tetris");
