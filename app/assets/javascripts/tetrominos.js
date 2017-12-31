@@ -186,10 +186,12 @@ Tetromino.prototype.rotateEs = function() {
 		this.cubePositions[1][0] += right;
 		this.rotations += 1;
 	} else {
-		this.cubePositions[0][0] += left;
-		this.cubePositions[0][1] += down * 2;
-		this.cubePositions[1][0] += left;
-		this.rotations -= 1;
+		if (this.allowedLeft()) {
+			this.cubePositions[0][0] += left;
+			this.cubePositions[0][1] += down * 2;
+			this.cubePositions[1][0] += left;
+			this.rotations -= 1;
+		}
 	}
 }
 
@@ -200,10 +202,12 @@ Tetromino.prototype.rotateZed = function() {
 		this.cubePositions[3][1] += up * 2;
 		this.rotations += 1;
 	} else {
-		this.cubePositions[0][0] += left;
-		this.cubePositions[1][0] += left;
-		this.cubePositions[3][1] += down * 2;
-		this.rotations -= 1;
+		if (this.allowedLeft()) {
+			this.cubePositions[0][0] += left;
+			this.cubePositions[1][0] += left;
+			this.cubePositions[3][1] += down * 2;
+			this.rotations -= 1;
+		}
 	}
 }
 
