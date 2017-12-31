@@ -84,9 +84,9 @@ Tetromino.prototype.getDirection = function() {
 	});
 }
 
-// All functions starting with "move" ONLY adjust the cubePositions, they do not draw/redraw the altered cubePositions
+// All functions starting with "move" only adjust the cubePositions, they do not draw/redraw
 Tetromino.prototype.moveLeft = function() {
-	if (this.cubePositions[0][0] > 0) {
+	if (this.cubePositions[0][0] > 0) { //left edge
 		this.cubePositions.map(function(position) {
 			position[0] -= 50;
 		});
@@ -94,7 +94,7 @@ Tetromino.prototype.moveLeft = function() {
 }
 
 Tetromino.prototype.moveRight = function() {
-	if (this.cubePositions[3][0] < 450) {
+	if (this.cubePositions[3][0] < 450) { //right edge
 		this.cubePositions.map(function(position) {
 			position[0] += 50;
 		});
@@ -102,7 +102,7 @@ Tetromino.prototype.moveRight = function() {
 }
 
 Tetromino.prototype.moveDown = function() {
-	if (this.cubePositions[0][1] >= 0) {
+	if (this.cubePositions[0][1] >= 0) { // left edge
 		this.cubePositions.map(function(position) {
 			position[1] += 50;
 		});
@@ -110,6 +110,7 @@ Tetromino.prototype.moveDown = function() {
 }
 
 Tetromino.prototype.rotateTetromino = function() {
+	console.log(this.shape)
 	switch (this.shape) {
 		case 'stick':
 			if (this.rotations === 1) {
@@ -130,7 +131,6 @@ Tetromino.prototype.rotateTetromino = function() {
 				this.rotations -= 1;
 			}
 			break;
-			//cubePositions: [[200, 0], [250, 50], [250, 0], [300, 0]]
 		case 'cross':
 			if (this.rotations === 1) {
 				this.cubePositions[3][0] += left;
@@ -165,7 +165,7 @@ Tetromino.prototype.rotateTetromino = function() {
 				this.rotations -= 1;
 			}
 			break;
-		case 'zed':
+		case 'zed': //FAILS LEFT BOUNDARY WHEN VERTICAL
 			if (this.rotations === 1) {
 				this.cubePositions[0][0] += right * 2;
 				this.cubePositions[0][1] += up;
@@ -179,61 +179,59 @@ Tetromino.prototype.rotateTetromino = function() {
 			}
 			break;
 		case 'jay':
+		//cubePositions: [[200, 0], [300, 50], [250, 0], [300, 0]],
 			if (this.rotations === 1) {
-				this.cubePositions[0][1] += up;
-				this.cubePositions[1][0] += right;
+				this.cubePositions[0][1] += down;
+				this.cubePositions[1][0] += left;
 				this.cubePositions[3][0] += left;
 				this.cubePositions[3][1] += up;
 				this.rotations += 1;
 			} else if (this.rotations === 2) {
-				this.cubePositions[0][1] += down;
-				this.cubePositions[1][0] += right;
-				this.cubePositions[1][1] += up * 2;
+				this.cubePositions[0][1] += up * 2;
+				this.cubePositions[1][0] += left;
+				this.cubePositions[1][1] += up;
 				this.cubePositions[3][0] += right;
 				this.cubePositions[3][1] += down;
 				this.rotations += 1;
 			} else if (this.rotations === 3) {
 				this.cubePositions[0][0] += right;
-				this.cubePositions[0][1] += down;
-				this.cubePositions[1][0] += left;
-				this.cubePositions[3][1] += down;
+				this.cubePositions[1][0] += right;
+				this.cubePositions[1][1] += down;
+				this.cubePositions[3][1] += up;
 				this.rotations += 1;
 			} else {
 				this.cubePositions[0][0] += left;
-				this.cubePositions[0][1] += up;
-				this.cubePositions[1][0] += left;
-				this.cubePositions[1][1] += down * 2;
-				this.cubePositions[3][1] += up;
+				this.cubePositions[0][1] += down;
+				this.cubePositions[1][0] += right;
+				this.cubePositions[3][1] += down;
 				this.rotations = 1;
 			}
 			break;
-		case 'el':
+		case 'el': //FAILS LEFT AND RIGHT HARD, NEEDS TOTAL REDO
 			if (this.rotations === 1) {
-				this.cubePositions[0][0] += right;
-				this.cubePositions[0][1] += up;
+				this.cubePositions[0][1] += down;
 				this.cubePositions[1][0] += left;
-				this.cubePositions[1][1] += down;
-				this.cubePositions[3][0] += left * 2;
-				this.rotations += 1;
-			} else if (this.rotations === 2) {
-				this.cubePositions[0][0] += left;
-				this.cubePositions[1][0] += right;
-				this.cubePositions[1][1] += up;
+				this.cubePositions[3][0] += left;
 				this.cubePositions[3][1] += up;
 				this.rotations += 1;
-			} else if (this.rotations === 3) {
-				this.cubePositions[0][0] += right * 2;
+			} else if (this.rotations === 2) {
+				this.cubePositions[0][1] += up * 2;
 				this.cubePositions[1][0] += left;
 				this.cubePositions[1][1] += up;
 				this.cubePositions[3][0] += right;
 				this.cubePositions[3][1] += down;
 				this.rotations += 1;
-			} else {
-				this.cubePositions[0][0] += left * 2;
-				this.cubePositions[0][1] += down;
+			} else if (this.rotations === 3) {
+				this.cubePositions[0][0] += right;
 				this.cubePositions[1][0] += right;
 				this.cubePositions[1][1] += down;
-				this.cubePositions[3][0] += right;
+				this.cubePositions[3][1] += up;
+				this.rotations += 1;
+			} else {
+				this.cubePositions[0][0] += left;
+				this.cubePositions[0][1] += downp;
+				this.cubePositions[1][0] += right;
+				this.cubePositions[3][1] += down;
 				this.rotations = 1;
 			}
 			break;

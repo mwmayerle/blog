@@ -45,22 +45,22 @@ var getNewTetromino = function() {
 
 var selectShape = function(shape) {
 	switch (shape) {
-		case "jay":
+		case "el":
 			var attributes = {
 					cubePositions: [[200, 0], [200, 50], [250, 0], [300, 0]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
-					shape: 'jay'
+					shape: 'el'
 			}
 			break;
-		case "el":
+		case "jay":
 			var attributes = {
-					cubePositions: [[200, 0], [300, 0], [250, 0], [300, 50]],
+					cubePositions: [[200, 0], [300, 50], [250, 0], [300, 0]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,
-					shape: 'el'
+					shape: 'jay'
 			}
 			break;
 		case "cube":
