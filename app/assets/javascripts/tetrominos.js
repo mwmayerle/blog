@@ -36,7 +36,7 @@ Tetromino.prototype.redrawBackground = function() {
 	})
 }
 
-Tetromino.prototype.drawTetromino = function(attributes) {
+Tetromino.prototype.drawTetromino = function() {
 	var context = getContext();
 	var that = this;
 	this.cubePositions.forEach(function(position) {
@@ -76,6 +76,8 @@ Tetromino.prototype.getKeyboardInput = function() {
 					break;
 				}
 			} else { //THIS BLOCK MAKES A NEW PIECE. IT WILL EVENTUALLY BECOME A KILL FUNCTION
+				currentGame.deadTetrominos.push(that);
+				that.drawTetromino();
 				that = spawnTetromino();
 				return that;
 			}
@@ -157,7 +159,7 @@ Tetromino.prototype.rotateTetromino = function() {
 		}
 	}
 }
-
+// Hardcoging bonanza yay!
 Tetromino.prototype.rotateStick = function() {
 	if (this.rotations === 1) {
 		this.cubePositions[0][0] += right * 2;

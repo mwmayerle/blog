@@ -3,18 +3,20 @@ window.onload = function() {
 };
 
 var currentTetromino = {};
+var currentGame = {};
+
 const left = -50;
 const up = -50;
 const right = 50;
 const down = 50;
 
 var Game = function() {
-	//properties go here when the time comes...
+	this.deadTetrominos = [];
 }
 
 var startGame = function() {
 	drawBackground();
-	var currentGame = new Game();
+	currentGame = new Game();
 	currentTetromino = spawnTetromino();
 	currentTetromino.getKeyboardInput();
 }
