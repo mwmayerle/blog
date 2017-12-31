@@ -2,21 +2,20 @@ window.onload = function() {
 	startGame();
 };
 
-var Game = function() { //occupiedCols will start in the top left corner like the canvas grid
-	this.score = 0;
-	this.speed = 750;
-	this.occupiedColumns = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: '', 10: ''};
-}
-
+var currentTetromino = {};
 const left = -50;
 const up = -50;
 const right = 50;
 const down = 50;
 
+var Game = function() {
+	//properties go here when the time comes...
+}
+
 var startGame = function() {
 	drawBackground();
 	var currentGame = new Game();
-	var currentTetromino = spawnTetromino();
+	currentTetromino = spawnTetromino();
 	currentTetromino.getKeyboardInput();
 }
 
@@ -26,7 +25,7 @@ var spawnTetromino = function() {
 	return newTetromino;
 }
 
-var generateRandomShape = function() {
+var generateRandomShape = function() { // need to compare this to the offical randomizer
 	var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
 	return shapes[Math.floor(Math.random() * (7))];
 }

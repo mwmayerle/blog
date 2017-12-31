@@ -66,7 +66,7 @@ Tetromino.prototype.getKeyboardInput = function() {
 					that.moveLeft();
 					break;
 				case 115: // S
-					that.moveDown()
+					that.moveDown();
 					break;
 				case 100:// D
 					that.moveRight();
@@ -75,6 +75,9 @@ Tetromino.prototype.getKeyboardInput = function() {
 					that.rotateTetromino();
 					break;
 				}
+			} else { //THIS BLOCK MAKES A NEW PIECE. IT WILL EVENTUALLY BECOME A KILL FUNCTION
+				that = spawnTetromino();
+				return that;
 			}
 		that.drawTetromino();
 	});
