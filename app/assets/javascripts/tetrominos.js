@@ -64,7 +64,7 @@ Tetromino.prototype.autoMove = function() {
 			that.moveDown();
 			that.drawTetromino();
 		} else {
-			console.log('died in automove')
+			clearInterval(currentInterval);
 			currentTetromino = that.deadTetromino();
 			return currentTetromino;
 		}
@@ -72,18 +72,16 @@ Tetromino.prototype.autoMove = function() {
 }
 
 Tetromino.prototype.deadTetromino = function() {
-	console.log('IN DEAD TETROMINO');
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push(deadTetrominoPosition);
 	});
 	this.redrawBackground();
 	this.drawTetromino();
 	clearInterval(currentInterval);
-		currentTetromino = spawnTetromino();
+	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
 		currentTetromino.getKeyboardInput();
-		return currentTetromino;
 	} else {
 		//game over function will go here. I already tested this with an alert message
 	}
@@ -91,36 +89,26 @@ Tetromino.prototype.deadTetromino = function() {
 
 Tetromino.prototype.getKeyboardInput = function() {
 	var that = this;
-	document.addEventListener("keypress", function(event) {
+	document.addEventListener("keydown", function(event) {
 		that.redrawBackground();
-		// if (!that.allowedDown()) {
-			switch (event.keyCode) { //this refers to the document here
-				case 97: // A
-					if (!that.allowedDown()) {
-						that.moveLeft();
-					}
+			switch (event.keyCode) {
+				case 65: // A
+					that.moveLeft();
 					break;
-				case 115: // S
+				case 83: // S
 					if (!that.allowedDown()) {
 						that.moveDown();
 					}
 					break;
-				case 100:// D
-					if (!that.allowedDown()) {
-						that.moveRight();
-					}
+				case 68:// D
+					that.moveRight();
 					break;
-				default:// any other key rotates shape
+				default:
 					if (!that.allowedDown()) {
 						that.rotateTetromino();
 					}
 					break;
-				}
-			// } else {
-			// 	console.log('DIED IN KEYBOARD INPUT')
-			// 	that = that.deadTetromino();
-			// 	return that;
-			// }
+			}
 		that.drawTetromino();
 	});
 }
@@ -235,7 +223,7 @@ Tetromino.prototype.rotateStick = function() { //this should probably be the opp
 		this.rotations += 1;
 	} else {
 		if (this.allowedRight() && this.allowedLeft()) {
-			this.cubePositions[0][0] += up * 2;
+			this.cubePositions[0][0] += left * 2;
 			this.cubePositions[0][1] += down * 2;
 			this.cubePositions[1][0] += left;
 			this.cubePositions[1][1] += down;
