@@ -60,8 +60,8 @@ Tetromino.prototype.getKeyboardInput = function() {
 	var that = this;
 	document.addEventListener("keypress", function(event) {
 		that.redrawBackground();
-		if (that.allowedDown()) {
-			switch (event.keyCode) { //this is the document here
+		if (that.allowedDown() && !tetrominoHere(that.cubePositions)) {
+			switch (event.keyCode) { //this refers to the document here
 				case 97: // A
 					that.moveLeft();
 					break;
@@ -76,13 +76,30 @@ Tetromino.prototype.getKeyboardInput = function() {
 					break;
 				}
 			} else { //THIS BLOCK MAKES A NEW PIECE. IT WILL EVENTUALLY BECOME A KILL FUNCTION
-				currentGame.deadTetrominos.push(that);
+				that.cubePositions.forEach(function(position) {
+					currentGame.occupiedPositions.push(position);
+				});
 				that.drawTetromino();
 				that = spawnTetromino();
 				return that;
 			}
 		that.drawTetromino();
 	});
+}
+
+var tetrominoHere = function(cubePositions) {
+	var pieceThere = 0;
+	cubePositions.forEach(function(cubePosition) {
+		currentGame.occupiedPositions.forEach(function(position) {
+			if (cubePosition[0] === position[0] && cubePosition[1] + 50 === position[1]) {
+				pieceThere += 1;
+			}
+			return pieceThere;
+		}); //inner forEach end
+	});
+	if (pieceThere > 0) {
+		return true;
+	}
 }
 
 // Determine if it's possible to move a piece in a given direction
@@ -95,7 +112,7 @@ Tetromino.prototype.allowedDown = function() {
 	});
 	if (yCoords.length === 0) {
 		return true;
-	}
+	} 
 }
 
 Tetromino.prototype.allowedLeft = function() {
@@ -109,7 +126,6 @@ Tetromino.prototype.allowedRight = function() {
 		return true;
 	}
 }
-
 // All functions starting with "move" only adjust the cubePositions, they do not draw/redraw
 Tetromino.prototype.moveLeft = function() {
 	if (this.allowedLeft()) {
@@ -128,11 +144,9 @@ Tetromino.prototype.moveRight = function() {
 }
 
 Tetromino.prototype.moveDown = function() {
-	if (this.allowedDown()) {
 		this.cubePositions.map(function(position) {
 			position[1] += 50;
 		});
-	}
 }
 
 Tetromino.prototype.rotateTetromino = function() {

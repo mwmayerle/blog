@@ -11,7 +11,9 @@ const right = 50;
 const down = 50;
 
 var Game = function() {
-	this.deadTetrominos = [];
+	this.occupiedPositions = [];
+	this.score = 0;
+	this.level = 0;
 }
 
 var startGame = function() {
