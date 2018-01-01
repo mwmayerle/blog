@@ -76,8 +76,8 @@ Tetromino.prototype.getKeyboardInput = function() {
 					break;
 				}
 			} else { //THIS BLOCK MAKES A NEW PIECE. IT WILL EVENTUALLY BECOME A KILL FUNCTION
-				that.cubePositions.forEach(function(position) {
-					currentGame.occupiedPositions.push(position);
+				that.cubePositions.forEach(function(deadTetrominoPosition) {
+					currentGame.occupiedPositions.push(deadTetrominoPosition);
 				});
 				that.drawTetromino();
 				that = spawnTetromino();
@@ -90,10 +90,10 @@ Tetromino.prototype.getKeyboardInput = function() {
 var tetrominoHere = function(cubePositions) {
 	var pieceThere = 0;
 	cubePositions.forEach(function(cubePosition) {
-		currentGame.occupiedPositions.forEach(function(position) {
-			if (cubePosition[0] === position[0] && cubePosition[1] + 50 === position[1]) {
-				pieceThere += 1;
-			}
+		currentGame.occupiedPositions.forEach(function(usedPosition) {
+			if (cubePosition[0] === usedPosition[0] && cubePosition[1] + 50 === usedPosition[1]) {
+				pieceThere += 1; //down only
+			} 
 			return pieceThere;
 		}); //inner forEach end
 	});
@@ -116,13 +116,33 @@ Tetromino.prototype.allowedDown = function() {
 }
 
 Tetromino.prototype.allowedLeft = function() {
-	if (this.cubePositions[0][0] > 0) {
+	var pieceThere = 0;
+	var that = this;
+	currentGame.occupiedPositions.forEach(function(usedPosition) {
+		if (that.cubePositions[0][0] - 50 === usedPosition[0] && that.cubePositions[0][1] === usedPosition[1]) {
+			pieceThere += 1;
+		}	
+	});
+	if (this.cubePositions[0][0] < 50) {
+		pieceThere += 1;
+	}
+	if (pieceThere === 0) {
 		return true;
 	}
 }
 
-Tetromino.prototype.allowedRight = function() {
-	if (this.cubePositions[3][0] < 450) {
+Tetromino.prototype.allowedRight = function() { // FIX STICK LOGIC
+	var pieceThere = 0;
+	var that = this;
+	currentGame.occupiedPositions.forEach(function(usedPosition) {
+		if (that.cubePositions[3][0] + 50 === usedPosition[0] && that.cubePositions[3][1] === usedPosition[1] && that.cubePositions[3][0] > 400) {
+			pieceThere += 1;
+		}	
+	});
+	if (this.cubePositions[3][0] > 400) {
+		pieceThere += 1;
+	}
+	if (pieceThere === 0) {
 		return true;
 	}
 }
