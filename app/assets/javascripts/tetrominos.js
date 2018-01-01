@@ -56,63 +56,91 @@ Tetromino.prototype.drawTetromino = function() {
 	});
 }
 
+Tetromino.prototype.autoMove = function() {
+	var that = this;
+	currentInterval = setInterval(function() {
+		if (!that.allowedDown(that.cubePositions)) {
+			that.redrawBackground();
+			that.moveDown();
+			that.drawTetromino();
+		} else {
+			console.log('died in automove')
+			currentTetromino = that.deadTetromino();
+			return currentTetromino;
+		}
+	}, 250);
+}
+
+Tetromino.prototype.deadTetromino = function() {
+	console.log('IN DEAD TETROMINO');
+	this.cubePositions.forEach(function(deadTetrominoPosition) {
+		currentGame.occupiedPositions.push(deadTetrominoPosition);
+	});
+	this.redrawBackground();
+	this.drawTetromino();
+	clearInterval(currentInterval);
+		currentTetromino = spawnTetromino();
+	if (!currentTetromino.allowedDown()) {
+		currentTetromino.autoMove();
+		currentTetromino.getKeyboardInput();
+		return currentTetromino;
+	} else {
+		//game over function will go here. I already tested this with an alert message
+	}
+}
+
 Tetromino.prototype.getKeyboardInput = function() {
 	var that = this;
 	document.addEventListener("keypress", function(event) {
 		that.redrawBackground();
-		if (that.allowedDown() && !tetrominoHere(that.cubePositions)) {
+		// if (!that.allowedDown()) {
 			switch (event.keyCode) { //this refers to the document here
 				case 97: // A
-					that.moveLeft();
+					if (!that.allowedDown()) {
+						that.moveLeft();
+					}
 					break;
 				case 115: // S
-					that.moveDown();
+					if (!that.allowedDown()) {
+						that.moveDown();
+					}
 					break;
 				case 100:// D
-					that.moveRight();
+					if (!that.allowedDown()) {
+						that.moveRight();
+					}
 					break;
-				default:
-					that.rotateTetromino();
+				default:// any other key rotates shape
+					if (!that.allowedDown()) {
+						that.rotateTetromino();
+					}
 					break;
 				}
-			} else { //THIS BLOCK MAKES A NEW PIECE. IT WILL EVENTUALLY BECOME A KILL FUNCTION
-				that.cubePositions.forEach(function(deadTetrominoPosition) {
-					currentGame.occupiedPositions.push(deadTetrominoPosition);
-				});
-				that.drawTetromino();
-				that = spawnTetromino();
-				return that;
-			}
+			// } else {
+			// 	console.log('DIED IN KEYBOARD INPUT')
+			// 	that = that.deadTetromino();
+			// 	return that;
+			// }
 		that.drawTetromino();
 	});
 }
 
-var tetrominoHere = function(cubePositions) {
+Tetromino.prototype.allowedDown = function() {
 	var pieceThere = 0;
-	cubePositions.forEach(function(cubePosition) {
+	this.cubePositions.forEach(function(cubePosition) {
+		if (cubePosition[1] > 900) {
+			pieceThere += 1;
+		}
 		currentGame.occupiedPositions.forEach(function(usedPosition) {
 			if (cubePosition[0] === usedPosition[0] && cubePosition[1] + 50 === usedPosition[1]) {
-				pieceThere += 1; //down only
+				pieceThere += 1;
 			} 
 			return pieceThere;
-		}); //inner forEach end
+		});
 	});
 	if (pieceThere > 0) {
 		return true;
 	}
-}
-
-// All 'allowed' functions grant permission to move in a direction
-Tetromino.prototype.allowedDown = function() {
-	var yCoords = [];
-	this.cubePositions.forEach(function(position) {
-		if (position[1] > 900) {
-			yCoords.push(position[1]);
-		}
-	});
-	if (yCoords.length === 0) {
-		return true;
-	} 
 }
 
 Tetromino.prototype.allowedLeft = function() {
@@ -168,33 +196,31 @@ Tetromino.prototype.moveRight = function() {
 }
 
 Tetromino.prototype.moveDown = function() {
-		this.cubePositions.map(function(position) {
-			position[1] += 50;
-		});
+	this.cubePositions.map(function(position) {
+		position[1] += 50;
+	});
 }
 
 Tetromino.prototype.rotateTetromino = function() {
-	if (this.allowedDown()) {
-		switch (this.shape) {
-			case 'stick':
-				this.rotateStick();
-				break;
-			case 'cross':
-				this.rotateCross();
-				break;
-			case 'es':
-				this.rotateEs();
-				break;
-			case 'zed':
-				this.rotateZed();
-				break;
-			case 'jay':
-				this.rotateJay();
-				break;
-			case 'el':
-				this.rotateEl();
-				break;
-		}
+	switch (this.shape) {
+		case 'stick':
+			this.rotateStick();
+			break;
+		case 'cross':
+			this.rotateCross();
+			break;
+		case 'es':
+			this.rotateEs();
+			break;
+		case 'zed':
+			this.rotateZed();
+			break;
+		case 'jay':
+			this.rotateJay();
+			break;
+		case 'el':
+			this.rotateEl();
+			break;
 	}
 }
 // Hardcoding bonanza yay!

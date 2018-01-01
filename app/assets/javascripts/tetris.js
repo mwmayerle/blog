@@ -3,6 +3,7 @@ window.onload = function() {
 };
 
 var currentTetromino = {};
+var currentInterval = '';
 var currentGame = {};
 
 const left = -50; //
@@ -20,6 +21,7 @@ var startGame = function() {
 	drawBackground();
 	currentGame = new Game();
 	currentTetromino = spawnTetromino();
+	currentTetromino.autoMove();
 	currentTetromino.getKeyboardInput();
 }
 
