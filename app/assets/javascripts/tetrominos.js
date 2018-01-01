@@ -122,6 +122,13 @@ Tetromino.prototype.allowedLeft = function() {
 		if (that.cubePositions[0][0] - 50 === usedPosition[0] && that.cubePositions[0][1] === usedPosition[1]) {
 			pieceThere += 1;
 		}	
+		if (that.shape === 'stick') {
+			that.cubePositions.forEach(function(stickCube) {
+				if (stickCube[0] - 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
+					pieceThere += 1;
+				} 
+			})
+		} 
 	});
 	if (this.cubePositions[0][0] < 50) {
 		pieceThere += 1;
@@ -135,9 +142,16 @@ Tetromino.prototype.allowedRight = function() { // FIX STICK LOGIC
 	var pieceThere = 0;
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		if (that.cubePositions[3][0] + 50 === usedPosition[0] && that.cubePositions[3][1] === usedPosition[1] && that.cubePositions[3][0] > 400) {
+		if (that.cubePositions[3][0] + 50 === usedPosition[0] && that.cubePositions[3][1] === usedPosition[1]) {
 			pieceThere += 1;
-		}	
+		}
+		if (that.shape === 'stick') {
+			that.cubePositions.forEach(function(stickCube) {
+				if (stickCube[0] + 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
+					pieceThere += 1;
+				} 
+			})
+		} 
 	});
 	if (this.cubePositions[3][0] > 400) {
 		pieceThere += 1;
@@ -193,8 +207,8 @@ Tetromino.prototype.rotateTetromino = function() {
 		}
 	}
 }
-// Hardcoging bonanza yay!
-Tetromino.prototype.rotateStick = function() {
+// Hardcoding bonanza yay!
+Tetromino.prototype.rotateStick = function() { //this should probably be the opposite.....
 	if (this.rotations === 1) {
 		this.cubePositions[0][0] += right * 2;
 		this.cubePositions[0][1] += up * 2;
