@@ -102,7 +102,7 @@ var tetrominoHere = function(cubePositions) {
 	}
 }
 
-// Determine if it's possible to move a piece in a given direction
+// All 'allowed' functions grant permission to move in a direction
 Tetromino.prototype.allowedDown = function() {
 	var yCoords = [];
 	this.cubePositions.forEach(function(position) {
@@ -119,16 +119,11 @@ Tetromino.prototype.allowedLeft = function() {
 	var pieceThere = 0;
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		if (that.cubePositions[0][0] - 50 === usedPosition[0] && that.cubePositions[0][1] === usedPosition[1]) {
-			pieceThere += 1;
-		}	
-		if (that.shape === 'stick') {
-			that.cubePositions.forEach(function(stickCube) {
-				if (stickCube[0] - 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
-					pieceThere += 1;
-				} 
-			})
-		} 
+		that.cubePositions.forEach(function(stickCube) {
+			if (stickCube[0] - 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
+				pieceThere += 1;
+			} 
+		});
 	});
 	if (this.cubePositions[0][0] < 50) {
 		pieceThere += 1;
@@ -138,20 +133,15 @@ Tetromino.prototype.allowedLeft = function() {
 	}
 }
 
-Tetromino.prototype.allowedRight = function() { // FIX STICK LOGIC
+Tetromino.prototype.allowedRight = function() {
 	var pieceThere = 0;
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		if (that.cubePositions[3][0] + 50 === usedPosition[0] && that.cubePositions[3][1] === usedPosition[1]) {
-			pieceThere += 1;
-		}
-		if (that.shape === 'stick') {
-			that.cubePositions.forEach(function(stickCube) {
-				if (stickCube[0] + 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
-					pieceThere += 1;
-				} 
-			})
-		} 
+		that.cubePositions.forEach(function(stickCube) {
+			if (stickCube[0] + 50 === usedPosition[0] && stickCube[1] === usedPosition[1]) {
+				pieceThere += 1;
+			} 
+		});
 	});
 	if (this.cubePositions[3][0] > 400) {
 		pieceThere += 1;

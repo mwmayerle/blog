@@ -5,10 +5,10 @@ window.onload = function() {
 var currentTetromino = {};
 var currentGame = {};
 
-const left = -50;
-const up = -50;
-const right = 50;
-const down = 50;
+const left = -50; //
+const up = -50;   // I know these repease but making these is far easier for understanding what is happening later
+const right = 50; //
+const down = 50;  //
 
 var Game = function() {
 	this.occupiedPositions = [];
