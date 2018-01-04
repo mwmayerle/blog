@@ -5,17 +5,25 @@ window.onload = function() {
 var currentTetromino = {};
 var currentInterval = '';
 var currentGame = {};
+var rowsToDelete = 0;
+var rows = { 
+	950: [], 900: [], 850: [], 800: [], 750: [], 
+	700: [], 650: [], 600: [], 550: [], 500: [], 
+	450: [], 400: [], 350: [], 300: [], 250: [], 
+	200: [], 150: [], 100: [], 50: [], 0: [] 
+};
 
 const left = -50; //
-const up = -50;   // I know these repease but making these is far easier for understanding what is happening later
+const up = -50;   // I know these repeat but making these is far easier for understanding what is happening later
 const right = 50; //
 const down = 50;  //
+const completeRow = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450];
 
 var Game = function() {
 	this.occupiedPositions = [];
 	this.score = 0;
 	this.level = 0;
-}
+};
 
 var startGame = function() {
 	drawBackground();
@@ -23,23 +31,24 @@ var startGame = function() {
 	currentTetromino = spawnTetromino();
 	currentTetromino.autoMove();
 	currentTetromino.getKeyboardInput();
-}
+};
 
 var spawnTetromino = function() {
 	var newTetromino = getNewTetromino();
 	newTetromino.drawTetromino();
 	return newTetromino;
-}
+};
 
 var generateRandomShape = function() { // need to compare this to the offical randomizer
-	var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
-	return shapes[Math.floor(Math.random() * (7))];
-}
+	// var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
+	var shapes = ["jay", "stick"];
+	return shapes[Math.floor(Math.random() * (2))]; //change back to 7
+};
 
 var getNewTetromino = function() {
 	shape = generateRandomShape();
 	return new Tetromino(selectShape(shape));
-}
+};
 
 var selectShape = function(shape) {
 	switch (shape) {
@@ -50,7 +59,7 @@ var selectShape = function(shape) {
 					outlineColor: 'red',
 					solid: true,
 					shape: 'el'
-			}
+			};
 			break;
 		case "jay":
 			var attributes = {
@@ -59,7 +68,7 @@ var selectShape = function(shape) {
 					outlineColor: 'blue',
 					solid: true,
 					shape: 'jay'
-			}
+			};
 			break;
 		case "cube":
 			var attributes = {
@@ -68,7 +77,7 @@ var selectShape = function(shape) {
 					outlineColor: 'blue',
 					solid: false,
 					shape: 'cube'
-			}
+			};
 			break;
 		case "stick":
 			var attributes = {
@@ -77,7 +86,7 @@ var selectShape = function(shape) {
 					outlineColor: 'blue',
 					solid: false,
 					shape: 'stick'
-			}
+			};
 			break;
 		case "zed":
 			var attributes = {
@@ -86,7 +95,7 @@ var selectShape = function(shape) {
 					outlineColor: 'red',
 					solid: true,
 					shape: 'zed'
-			}
+			};
 			break;
 		case "cross":
 			var attributes = {
@@ -95,7 +104,7 @@ var selectShape = function(shape) {
 					outlineColor: 'blue',
 					solid: false,
 					shape: 'cross'
-			}
+			};
 			break;
 		case "es":
 			var attributes = {
@@ -104,8 +113,8 @@ var selectShape = function(shape) {
 					outlineColor: 'blue',
 					solid: true,
 					shape: 'es'
-			}
+			};
 			break;
 	}
 	return attributes;
-}
+};
