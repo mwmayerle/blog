@@ -29,13 +29,13 @@ var startGame = function() {
 	drawBackground();
 	currentGame = new Game();
 	currentTetromino = spawnTetromino();
-	autoMove(currentTetromino);
-	getKeyboardInput(currentTetromino);
+	currentTetromino.autoMove();
+	currentTetromino.getKeyboardInput();
 };
 
 var spawnTetromino = function() {
 	var newTetromino = getNewTetromino();
-	drawTetromino(newTetromino);
+	newTetromino.drawTetromino();
 	return newTetromino;
 };
 

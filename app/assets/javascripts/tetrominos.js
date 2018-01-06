@@ -39,7 +39,7 @@ Tetromino.prototype.drawTetromino = function() {
 Tetromino.prototype.autoMove = function() {
 	var that = this;
 	currentInterval = setInterval(function() {
-		if (!that.allowedDown(that.cubePositions)) {
+		if (!that.allowedDown()) {
 			that.redrawBackground();
 			that.moveDown();
 			that.drawTetromino();
@@ -58,6 +58,11 @@ Tetromino.prototype.deadTetromino = function() {
 	this.redrawBackground();
 	this.drawTetromino();
 	clearInterval(currentInterval);
+
+	// I do NOT like this solution, but I do not know how to completely kill an instance.
+	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
+	// Should I nuke all of 'this''s properties to save memory and make them null?
+	
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
