@@ -29,20 +29,20 @@ var startGame = function() {
 	drawBackground();
 	currentGame = new Game();
 	currentTetromino = spawnTetromino();
-	currentTetromino.autoMove();
-	currentTetromino.getKeyboardInput();
+	autoMove(currentTetromino);
+	getKeyboardInput(currentTetromino);
 };
 
 var spawnTetromino = function() {
 	var newTetromino = getNewTetromino();
-	newTetromino.drawTetromino();
+	drawTetromino(newTetromino);
 	return newTetromino;
 };
 
 var generateRandomShape = function() { // need to compare this to the offical randomizer
 	// var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
 	var shapes = ["jay", "stick"];
-	return shapes[Math.floor(Math.random() * (2))]; //change back to 7
+	return shapes[Math.floor(Math.random() * (2))];
 };
 
 var getNewTetromino = function() {

@@ -133,38 +133,37 @@ Tetromino.prototype.allowedDown = function() {
 };
 
 Tetromino.prototype.allowedLeft = function() {
-	var pieceThereLeft = 0;
-	var thatLeft = this;
+	var pieceThere = 0;
+	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		thatLeft.cubePositions.forEach(function(cubePosition) {
+		that.cubePositions.forEach(function(cubePosition) {
 			if (cubePosition[0] - 50 === usedPosition[0] && cubePosition[1] === usedPosition[1]) {
-				pieceThereLeft += 1;
+				pieceThere += 1;
 			} 
 		});
 	});
 	if (this.cubePositions[0][0] < 50) {
-		pieceThereLeft += 1;
+		pieceThere += 1;
 	}
-	if (pieceThereLeft === 0) {
+	if (pieceThere === 0) {
 		return true;
 	}
 };
 
 Tetromino.prototype.allowedRight = function() {
-	var pieceThereRight = 0;
-	var thatRight = this;
-	console.log(this);
+	var pieceThere = 0;
+	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		thatRight.cubePositions.forEach(function(cubePosition) {
+		that.cubePositions.forEach(function(cubePosition) {
 			if (cubePosition[0] + 50 === usedPosition[0] && cubePosition[1] === usedPosition[1]) {
-				pieceThereRight += 1;
+				pieceThere += 1;
 			} 
 		});
 	});
 	if (this.cubePositions[3][0] > 400) {
-		pieceThereRight += 1;
+		pieceThere += 1;
 	}
-	if (pieceThereRight === 0) {
+	if (pieceThere === 0) {
 		return true;
 	}
 };
