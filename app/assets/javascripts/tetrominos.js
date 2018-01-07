@@ -13,7 +13,7 @@ Tetromino.prototype.redrawBackground = function() {
 		context.clearRect(position[0], position[1], 50, 50);
 		context.fillStyle = 'black';
 		context.fillRect(position[0], position[1], 50, 50);
-	})
+	});
 };
 
 Tetromino.prototype.drawTetromino = function() {
@@ -52,7 +52,7 @@ Tetromino.prototype.autoMove = function() {
 
 Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
-		currentGame.occupiedPositions.push(deadTetrominoPosition);
+		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
 	this.checkForCompleteRow();
 	this.redrawBackground();
@@ -62,7 +62,7 @@ Tetromino.prototype.deadTetromino = function() {
 	// I do NOT like this solution, but I do not know how to completely kill an instance.
 	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
 	// Should I nuke all of 'this''s properties to save memory and make them null?
-	
+
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
@@ -73,26 +73,25 @@ Tetromino.prototype.deadTetromino = function() {
 };
 
 Tetromino.prototype.checkForCompleteRow = function() {
+	var yCoords = '';
+	var rowsToDelete = [];
 	this.cubePositions.forEach(function(position) {
 			for (key in rows) {
-				var num = parseInt(key); //this was fun to figure out...
-				if (num === position[1] && !rows[key].includes(position[0])) {
+				yCoords = parseInt(key);
+				if (yCoords === position[1] && !rows[key].includes(position[0])) {
 					rows[key].push(position[0]);
 				}
 				if (rows[key].length === 10) {
-					rowsToDelete += 1;
-					rowToDelete(num);
+					rowsToDelete.push(yCoords)
 				}
 			}
 	});
-};
-
-var rowToDelete = function(num) {
-	currentGame.occupiedPositions.forEach(function(occupiedPosition) {
-		if (occupiedPosition[1] === num) {
-			//this finds what to kill, but I need to kill it from currentGame.occupiedPositions
-		}
-	});
+	for (var i = 0; i < rowsToDelete.length; i++) {
+		var rowYCoord = Math.max(rowsToDelete);
+		var killIndex = rowsToDelete.indexOf(rowYCoord);
+		currentGame.rowToDelete(rowYCoord);
+		rowsToDelete.splice(killIndex, 1);
+	}
 };
 
 Tetromino.prototype.getKeyboardInput = function() {
@@ -127,7 +126,7 @@ Tetromino.prototype.allowedDown = function() {
 			pieceThereDown += 1;
 		}
 		currentGame.occupiedPositions.forEach(function(usedPosition) {
-			if (cubePosition[0] === usedPosition[0] && cubePosition[1] + 50 === usedPosition[1]) {
+			if (cubePosition[0] === usedPosition[0][0] && cubePosition[1] + 50 === usedPosition[0][1]) {
 				pieceThereDown += 1;
 			}
 		});
@@ -142,7 +141,7 @@ Tetromino.prototype.allowedLeft = function() {
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
 		that.cubePositions.forEach(function(cubePosition) {
-			if (cubePosition[0] - 50 === usedPosition[0] && cubePosition[1] === usedPosition[1]) {
+			if (cubePosition[0] - 50 === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});
@@ -160,7 +159,7 @@ Tetromino.prototype.allowedRight = function() {
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
 		that.cubePositions.forEach(function(cubePosition) {
-			if (cubePosition[0] + 50 === usedPosition[0] && cubePosition[1] === usedPosition[1]) {
+			if (cubePosition[0] + 50 === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});

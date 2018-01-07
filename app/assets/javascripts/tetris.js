@@ -1,3 +1,4 @@
+
 window.onload = function() {
 	startGame();
 };
@@ -18,17 +19,13 @@ const up = -50;   // I know these repeat but making these is far easier for unde
 const right = 50; //
 const down = 50;  //
 const completeRow = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450];
-
-var Game = function() {
-	this.occupiedPositions = [];
-	this.score = 0;
-	this.level = 0;
-};
+const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
 
 var startGame = function() {
 	drawBackground();
 	currentGame = new Game();
-	currentTetromino = spawnTetromino();
+	currentTetromino = getNewTetromino();
+	currentTetromino.drawTetromino();
 	currentTetromino.autoMove();
 	currentTetromino.getKeyboardInput();
 };
@@ -39,14 +36,15 @@ var spawnTetromino = function() {
 	return newTetromino;
 };
 
-var generateRandomShape = function() { // need to compare this to the offical randomizer
-	// var shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
-	var shapes = ["jay", "stick"];
-	return shapes[Math.floor(Math.random() * (2))];
+var generateRandomShape = function() {
+	return shapes[Math.floor(Math.random() * (7))]; // amount becomes 8 when a previous shape exists
 };
 
 var getNewTetromino = function() {
 	shape = generateRandomShape();
+	if (shape === currentGame.previousShape) {
+		shape = generateRandomShape();
+	}
 	return new Tetromino(selectShape(shape));
 };
 
