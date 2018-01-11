@@ -6,6 +6,10 @@ var Game = function() {
 	this.nextShape = '';
 };
 
+/*
+	It seems like if it wants to clear 3 rows it clears the next 3 rows on the 2 turns afterwards, not all at once. Why?
+*/
+
 Game.prototype.checkForCompleteRow = function() {
 	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
 		var amtInRow = [];
@@ -25,7 +29,7 @@ Game.prototype.deleteRow = function(rowYCoord) {
 	while (rowIndicies.length > 0) {
 		var toKill = rowIndicies.reduce(function(a,b) {
 			return Math.max(a,b);
-		})
+		});
 		deletedIndicies.push(this.occupiedPositions.splice(toKill, 1));
 		var toKillIndex = rowIndicies.indexOf(toKill)
 		rowIndicies.splice(toKillIndex, 1);
