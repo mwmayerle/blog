@@ -6,28 +6,53 @@ var Game = function() {
 	this.nextShape = '';
 };
 
-Game.prototype.rowToDelete = function(rowYCoord) {
+Game.prototype.checkForCompleteRow = function() {
+	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
+		var amtInRow = [];
+		amtInRow = this.occupiedPositions.filter(function(occupiedPosition){
+			return rowYCoords === occupiedPosition[0][1];
+		});
+		if (amtInRow.length === 10) {
+			this.deleteRow(rowYCoords);
+		}
+	}
+};
+
+Game.prototype.deleteRow = function(rowYCoord) {
+	this.redrawBackground();
+	var rowIndicies = this.getIndiciesToDelete(rowYCoord);
+	var deletedIndicies = [];
+	while (rowIndicies.length > 0) {
+		var toKill = rowIndicies.reduce(function(a,b) {
+			return Math.max(a,b);
+		})
+		deletedIndicies.push(this.occupiedPositions.splice(toKill, 1));
+		var toKillIndex = rowIndicies.indexOf(toKill)
+		rowIndicies.splice(toKillIndex, 1);
+	}
+	this.moveDownEverything(rowYCoord);
+	this.redrawTetrominos();
+};
+
+Game.prototype.getIndiciesToDelete = function(rowYCoord) {
+	var that = this;
 	var indiciesToDelete = [];
-	this.occupiedPositions.forEach(function(position) {
-		if (position[1] === rowYCoord) {
-			indiciesToDelete.push(currentGame.occupiedPositions.indexOf(position));
+		this.occupiedPositions.forEach(function(position) {
+		if (position[0][1] === rowYCoord) {
+			var positionIndex = that.occupiedPositions.indexOf(position)
+			indiciesToDelete.push(positionIndex);
 		}
 	});
-	while (indiciesToDelete.length > 0) {
-		var toKill = Math.max(indiciesToDelete);
-		var toKillIndex = indiciesToDelete.indexOf(toKill)
-		this.occupiedPositions.splice(toKill, 1);
-		indiciesToDelete.splice(toKillIndex, 1);
-	}
-	console.log('hi');
-	this.redrawBackground();
+	return indiciesToDelete;
+}
+
+Game.prototype.moveDownEverything = function(rowYCoord) {
 	this.occupiedPositions.forEach(function(position) {
 		if (position[0][1] <= rowYCoord) {
 			position[0][1] += 50;
 		}
 	});
-	this.redrawTetrominos();
-};
+}
 
 Game.prototype.redrawBackground = function() {
 	var context = getContext();

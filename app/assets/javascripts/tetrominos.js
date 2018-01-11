@@ -47,16 +47,17 @@ Tetromino.prototype.autoMove = function() {
 			clearInterval(currentInterval);
 			that.deadTetromino();
 		}
-	}, 500);
+	}, 1000);
 };
 
 Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
-	this.checkForCompleteRow();
 	this.redrawBackground();
 	this.drawTetromino();
+
+	currentGame.checkForCompleteRow();
 	clearInterval(currentInterval);
 
 	// I do NOT like this solution, but I do not know how to completely kill an instance.
@@ -69,28 +70,6 @@ Tetromino.prototype.deadTetromino = function() {
 		currentTetromino.getKeyboardInput();
 	} else {
 		//game over function will go here. I already tested this with an alert message
-	}
-};
-
-Tetromino.prototype.checkForCompleteRow = function() {
-	var yCoords = '';
-	var rowsToDelete = [];
-	this.cubePositions.forEach(function(position) {
-			for (key in rows) {
-				yCoords = parseInt(key);
-				if (yCoords === position[1] && !rows[key].includes(position[0])) {
-					rows[key].push(position[0]);
-				}
-				if (rows[key].length === 10) {
-					rowsToDelete.push(yCoords)
-				}
-			}
-	});
-	for (var i = 0; i < rowsToDelete.length; i++) {
-		var rowYCoord = Math.max(rowsToDelete);
-		var killIndex = rowsToDelete.indexOf(rowYCoord);
-		currentGame.rowToDelete(rowYCoord);
-		rowsToDelete.splice(killIndex, 1);
 	}
 };
 

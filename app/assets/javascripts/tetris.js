@@ -6,13 +6,6 @@ window.onload = function() {
 var currentTetromino = {};
 var currentInterval = '';
 var currentGame = {};
-var rowsToDelete = 0;
-var rows = { 
-	950: [], 900: [], 850: [], 800: [], 750: [], 
-	700: [], 650: [], 600: [], 550: [], 500: [], 
-	450: [], 400: [], 350: [], 300: [], 250: [], 
-	200: [], 150: [], 100: [], 50: [], 0: [] 
-};
 
 const left = -50; //
 const up = -50;   // I know these repeat but making these is far easier for understanding what is happening later
