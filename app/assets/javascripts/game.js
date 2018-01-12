@@ -1,54 +1,83 @@
 var Game = function() {
 	this.occupiedPositions = [];
+	this.deletedPositions = [];
 	this.score = 0;
 	this.lines = 0;
 	this.level = 0;
 	this.nextShape = '';
 };
 
+Game.prototype.amountInRows = function(rowYCoords, multiplier) {
+	var result = this.occupiedPositions.filter(function(occupiedPosition){
+		return rowYCoords === occupiedPosition[0][1] + multiplier;
+	});
+	return result;
+}
+
 Game.prototype.checkForCompleteRow = function() {
 	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
-		var amtInRow = [];
-
-		amtInRow1 = this.occupiedPositions.filter(function(occupiedPosition){
-			return rowYCoords === occupiedPosition[0][1] + 0;
-		});
-		amtInRow2 = this.occupiedPositions.filter(function(occupiedPosition){
-			return rowYCoords === occupiedPosition[0][1] + 50;
-		});
-		amtInRow3 = this.occupiedPositions.filter(function(occupiedPosition){
-			return rowYCoords === occupiedPosition[0][1] + 100;
-		});
-		amtInRow4 = this.occupiedPositions.filter(function(occupiedPosition){
-			return rowYCoords === occupiedPosition[0][1] + 150;
-		});
-		if (amtInRow1.length === 10) {
+		var rowsBeingCleared = 0;
+		var possibleRows = {
+			amtInRow1: this.amountInRows(rowYCoords, 0),
+			amtInRow2: this.amountInRows(rowYCoords, 50),
+			amtInRow3: this.amountInRows(rowYCoords, 100),
+			amtInRow4: this.amountInRows(rowYCoords, 150)
+		}
+	//I am not proud of the nested ifs. I screwed up iterating thru the possibleRows object keys somehow
+		if (possibleRows.amtInRow1.length === 10) {
+			rowsBeingCleared = 1;
 			this.deleteRow(rowYCoords);
-			if (amtInRow2.length === 10) {
+			if (possibleRows.amtInRow2.length === 10) {
+				rowsBeingCleared = 2;
 				this.deleteRow(rowYCoords);
-				if (amtInRow3.length === 10) {
+				if (possibleRows.amtInRow3.length === 10) {
+					rowsBeingCleared = 3;
 					this.deleteRow(rowYCoords);
-					if (amtInRow4.length === 10) {
+					if (possibleRows.amtInRow4.length === 10) {
+						rowsBeingCleared = 4;
 						this.deleteRow(rowYCoords);
 					}
 				}
 			}
 		}
-
+		if (rowsBeingCleared !== 0) {
+			this.clearingRowsSelector();
+			this.deletedPositions = [];
+			break;
+		}
 	}
 	this.redrawTetrominos();
 };
 
+Game.prototype.clearingRowsSelector = function() {
+	var toClear = [];
+	var counter = 200;
+
+	for (var x = 250; x < 500; x += 50) {
+		toClear = this.deletedPositions.filter(function(position) {
+			return (position[0] === x || position[0] === counter);
+		});
+
+		counter -= 50;
+
+		if (toClear !== []) {
+			this.animateRowClear(toClear);
+		}
+	}
+}
+
+
 Game.prototype.deleteRow = function(rowYCoord) {
-	this.redrawBackground();
 	var rowIndicies = this.getIndiciesToDelete(rowYCoord);
 	var deletedIndicies = [];
+
 	while (rowIndicies.length > 0) {
 		var toKill = rowIndicies.reduce(function(a,b) {
 			return Math.max(a,b);
 		});
+
 		deletedIndicies.push(this.occupiedPositions.splice(toKill, 1));
-		var toKillIndex = rowIndicies.indexOf(toKill)
+		var toKillIndex = rowIndicies.indexOf(toKill);
 		rowIndicies.splice(toKillIndex, 1);
 	}
 	this.moveDownEverything(rowYCoord);
@@ -59,6 +88,7 @@ Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 	var indiciesToDelete = [];
 		this.occupiedPositions.forEach(function(position) {
 		if (position[0][1] === rowYCoord) {
+			that.deletedPositions.push(position[0]);
 			var positionIndex = that.occupiedPositions.indexOf(position)
 			indiciesToDelete.push(positionIndex);
 		}
@@ -100,3 +130,14 @@ Game.prototype.redrawTetrominos = function() {
 		}
 	});
 };
+
+Game.prototype.animateRowClear = function(toClear) {
+	var context = getContext();
+	setInterval(function() {
+		toClear.forEach(function(position) {
+			context.clearRect(position[0], position[1], 50, 50);
+			context.fillStyle = 'black';
+			context.fillRect(position[0], position[1], 50, 50);
+		});
+	}, 50);
+}
