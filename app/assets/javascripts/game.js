@@ -15,6 +15,7 @@ Game.prototype.amountInRows = function(rowYCoords, multiplier) {
 }
 
 Game.prototype.checkForCompleteRow = function() {
+	this.redrawBackground();
 	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
 		var rowsBeingCleared = 0;
 		var possibleRows = {
@@ -66,12 +67,12 @@ Game.prototype.clearingRowsSelector = function() {
 	}
 }
 
-
 Game.prototype.deleteRow = function(rowYCoord) {
 	var rowIndicies = this.getIndiciesToDelete(rowYCoord);
 	var deletedIndicies = [];
 
 	while (rowIndicies.length > 0) {
+
 		var toKill = rowIndicies.reduce(function(a,b) {
 			return Math.max(a,b);
 		});
@@ -133,11 +134,9 @@ Game.prototype.redrawTetrominos = function() {
 
 Game.prototype.animateRowClear = function(toClear) {
 	var context = getContext();
-	setInterval(function() {
-		toClear.forEach(function(position) {
-			context.clearRect(position[0], position[1], 50, 50);
-			context.fillStyle = 'black';
-			context.fillRect(position[0], position[1], 50, 50);
-		});
-	}, 50);
+	toClear.forEach(function(position) {
+		context.clearRect(position[0], position[1], 50, 50);
+		context.fillStyle = 'black';
+		context.fillRect(position[0], position[1], 50, 50);
+	});
 }

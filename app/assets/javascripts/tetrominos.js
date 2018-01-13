@@ -54,22 +54,22 @@ Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
+
 	this.redrawBackground();
 	this.drawTetromino();
-
 	currentGame.checkForCompleteRow();
 	clearInterval(currentInterval);
-
 	// I do NOT like this solution, but I do not know how to completely kill an instance.
 	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
 	// Should I nuke all of 'this''s properties to save memory and make them null?
-	setInterval(currentTetromino = spawnTetromino(), 250);
-		if (!currentTetromino.allowedDown()) {
-			currentTetromino.autoMove();
-			currentTetromino.getKeyboardInput();
-		} else {
-			//game over function will go here. I already tested this with an alert message
-		}
+
+	currentTetromino = spawnTetromino();
+	if (!currentTetromino.allowedDown()) {
+		currentTetromino.autoMove();
+		currentTetromino.getKeyboardInput();
+	} else {
+		//game over function will go here. I already tested this with an alert message
+	}
 };
 
 Tetromino.prototype.getKeyboardInput = function() {
