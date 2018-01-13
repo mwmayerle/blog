@@ -47,19 +47,18 @@ Tetromino.prototype.autoMove = function() {
 			clearInterval(currentInterval);
 			that.deadTetromino();
 		}
-	}, 1000);
+	}, 500);
 };
 
 Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
+
 	this.redrawBackground();
 	this.drawTetromino();
-
 	currentGame.checkForCompleteRow();
 	clearInterval(currentInterval);
-
 	// I do NOT like this solution, but I do not know how to completely kill an instance.
 	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
 	// Should I nuke all of 'this''s properties to save memory and make them null?
