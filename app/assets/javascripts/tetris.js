@@ -1,3 +1,7 @@
+/*
+	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement
+	variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
+*/
 
 window.onload = function() {
 	startGame();
@@ -6,16 +10,33 @@ window.onload = function() {
 var currentTetromino = {};
 var currentInterval = '';
 var currentGame = {};
+var completeRow = [];
+var completeColumn = [];
+var maxVal = 0;
 
-const left = -50; //
-const up = -50;   // I know these repeat but making these is far easier for understanding what is happening later
-const right = 50; //
-const down = 50;  //
-const completeRow = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450];
+const boardIncrement = boardWidth / 10;
 const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
+const negBoardIncrement = -(boardWidth / 10);
+
+function generateCompleteRow() {
+	for (var i = 0; i < boardWidth; i += boardWidth / 10) {
+		completeRow.push(i)
+	}
+	return completeRow;
+};
+
+function generateCompleteColumn() {
+	for (var i = 0; i < boardHeight; i += boardHeight / 20) {
+		completeColumn.push(i);
+	}
+	maxVal = completeColumn[20] + completeColumn[1]
+	return completeColumn;
+}
 
 var startGame = function() {
 	drawBackground();
+	generateCompleteRow();
+	generateCompleteColumn();
 	currentGame = new Game();
 	currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
@@ -34,18 +55,18 @@ var generateRandomShape = function() {
 };
 
 var getNewTetromino = function() {
-	shape = generateRandomShape();
-	if (shape === currentGame.previousShape) {
-		shape = generateRandomShape();
+	choosenShape = generateRandomShape();
+	if (choosenShape === currentGame.previousShape) {
+		choosenShape = generateRandomShape();
 	}
-	return new Tetromino(selectShape(shape));
+	return new Tetromino(selectShape(choosenShape));
 };
 
-var selectShape = function(shape) {
-	switch (shape) {
+var selectShape = function(choosenShape) {
+	switch (choosenShape) {
 		case "el":
 			var attributes = {
-					cubePositions: [[200, 0], [200, 50], [250, 0], [300, 0]],
+					cubePositions: [[completeRow[4], 0], [completeRow[4], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
@@ -54,7 +75,7 @@ var selectShape = function(shape) {
 			break;
 		case "jay":
 			var attributes = {
-					cubePositions: [[200, 0], [300, 50], [250, 0], [300, 0]],
+					cubePositions: [[completeRow[4], 0], [completeRow[6], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,
@@ -63,7 +84,7 @@ var selectShape = function(shape) {
 			break;
 		case "cube":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 0], [200, 50], [250, 50]],
+					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -72,7 +93,7 @@ var selectShape = function(shape) {
 			break;
 		case "stick":
 			var attributes = {
-					cubePositions: [[150, 0], [200, 0], [250, 0], [300, 0]],
+					cubePositions: [[completeRow[3], 0], [completeRow[4], 0], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -81,7 +102,7 @@ var selectShape = function(shape) {
 			break;
 		case "zed":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 0], [250, 50], [300, 50]],
+					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[5], completeRow[1]], [completeRow[6], completeRow[1]]],
 					color: 'red',
 					outlineColor: 'red',
 					solid: true,
@@ -90,7 +111,7 @@ var selectShape = function(shape) {
 			break;
 		case "cross":
 			var attributes = {
-					cubePositions: [[200, 0], [250, 50], [250, 0], [300, 0]],
+					cubePositions: [[completeRow[4], 0], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
 					outlineColor: 'blue',
 					solid: false,
@@ -99,7 +120,7 @@ var selectShape = function(shape) {
 			break;
 		case "es":
 			var attributes = {
-					cubePositions: [[200, 50], [250, 50], [250, 0], [300, 0]],
+					cubePositions: [[completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'blue',
 					outlineColor: 'blue',
 					solid: true,

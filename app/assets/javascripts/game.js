@@ -28,12 +28,12 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
 
-	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
+	for (var rowYCoords = completeColumn[19]; rowYCoords >= 0; rowYCoords -= boardIncrement) {
 		var possibleRows = {
 			amtInRow1: this.amountInRows(rowYCoords, 0),
-			amtInRow2: this.amountInRows(rowYCoords, 50),
-			amtInRow3: this.amountInRows(rowYCoords, 100),
-			amtInRow4: this.amountInRows(rowYCoords, 150)
+			amtInRow2: this.amountInRows(rowYCoords, boardIncrement),
+			amtInRow3: this.amountInRows(rowYCoords, boardIncrement * 2),
+			amtInRow4: this.amountInRows(rowYCoords, boardIncrement * 3)
 		}
 		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
@@ -56,13 +56,14 @@ Game.prototype.slideDownAfterRowDeleted = function() {
 
 Game.prototype.deleteRowAnimation = function() {
 	var context = getContext();
-	var xCoordRight = 250;
-	var xCoordLeft = 200;
+	var xCoordRight = completeRow[5];
+	var xCoordLeft = completeRow[4];
+
 	for (var i = 0; i < 5; i++) {
 		setTimeout(function() {
 			currentGame.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
-			xCoordRight += 50;
-			xCoordLeft -= 50;
+			xCoordRight += boardIncrement;
+			xCoordLeft -= boardIncrement;
 		}, i * 100);
 	}
 };
@@ -73,9 +74,9 @@ Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
 			return position[0] === xCoordRight || position[0] === xCoordLeft
 		});
 	coordsToVanish.forEach(function(coordinate) {
-		context.clearRect(coordinate[0], coordinate[1], 50, 50);
+		context.clearRect(coordinate[0], coordinate[1], boardIncrement, boardIncrement);
 		context.fillStyle = 'black';
-		context.fillRect(coordinate[0], coordinate[1], 50, 50);
+		context.fillRect(coordinate[0], coordinate[1], boardIncrement, boardIncrement);
 	});
 };
 
@@ -109,7 +110,7 @@ Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 Game.prototype.moveDownEverything = function(yCoord) {
 	this.occupiedPositions.forEach(function(position) {
 		if (position[0][1] <= yCoord) {
-			position[0][1] += 50;
+			position[0][1] += boardIncrement;
 		}
 	});
 }
@@ -117,9 +118,9 @@ Game.prototype.moveDownEverything = function(yCoord) {
 Game.prototype.blackoutBackground = function() {
 	var context = getContext();
 	this.occupiedPositions.forEach(function(position) {
-		context.clearRect(position[0][0], position[0][1], 50, 50);
+		context.clearRect(position[0][0], position[0][1], boardIncrement, boardIncrement);
 		context.fillStyle = 'black';
-		context.fillRect(position[0][0], position[0][1], 50, 50);
+		context.fillRect(position[0][0], position[0][1], boardIncrement, boardIncrement);
 	});
 };
 
@@ -127,16 +128,16 @@ Game.prototype.redrawTetrominos = function() {
 	var context = getContext();
 	this.occupiedPositions.forEach(function(position) {
 		context.fillStyle = position[2];
-		context.fillRect(position[0][0] + 5, position[0][1] + 5, 45, 45);
+		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
 
 		context.fillStyle = position[1];
-		context.fillRect(position[0][0] + 10, position[0][1] + 10, 35, 35);
+		context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
 
 		context.fillStyle = 'white';
-		context.fillRect(position[0][0] + 5, position[0][1] + 5, 5, 5); // sparkle in top left corner
+		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
 		if (position[3] === true) { // makes the shine on solid tetrominos
-			context.fillRect(position[0][0] + 10, position[0][1] + 10, 10, 5);
-			context.fillRect(position[0][0] + 10, position[0][1] + 15, 5, 5);
+			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 5, 5);
+			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
 };

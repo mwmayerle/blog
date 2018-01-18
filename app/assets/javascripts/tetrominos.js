@@ -10,9 +10,9 @@ var Tetromino = function(attributes) {
 Tetromino.prototype.redrawBackground = function() {
 	var context = getContext();
 	this.cubePositions.forEach(function(position) {
-		context.clearRect(position[0], position[1], 50, 50);
+		context.clearRect(position[0], position[1], boardIncrement, boardIncrement);
 		context.fillStyle = 'black';
-		context.fillRect(position[0], position[1], 50, 50);
+		context.fillRect(position[0], position[1], boardIncrement, boardIncrement);
 	});
 };
 
@@ -21,17 +21,17 @@ Tetromino.prototype.drawTetromino = function() {
 	var that = this;
 	this.cubePositions.forEach(function(position) {
 		context.fillStyle = that.outlineColor;
-		context.fillRect(position[0] + 5, position[1] + 5, 45, 45);
+		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
 
 		context.fillStyle = that.color;
-		context.fillRect(position[0] + 10, position[1] + 10, 35, 35);
+		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
 
 		context.fillStyle = 'white';
-		context.fillRect(position[0] + 5, position[1] + 5, 5, 5); // sparkle in top left corner
+		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
 
 		if (that.solid) { // makes the shine on solid tetrominos
-			context.fillRect(position[0] + 10, position[1] + 10, 10, 5);
-			context.fillRect(position[0] + 10, position[1] + 15, 5, 5);
+			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
+			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
 };
@@ -58,6 +58,7 @@ Tetromino.prototype.deadTetromino = function() {
 	this.drawTetromino();
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
+
 			setTimeout(function() {
 				currentGame.blackoutBackground();
 				currentGame.slideDownAfterRowDeleted();
@@ -65,6 +66,7 @@ Tetromino.prototype.deadTetromino = function() {
 				currentGame.deletedPositions = [];
 				currentTetromino.addNewTetromino();
 			}, 500);
+
 	} else {
 		currentGame.blackoutBackground();
 		currentGame.redrawTetrominos();
@@ -75,8 +77,7 @@ Tetromino.prototype.deadTetromino = function() {
 
 Tetromino.prototype.addNewTetromino = function() {
 	clearInterval(currentInterval);
-
-	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
+	this.cubePositions = [[maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal]];
 
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
@@ -115,11 +116,11 @@ Tetromino.prototype.getKeyboardInput = function() {
 Tetromino.prototype.allowedDown = function() {
 	var pieceThereDown = 0;
 	this.cubePositions.forEach(function(cubePosition) {
-		if (cubePosition[1] > 900) {
+		if (cubePosition[1] > completeColumn[18]) {
 			pieceThereDown += 1;
 		}
 		currentGame.occupiedPositions.forEach(function(usedPosition) {
-			if (cubePosition[0] === usedPosition[0][0] && cubePosition[1] + 50 === usedPosition[0][1]) {
+			if (cubePosition[0] === usedPosition[0][0] && cubePosition[1] + boardIncrement === usedPosition[0][1]) {
 				pieceThereDown += 1;
 			}
 		});
@@ -134,12 +135,12 @@ Tetromino.prototype.allowedLeft = function() {
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
 		that.cubePositions.forEach(function(cubePosition) {
-			if (cubePosition[0] - 50 === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
+			if (cubePosition[0] - boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});
 	});
-	if (this.cubePositions[0][0] < 50) {
+	if (this.cubePositions[0][0] < boardIncrement) {
 		pieceThere += 1;
 	}
 	if (pieceThere === 0) {
@@ -152,12 +153,12 @@ Tetromino.prototype.allowedRight = function() {
 	var that = this;
 	currentGame.occupiedPositions.forEach(function(usedPosition) {
 		that.cubePositions.forEach(function(cubePosition) {
-			if (cubePosition[0] + 50 === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
+			if (cubePosition[0] + boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});
 	});
-	if (this.cubePositions[3][0] > 400) {
+	if (this.cubePositions[3][0] > completeRow[8]) {
 		pieceThere += 1;
 	}
 	if (pieceThere === 0) {
@@ -168,7 +169,7 @@ Tetromino.prototype.allowedRight = function() {
 Tetromino.prototype.moveLeft = function() {
 	if (this.allowedLeft()) {
 		this.cubePositions.forEach(function(position) {
-			position[0] -= 50;
+			position[0] -= boardIncrement;
 		});
 	}
 };
@@ -176,14 +177,14 @@ Tetromino.prototype.moveLeft = function() {
 Tetromino.prototype.moveRight = function() {
 	if (this.allowedRight()) {
 		this.cubePositions.forEach(function(position) {
-			position[0] += 50;
+			position[0] += boardIncrement;
 		});
 	}
 };
 
 Tetromino.prototype.moveDown = function() {
 	this.cubePositions.forEach(function(position) {
-		position[1] += 50;
+		position[1] += boardIncrement;
 	});
 };
 
@@ -212,21 +213,21 @@ Tetromino.prototype.rotateTetromino = function() {
 // Hardcoding bonanza yay!
 Tetromino.prototype.rotateStick = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[0][0] += right * 2;
-		this.cubePositions[0][1] += up * 2;
-		this.cubePositions[1][0] += right;
-		this.cubePositions[1][1] += up;
-		this.cubePositions[3][0] += left;
-		this.cubePositions[3][1] += down;
+		this.cubePositions[0][0] += boardIncrement * 2;
+		this.cubePositions[0][1] += negBoardIncrement * 2;
+		this.cubePositions[1][0] += boardIncrement;
+		this.cubePositions[1][1] += negBoardIncrement;
+		this.cubePositions[3][0] += negBoardIncrement;
+		this.cubePositions[3][1] += boardIncrement;
 		this.rotations += 1;
 	} else {
 		if (this.allowedRight() && this.allowedLeft()) {
-			this.cubePositions[0][0] += left * 2;
-			this.cubePositions[0][1] += down * 2;
-			this.cubePositions[1][0] += left;
-			this.cubePositions[1][1] += down;
-			this.cubePositions[3][0] += right;
-			this.cubePositions[3][1] += up;
+			this.cubePositions[0][0] += negBoardIncrement * 2;
+			this.cubePositions[0][1] += boardIncrement * 2;
+			this.cubePositions[1][0] += negBoardIncrement;
+			this.cubePositions[1][1] += boardIncrement;
+			this.cubePositions[3][0] += boardIncrement;
+			this.cubePositions[3][1] += negBoardIncrement;
 			this.rotations -= 1;
 		}
 	}
@@ -234,25 +235,25 @@ Tetromino.prototype.rotateStick = function() {
 
 Tetromino.prototype.rotateCross = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[3][0] += left;
-		this.cubePositions[3][1] += up;
+		this.cubePositions[3][0] += negBoardIncrement;
+		this.cubePositions[3][1] += negBoardIncrement;
 		this.rotations += 1;
 	} else if (this.rotations === 2) {
 		if (this.allowedRight()) {
-			this.cubePositions[1][1] += up * 2;
-			this.cubePositions[3][0] += right;
-			this.cubePositions[3][1] += down;
+			this.cubePositions[1][1] += negBoardIncrement * 2;
+			this.cubePositions[3][0] += boardIncrement;
+			this.cubePositions[3][1] += boardIncrement;
 			this.rotations += 1;
 		}
 	} else if (this.rotations === 3) {
-		this.cubePositions[0][0] += right;
-		this.cubePositions[0][1] += down;
+		this.cubePositions[0][0] += boardIncrement;
+		this.cubePositions[0][1] += boardIncrement;
 		this.rotations += 1;
 	} else {
 		if (this.allowedLeft()) {
-			this.cubePositions[0][0] += left;
-			this.cubePositions[0][1] += up;
-			this.cubePositions[1][1] += down * 2;
+			this.cubePositions[0][0] += negBoardIncrement;
+			this.cubePositions[0][1] += negBoardIncrement;
+			this.cubePositions[1][1] += boardIncrement * 2;
 			this.rotations = 1;
 		}
 	}
@@ -260,15 +261,15 @@ Tetromino.prototype.rotateCross = function() {
 
 Tetromino.prototype.rotateEs = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[0][0] += right;
-		this.cubePositions[0][1] += up * 2;
-		this.cubePositions[1][0] += right;
+		this.cubePositions[0][0] += boardIncrement;
+		this.cubePositions[0][1] += negBoardIncrement * 2;
+		this.cubePositions[1][0] += boardIncrement;
 		this.rotations += 1;
 	} else {
 		if (this.allowedLeft()) {
-			this.cubePositions[0][0] += left;
-			this.cubePositions[0][1] += down * 2;
-			this.cubePositions[1][0] += left;
+			this.cubePositions[0][0] += negBoardIncrement;
+			this.cubePositions[0][1] += boardIncrement * 2;
+			this.cubePositions[1][0] += negBoardIncrement;
 			this.rotations -= 1;
 		}
 	}
@@ -276,15 +277,15 @@ Tetromino.prototype.rotateEs = function() {
 
 Tetromino.prototype.rotateZed = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[0][0] += right;
-		this.cubePositions[1][0] += right;
-		this.cubePositions[3][1] += up * 2;
+		this.cubePositions[0][0] += boardIncrement;
+		this.cubePositions[1][0] += boardIncrement;
+		this.cubePositions[3][1] += negBoardIncrement * 2;
 		this.rotations += 1;
 	} else {
 		if (this.allowedLeft()) {
-			this.cubePositions[0][0] += left;
-			this.cubePositions[1][0] += left;
-			this.cubePositions[3][1] += down * 2;
+			this.cubePositions[0][0] += negBoardIncrement;
+			this.cubePositions[1][0] += negBoardIncrement;
+			this.cubePositions[3][1] += boardIncrement * 2;
 			this.rotations -= 1;
 		}
 	}
@@ -292,32 +293,32 @@ Tetromino.prototype.rotateZed = function() {
 
 Tetromino.prototype.rotateJay = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[0][1] += down;
-		this.cubePositions[1][0] += left;
-		this.cubePositions[3][0] += left;
-		this.cubePositions[3][1] += up;
+		this.cubePositions[0][1] += boardIncrement;
+		this.cubePositions[1][0] += negBoardIncrement;
+		this.cubePositions[3][0] += negBoardIncrement;
+		this.cubePositions[3][1] += negBoardIncrement;
 		this.rotations += 1;
 	} else if (this.rotations === 2) {
 		if (this.allowedRight()) {		
-			this.cubePositions[0][1] += up * 2;
-			this.cubePositions[1][0] += left;
-			this.cubePositions[1][1] += up;
-			this.cubePositions[3][0] += right;
-			this.cubePositions[3][1] += down;
+			this.cubePositions[0][1] += negBoardIncrement * 2;
+			this.cubePositions[1][0] += negBoardIncrement;
+			this.cubePositions[1][1] += negBoardIncrement;
+			this.cubePositions[3][0] += boardIncrement;
+			this.cubePositions[3][1] += boardIncrement;
 			this.rotations += 1;
 		}
 	} else if (this.rotations === 3) {
-		this.cubePositions[0][0] += right;
-		this.cubePositions[1][0] += right;
-		this.cubePositions[1][1] += down;
-		this.cubePositions[3][1] += up;
+		this.cubePositions[0][0] += boardIncrement;
+		this.cubePositions[1][0] += boardIncrement;
+		this.cubePositions[1][1] += boardIncrement;
+		this.cubePositions[3][1] += negBoardIncrement;
 		this.rotations += 1;
 	} else {
 		if (this.allowedLeft()) {
-			this.cubePositions[0][0] += left;
-			this.cubePositions[0][1] += down;
-			this.cubePositions[1][0] += right;
-			this.cubePositions[3][1] += down;
+			this.cubePositions[0][0] += negBoardIncrement;
+			this.cubePositions[0][1] += boardIncrement;
+			this.cubePositions[1][0] += boardIncrement;
+			this.cubePositions[3][1] += boardIncrement;
 			this.rotations = 1;
 		}
 	}
@@ -325,32 +326,32 @@ Tetromino.prototype.rotateJay = function() {
 
 Tetromino.prototype.rotateEl = function() {
 	if (this.rotations === 1) {
-		this.cubePositions[0][1] += up;
-		this.cubePositions[1][0] += right;
-		this.cubePositions[3][0] += left;
-		this.cubePositions[3][1] += up;
+		this.cubePositions[0][1] += negBoardIncrement;
+		this.cubePositions[1][0] += boardIncrement;
+		this.cubePositions[3][0] += negBoardIncrement;
+		this.cubePositions[3][1] += negBoardIncrement;
 		this.rotations += 1;
 	} else if (this.rotations === 2) {
 		if (this.allowedRight()) {
-			this.cubePositions[0][1] += down;
-			this.cubePositions[1][0] += right;
-			this.cubePositions[1][1] += up;
-			this.cubePositions[3][0] += right;
+			this.cubePositions[0][1] += boardIncrement;
+			this.cubePositions[1][0] += boardIncrement;
+			this.cubePositions[1][1] += negBoardIncrement;
+			this.cubePositions[3][0] += boardIncrement;
 			this.rotations += 1;
 		}
 	} else if (this.rotations === 3) {
-		this.cubePositions[0][0] += right;
-		this.cubePositions[0][1] += up;
-		this.cubePositions[1][0] += left;
-		this.cubePositions[1][1] += down;
-		this.cubePositions[3][1] += down * 2;
+		this.cubePositions[0][0] += boardIncrement;
+		this.cubePositions[0][1] += negBoardIncrement;
+		this.cubePositions[1][0] += negBoardIncrement;
+		this.cubePositions[1][1] += boardIncrement;
+		this.cubePositions[3][1] += boardIncrement * 2;
 		this.rotations += 1;
 	} else {
 		if (this.allowedLeft()) {
-			this.cubePositions[0][0] += left;
-			this.cubePositions[0][1] += down;
-			this.cubePositions[1][0] += left;
-			this.cubePositions[3][1] += up;
+			this.cubePositions[0][0] += negBoardIncrement;
+			this.cubePositions[0][1] += boardIncrement;
+			this.cubePositions[1][0] += negBoardIncrement;
+			this.cubePositions[3][1] += negBoardIncrement;
 			this.rotations = 1;
 		}
 	}
