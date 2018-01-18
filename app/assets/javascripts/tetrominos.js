@@ -56,17 +56,16 @@ Tetromino.prototype.deadTetromino = function() {
 	});
 	this.redrawBackground();
 	this.drawTetromino();
-
 	currentGame.blackoutBackground();
 	currentGame.redrawTetrominos();
-	if (!currentGame.checkForCompleteRow()) {
-		setTimeout(function() {
-			hello();
+	if (currentGame.checkForCompleteRow()) {
+			currentGame.deleteRowAnimation();
 			setTimeout(function() {
+				currentGame.slideDownAfterRowDeleted();
 				console.log("second setTimeout triggered!");
 				currentTetromino.addNewTetromino();
-			}, 1000);
-		}, 750);
+			}, 500);
+
 	} else {
 		this.addNewTetromino();
 	}

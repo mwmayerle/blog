@@ -11,5 +11,5 @@ var drawBackground = function() {
 }
 
 function hello() {
-	console.log("reeeeeeeeeeee")
+	console.log("deleting a box")
 }

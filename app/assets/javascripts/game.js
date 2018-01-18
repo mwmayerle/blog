@@ -1,6 +1,7 @@
 var Game = function() {
 	this.occupiedPositions = [];
 	this.deletedPositions = [];
+	this.deletedRows = [];
 	this.score = 0;
 	this.lines = 0;
 	this.level = 0;
@@ -8,14 +9,23 @@ var Game = function() {
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
-	var result = this.occupiedPositions.filter(function(occupiedPosition){
+	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
 		return rowYCoords === occupiedPosition[0][1] - multiplier;
 	});
-	return result;
+	return rowAmount;
+}
+
+Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
+	var that = this;
+	Object.keys(possibleRows).forEach(function(key) {
+		if (possibleRows[key].length === 10) {
+			that.deleteRow(rowYCoords);
+			that.deletedRows.push(rowYCoords);
+		}
+	});
 }
 
 Game.prototype.checkForCompleteRow = function() {
-	var deletedRows = [];
 	var playDeleteAnimation = false;
 
 	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
@@ -25,26 +35,49 @@ Game.prototype.checkForCompleteRow = function() {
 			amtInRow3: this.amountInRows(rowYCoords, 100),
 			amtInRow4: this.amountInRows(rowYCoords, 150)
 		}
-		
-		Object.keys(possibleRows).forEach(function(key) {
-			if (possibleRows[key].length === 10) {
-				currentGame.deleteRow(rowYCoords);
-				deletedRows.push(rowYCoords);
-			}
-		});
+		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
-	while (deletedRows.length > 0) {
+	if (this.deletedRows.length > 0) {
 		playDeleteAnimation = true;
-		var toMove = deletedRows.reduce(function(a,b) {
-			return Math.min(a,b);
-		});
-		this.moveDownEverything(toMove);
-		var toMoveIndex = deletedRows.indexOf(toMove);
-		deletedRows.splice(toMoveIndex, 1);
 	}
 	return playDeleteAnimation;
 };
 
+Game.prototype.slideDownAfterRowDeleted = function() {
+	while (this.deletedRows.length > 0) {
+		var toMove = this.deletedRows.reduce(function(a,b) {
+			return Math.min(a,b);
+		});
+		this.moveDownEverything(toMove);
+		var toMoveIndex = this.deletedRows.indexOf(toMove);
+		this.deletedRows.splice(toMoveIndex, 1);
+	}
+};
+
+Game.prototype.deleteRowAnimation = function() {
+	var context = getContext();
+	var xCoordRight = 250;
+	var xCoordLeft = 200;
+	for (var i = 0; i < 5; i++) {
+		setTimeout(function() {
+			currentGame.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
+			xCoordRight += 50;
+			xCoordLeft -= 50;
+		}, i * 100);
+	}
+};
+
+Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
+	var context = getContext();
+	var coordsToVanish = currentGame.deletedPositions.filter(function(position) {
+			return position[0] === xCoordRight || position[0] === xCoordLeft
+		});
+	coordsToVanish.forEach(function(coordinate) {
+		context.clearRect(coordinate[0], coordinate[1], 50, 50);
+		context.fillStyle = 'black';
+		context.fillRect(coordinate[0], coordinate[1], 50, 50);
+	});
+};
 
 Game.prototype.deleteRow = function(rowYCoord) {
 	var rowIndicies = this.getIndiciesToDelete(rowYCoord);
