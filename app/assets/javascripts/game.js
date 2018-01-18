@@ -1,6 +1,7 @@
 var Game = function() {
 	this.occupiedPositions = [];
 	this.deletedPositions = [];
+	this.deletedRows = [];
 	this.score = 0;
 	this.lines = 0;
 	this.level = 0;
@@ -8,80 +9,88 @@ var Game = function() {
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
-	var result = this.occupiedPositions.filter(function(occupiedPosition){
-		return rowYCoords === occupiedPosition[0][1] + multiplier;
+	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
+		return rowYCoords === occupiedPosition[0][1] - multiplier;
 	});
-	return result;
+	return rowAmount;
+}
+
+Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
+	var that = this;
+	Object.keys(possibleRows).forEach(function(key) {
+		if (possibleRows[key].length === 10) {
+			that.deleteRow(rowYCoords);
+			that.deletedRows.push(rowYCoords);
+		}
+	});
 }
 
 Game.prototype.checkForCompleteRow = function() {
-	this.redrawBackground();
+	var playDeleteAnimation = false;
+
 	for (var rowYCoords = 950; rowYCoords >= 0; rowYCoords -= 50) {
-		var rowsBeingCleared = 0;
 		var possibleRows = {
 			amtInRow1: this.amountInRows(rowYCoords, 0),
 			amtInRow2: this.amountInRows(rowYCoords, 50),
 			amtInRow3: this.amountInRows(rowYCoords, 100),
 			amtInRow4: this.amountInRows(rowYCoords, 150)
 		}
-	//I am not proud of the nested ifs. I screwed up iterating thru the possibleRows object keys somehow
-		if (possibleRows.amtInRow1.length === 10) {
-			rowsBeingCleared = 1;
-			this.deleteRow(rowYCoords);
-			if (possibleRows.amtInRow2.length === 10) {
-				rowsBeingCleared = 2;
-				this.deleteRow(rowYCoords);
-				if (possibleRows.amtInRow3.length === 10) {
-					rowsBeingCleared = 3;
-					this.deleteRow(rowYCoords);
-					if (possibleRows.amtInRow4.length === 10) {
-						rowsBeingCleared = 4;
-						this.deleteRow(rowYCoords);
-					}
-				}
-			}
-		}
-		if (rowsBeingCleared !== 0) {
-			this.clearingRowsSelector();
-			this.deletedPositions = [];
-			break;
-		}
+		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
-	this.redrawTetrominos();
+	if (this.deletedRows.length > 0) {
+		playDeleteAnimation = true;
+	}
+	return playDeleteAnimation;
 };
 
-Game.prototype.clearingRowsSelector = function() {
-	var toClear = [];
-	var counter = 200;
-
-	for (var x = 250; x < 500; x += 50) {
-		toClear = this.deletedPositions.filter(function(position) {
-			return (position[0] === x || position[0] === counter);
+Game.prototype.slideDownAfterRowDeleted = function() {
+	while (this.deletedRows.length > 0) {
+		var toMove = this.deletedRows.reduce(function(a,b) {
+			return Math.min(a,b);
 		});
-
-		counter -= 50;
-
-		if (toClear !== []) {
-			this.animateRowClear(toClear);
-		}
+		this.moveDownEverything(toMove);
+		var toMoveIndex = this.deletedRows.indexOf(toMove);
+		this.deletedRows.splice(toMoveIndex, 1);
 	}
-}
+};
+
+Game.prototype.deleteRowAnimation = function() {
+	var context = getContext();
+	var xCoordRight = 250;
+	var xCoordLeft = 200;
+	for (var i = 0; i < 5; i++) {
+		setTimeout(function() {
+			currentGame.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
+			xCoordRight += 50;
+			xCoordLeft -= 50;
+		}, i * 100);
+	}
+};
+
+Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
+	var context = getContext();
+	var coordsToVanish = currentGame.deletedPositions.filter(function(position) {
+			return position[0] === xCoordRight || position[0] === xCoordLeft
+		});
+	coordsToVanish.forEach(function(coordinate) {
+		context.clearRect(coordinate[0], coordinate[1], 50, 50);
+		context.fillStyle = 'black';
+		context.fillRect(coordinate[0], coordinate[1], 50, 50);
+	});
+};
 
 Game.prototype.deleteRow = function(rowYCoord) {
 	var rowIndicies = this.getIndiciesToDelete(rowYCoord);
 	var deletedIndicies = [];
 
 	while (rowIndicies.length > 0) {
-
 		var toKill = rowIndicies.reduce(function(a,b) {
 			return Math.max(a,b);
 		});
-
 		deletedIndicies.push(this.occupiedPositions.splice(toKill, 1));
 		var toKillIndex = rowIndicies.indexOf(toKill);
 		rowIndicies.splice(toKillIndex, 1);
 	}
-	this.moveDownEverything(rowYCoord);
 };
 
 Game.prototype.getIndiciesToDelete = function(rowYCoord) {
@@ -97,15 +106,15 @@ Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 	return indiciesToDelete;
 }
 
-Game.prototype.moveDownEverything = function(rowYCoord) {
+Game.prototype.moveDownEverything = function(yCoord) {
 	this.occupiedPositions.forEach(function(position) {
-		if (position[0][1] <= rowYCoord) {
+		if (position[0][1] <= yCoord) {
 			position[0][1] += 50;
 		}
 	});
 }
 
-Game.prototype.redrawBackground = function() {
+Game.prototype.blackoutBackground = function() {
 	var context = getContext();
 	this.occupiedPositions.forEach(function(position) {
 		context.clearRect(position[0][0], position[0][1], 50, 50);
@@ -131,12 +140,3 @@ Game.prototype.redrawTetrominos = function() {
 		}
 	});
 };
-
-Game.prototype.animateRowClear = function(toClear) {
-	var context = getContext();
-	toClear.forEach(function(position) {
-		context.clearRect(position[0], position[1], 50, 50);
-		context.fillStyle = 'black';
-		context.fillRect(position[0], position[1], 50, 50);
-	});
-}
