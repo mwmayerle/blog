@@ -9,3 +9,7 @@ var drawBackground = function() {
 	context.fillStyle = "black";
 	context.fillRect(0, 0, 500, 1000);
 }
+
+function hello() {
+	console.log("reeeeeeeeeeee")
+}

@@ -25,6 +25,7 @@ Game.prototype.checkForCompleteRow = function() {
 			amtInRow3: this.amountInRows(rowYCoords, 100),
 			amtInRow4: this.amountInRows(rowYCoords, 150)
 		}
+		
 		Object.keys(possibleRows).forEach(function(key) {
 			if (possibleRows[key].length === 10) {
 				currentGame.deleteRow(rowYCoords);

@@ -56,9 +56,24 @@ Tetromino.prototype.deadTetromino = function() {
 	});
 	this.redrawBackground();
 	this.drawTetromino();
+
 	currentGame.blackoutBackground();
-	currentGame.checkForCompleteRow();
 	currentGame.redrawTetrominos();
+	if (!currentGame.checkForCompleteRow()) {
+		setTimeout(function() {
+			hello();
+			setTimeout(function() {
+				console.log("second setTimeout triggered!");
+				currentTetromino.addNewTetromino();
+			}, 1000);
+		}, 750);
+	} else {
+		this.addNewTetromino();
+	}
+};
+
+
+Tetromino.prototype.addNewTetromino = function() {
 	clearInterval(currentInterval);
 
 	this.cubePositions = [[1000,1000], [1000,1000], [1000, 1000], [1000, 1000]];
