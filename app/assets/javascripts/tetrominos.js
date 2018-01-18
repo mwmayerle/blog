@@ -47,7 +47,7 @@ Tetromino.prototype.autoMove = function() {
 			clearInterval(currentInterval);
 			that.deadTetromino();
 		}
-	}, 500);
+	}, rowClearAnimationTime * 5);
 };
 
 Tetromino.prototype.deadTetromino = function() {
@@ -65,7 +65,7 @@ Tetromino.prototype.deadTetromino = function() {
 				currentGame.redrawTetrominos();
 				currentGame.deletedPositions = [];
 				currentTetromino.addNewTetromino();
-			}, 500);
+			}, rowClearAnimationTime * 5);
 
 	} else {
 		currentGame.blackoutBackground();

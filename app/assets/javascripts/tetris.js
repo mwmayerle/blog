@@ -13,6 +13,7 @@ var currentGame = {};
 var completeRow = [];
 var completeColumn = [];
 var maxVal = 0;
+var rowClearAnimationTime = 50;
 
 const boardIncrement = boardWidth / 10;
 const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];

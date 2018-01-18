@@ -64,7 +64,7 @@ Game.prototype.deleteRowAnimation = function() {
 			currentGame.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
 			xCoordRight += boardIncrement;
 			xCoordLeft -= boardIncrement;
-		}, i * 100);
+		}, i * rowClearAnimationTime);
 	}
 };
 
