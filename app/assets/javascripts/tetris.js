@@ -39,6 +39,7 @@ var startGame = function() {
 	generateCompleteRow();
 	generateCompleteColumn();
 	currentGame = new Game();
+	currentGame.nextShape = getNewTetromino();
 	currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
 	currentTetromino.autoMove();

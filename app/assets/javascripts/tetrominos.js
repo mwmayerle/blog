@@ -76,7 +76,6 @@ Tetromino.prototype.deadTetromino = function() {
 Tetromino.prototype.addNewTetromino = function() {
 	clearInterval(currentInterval);
 	this.cubePositions = [[maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal]];
-
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
