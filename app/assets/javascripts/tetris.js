@@ -1,9 +1,9 @@
 /*
-	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement
-	variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
+	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
 
 window.onload = function() {
+	drawInitialSetup();
 	startGame();
 };
 
@@ -13,7 +13,7 @@ var currentGame = {};
 var completeRow = [];
 var completeColumn = [];
 var maxVal = 0;
-var rowClearAnimationTime = 50;
+var rowClearAnimationTime = 60;
 
 const boardIncrement = boardWidth / 10;
 const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
@@ -34,13 +34,18 @@ function generateCompleteColumn() {
 	return completeColumn;
 }
 
-var startGame = function() {
+function drawInitialSetup() {
 	generateCompleteRow();
 	generateCompleteColumn();
 	drawBackground();
 	drawStatsBackground();
 	drawNextPieceBackground();
+};
+
+var startGame = function() {
 	currentGame = new Game();
+	previousShape = getNewTetromino();
+	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
 	currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
@@ -49,7 +54,8 @@ var startGame = function() {
 };
 
 var spawnTetromino = function() {
-	var newTetromino = getNewTetromino();
+	var newTetromino = currentGame.nextShape;
+	currentGame.nextShape = getNewTetromino();
 	newTetromino.drawTetromino();
 	return newTetromino;
 };

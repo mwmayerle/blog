@@ -5,7 +5,8 @@ var Game = function() {
 	this.score = 0;
 	this.lines = 0;
 	this.level = 0;
-	this.nextShape = '';
+	this.nextShape = {};
+	this.previousShape = {};
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
@@ -140,4 +141,9 @@ Game.prototype.redrawTetrominos = function() {
 			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
+};
+
+Game.prototype.drawNextPiece = function() {
+	var pieceContext = getPieceContext();
+	Tetromino.drawTetromino
 };
