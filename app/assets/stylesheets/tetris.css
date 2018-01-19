@@ -2,10 +2,20 @@ h1 {
 	text-align: center;
 }
 
-canvas {
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+#tetris_stats_div {
+	display: inline-block;
+  margin: auto;
+  padding: 10px;
+}
+
+#tetris_div {
+  display: inline-block;
+  margin: auto;
+  padding: 10px;
+}
+
+#piece_div {
+	display: inline-block;
+  margin: auto;
+  padding: 10px;
 }
