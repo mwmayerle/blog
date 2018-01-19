@@ -1,9 +1,9 @@
 /*
-	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement
-	variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
+	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
 
 window.onload = function() {
+	drawInitialSetup();
 	startGame();
 };
 
@@ -13,7 +13,9 @@ var currentGame = {};
 var completeRow = [];
 var completeColumn = [];
 var maxVal = 0;
-var rowClearAnimationTime = 50;
+var rowClearAnimationTime = 60;
+var nextPieceXCoords = 0;
+var nextPieceYCoords = 0;
 
 const boardIncrement = boardWidth / 10;
 const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
@@ -21,9 +23,8 @@ const negBoardIncrement = -(boardWidth / 10);
 
 function generateCompleteRow() {
 	for (var i = 0; i < boardWidth; i += boardWidth / 10) {
-		completeRow.push(i)
+		completeRow.push(i);
 	}
-	return completeRow;
 };
 
 function generateCompleteColumn() {
@@ -31,17 +32,28 @@ function generateCompleteColumn() {
 		completeColumn.push(i);
 	}
 	maxVal = completeColumn[20] + completeColumn[1]
-	return completeColumn;
-}
+};
 
-var startGame = function() {
+function generateNextPieceCoords() {
+	nextPieceYCoords = completeColumn[1] / 2;
+	nextPieceXCoords = completeRow[1] / 2;
+};
+
+function drawInitialSetup() {
 	generateCompleteRow();
 	generateCompleteColumn();
+	generateNextPieceCoords();
 	drawBackground();
 	drawStatsBackground();
 	drawNextPieceBackground();
+};
+
+var startGame = function() {
 	currentGame = new Game();
+	var previousShape = getNewTetromino();
+	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
+	currentGame.drawNextTetromino();
 	currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
 	currentTetromino.autoMove();
@@ -49,13 +61,16 @@ var startGame = function() {
 };
 
 var spawnTetromino = function() {
-	var newTetromino = getNewTetromino();
+	var newTetromino = currentGame.nextShape;
+	drawNextPieceBackground();
+	currentGame.nextShape = getNewTetromino();
+	currentGame.drawNextTetromino();
 	newTetromino.drawTetromino();
 	return newTetromino;
 };
 
 var generateRandomShape = function() {
-	return shapes[Math.floor(Math.random() * (7))]; // amount becomes 8 when a previous shape exists
+	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
 };
 
 var getNewTetromino = function() {

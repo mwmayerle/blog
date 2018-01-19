@@ -51,11 +51,10 @@ Tetromino.prototype.autoMove = function() {
 };
 
 Tetromino.prototype.deadTetromino = function() {
+	currentGame.previousShape = this.shape;
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
-	this.redrawBackground();
-	this.drawTetromino();
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
 			setTimeout(function() {
