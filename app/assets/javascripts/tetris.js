@@ -35,9 +35,11 @@ function generateCompleteColumn() {
 }
 
 var startGame = function() {
-	drawBackground();
 	generateCompleteRow();
 	generateCompleteColumn();
+	drawBackground();
+	drawStatsBackground();
+	drawNextPieceBackground();
 	currentGame = new Game();
 	currentGame.nextShape = getNewTetromino();
 	currentTetromino = getNewTetromino();

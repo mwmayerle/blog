@@ -13,3 +13,17 @@
  *= require_tree .
  *= require_self
  */
+
+/* Font courtesy of codeman38 from this link:
+	http://www.fontspace.com/codeman38/press-start-2p
+*/
+
+
+@font-face {
+  font-family: "PressStart2P";
+  src: url('PressStart2P.ttf') format("truetype");
+}
+
+body {
+	font-family: "PressStart2P" !important;
+}
