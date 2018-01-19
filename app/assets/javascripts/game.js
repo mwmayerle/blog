@@ -137,13 +137,42 @@ Game.prototype.redrawTetrominos = function() {
 		context.fillStyle = 'white';
 		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
 		if (position[3] === true) { // makes the shine on solid tetrominos
-			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 5, 5);
+			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
 			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
 };
 
-Game.prototype.drawNextPiece = function() {
-	var pieceContext = getPieceContext();
-	Tetromino.drawTetromino
+Game.prototype.drawNextTetromino = function() {
+	var pieceContext = getNextPieceContext();
+	var that = this.nextShape;
+	if (this.nextShape.shape === 'stick' || this.nextShape.shape === 'cube') {
+		nextPieceXCoords = boardIncrement;
+	}
+	this.nextShape.cubePositions.forEach(function(position) {
+		pieceContext.fillStyle = that.outlineColor;
+		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 1.1111, boardIncrement / 1.1111);
+
+		pieceContext.fillStyle = that.color;
+		pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 1.4286, boardIncrement / 1.4286);
+
+		pieceContext.fillStyle = 'white';
+		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
+
+		if (that.solid) { // makes the shine on solid tetrominos
+			pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 5, boardIncrement / 10);
+			pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 3.3333 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10);
+		}
+	});
 };
+
+// Game.prototype.blackoutNextPieceBackground = function() {
+// 	console.log(this.nextShape)
+// 	var pieceContext = getNextPieceContext();
+// 	this.nextShape.cubePositions.forEach(function(position) {
+// 		console.log(position[0])
+// 		pieceContext.clearRect(position[0], position[1], boardIncrement, boardIncrement);
+// 		pieceContext.fillStyle = 'black';
+// 		pieceContext.fillRect(position[0], position[1], boardIncrement, boardIncrement);
+// 	});
+// };

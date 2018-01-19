@@ -14,6 +14,8 @@ var completeRow = [];
 var completeColumn = [];
 var maxVal = 0;
 var rowClearAnimationTime = 60;
+var nextPieceXCoords = 0;
+var nextPieceYCoords = 0;
 
 const boardIncrement = boardWidth / 10;
 const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
@@ -21,9 +23,8 @@ const negBoardIncrement = -(boardWidth / 10);
 
 function generateCompleteRow() {
 	for (var i = 0; i < boardWidth; i += boardWidth / 10) {
-		completeRow.push(i)
+		completeRow.push(i);
 	}
-	return completeRow;
 };
 
 function generateCompleteColumn() {
@@ -31,12 +32,17 @@ function generateCompleteColumn() {
 		completeColumn.push(i);
 	}
 	maxVal = completeColumn[20] + completeColumn[1]
-	return completeColumn;
-}
+};
+
+function generateNextPieceCoords() {
+	nextPieceYCoords = completeColumn[2];
+	nextPieceXCoords = completeRow[1] / 2;
+};
 
 function drawInitialSetup() {
 	generateCompleteRow();
 	generateCompleteColumn();
+	generateNextPieceCoords();
 	drawBackground();
 	drawStatsBackground();
 	drawNextPieceBackground();
@@ -44,9 +50,10 @@ function drawInitialSetup() {
 
 var startGame = function() {
 	currentGame = new Game();
-	previousShape = getNewTetromino();
+	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
+	currentGame.drawNextTetromino();
 	currentTetromino = getNewTetromino();
 	currentTetromino.drawTetromino();
 	currentTetromino.autoMove();
@@ -55,13 +62,15 @@ var startGame = function() {
 
 var spawnTetromino = function() {
 	var newTetromino = currentGame.nextShape;
+	drawNextPieceBackground();
 	currentGame.nextShape = getNewTetromino();
+	currentGame.drawNextTetromino();
 	newTetromino.drawTetromino();
 	return newTetromino;
 };
 
 var generateRandomShape = function() {
-	return shapes[Math.floor(Math.random() * (7))]; // amount becomes 8 when a previous shape exists
+	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
 };
 
 var getNewTetromino = function() {

@@ -55,8 +55,6 @@ Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
-	this.redrawBackground();
-	this.drawTetromino();
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
 			setTimeout(function() {
