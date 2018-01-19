@@ -86,8 +86,8 @@ var selectShape = function(choosenShape) {
 		case "el":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[4], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: 'red',
-					outlineColor: 'red',
+					color: '#F60000',
+					outlineColor: '#F60000',
 					solid: true,
 					shape: 'el'
 			};
@@ -95,8 +95,8 @@ var selectShape = function(choosenShape) {
 		case "jay":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[6], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: 'blue',
-					outlineColor: 'blue',
+					color: '#0000FF',
+					outlineColor: '#0000FF',
 					solid: true,
 					shape: 'jay'
 			};
@@ -105,7 +105,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]]],
 					color: 'white',
-					outlineColor: 'blue',
+					outlineColor: '#0000FF',
 					solid: false,
 					shape: 'cube'
 			};
@@ -114,7 +114,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[3], 0], [completeRow[4], 0], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
-					outlineColor: 'blue',
+					outlineColor: '#0000FF',
 					solid: false,
 					shape: 'stick'
 			};
@@ -122,8 +122,8 @@ var selectShape = function(choosenShape) {
 		case "zed":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[5], completeRow[1]], [completeRow[6], completeRow[1]]],
-					color: 'red',
-					outlineColor: 'red',
+					color: '#F60000',
+					outlineColor: '#F60000',
 					solid: true,
 					shape: 'zed'
 			};
@@ -132,7 +132,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
-					outlineColor: 'blue',
+					outlineColor: '#0000FF',
 					solid: false,
 					shape: 'cross'
 			};
@@ -140,8 +140,8 @@ var selectShape = function(choosenShape) {
 		case "es":
 			var attributes = {
 					cubePositions: [[completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: 'blue',
-					outlineColor: 'blue',
+					color: '#0000FF',
+					outlineColor: '#0000FF',
 					solid: true,
 					shape: 'es'
 			};
