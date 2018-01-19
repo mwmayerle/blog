@@ -35,7 +35,7 @@ function generateCompleteColumn() {
 };
 
 function generateNextPieceCoords() {
-	nextPieceYCoords = completeColumn[2];
+	nextPieceYCoords = completeColumn[1] / 2;
 	nextPieceXCoords = completeRow[1] / 2;
 };
 

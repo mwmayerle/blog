@@ -144,6 +144,7 @@ Game.prototype.redrawTetrominos = function() {
 };
 
 Game.prototype.drawNextTetromino = function() {
+	var nextPieceXCoords = boardIncrement / 2;
 	var pieceContext = getNextPieceContext();
 	var that = this.nextShape;
 	if (this.nextShape.shape === 'stick' || this.nextShape.shape === 'cube') {

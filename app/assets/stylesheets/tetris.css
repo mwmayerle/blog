@@ -4,18 +4,56 @@ h1 {
 
 #tetris_stats_div {
 	display: inline-block;
-  margin: auto;
-  padding: 10px;
+  padding: 5px;
 }
 
 #tetris_div {
   display: inline-block;
-  margin: auto;
-  padding: 10px;
+  padding-right: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  background-color: black;
 }
 
 #piece_div {
 	display: inline-block;
+  vertical-align: top;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#next_black {
+  background-color: black;
+  height: 40px;
+}
+
+#next_black p {
+  padding-top: 10px;
+  font-size: 28px;
+  text-align: center;
+  color: white;
+}
+
+#score_div {
+  display: inline-block;
+  vertical-align: top;
   margin: auto;
-  padding: 10px;
+  padding: 5px;
+  background-color: black;
+}
+
+#score_div p {
+  font-size: 28px;
+  text-indent: 0;
+  color: white;
+}
+
+#tetris_stats_div {
+  background-color: black;
+}
+
+#stats_text p {
+  font-size: 28px;
+  text-align: center;
+  color: white;
 }
