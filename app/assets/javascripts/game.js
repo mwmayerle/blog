@@ -9,6 +9,14 @@ var Game = function() {
 	this.previousShape = {};
 };
 
+Game.prototype.updateLineCount = function() {
+	this.lines = parseInt(this.lines) + 1;
+	if (this.lines < 10) {
+		this.lines = "0".concat(this.lines);
+	}
+	$("#lines_div p").text("LINES-".concat(this.lines));
+};
+
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
 	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
 		return rowYCoords === occupiedPosition[0][1] - multiplier;
@@ -20,6 +28,7 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 	var that = this;
 	Object.keys(possibleRows).forEach(function(key) {
 		if (possibleRows[key].length === 10) {
+			that.updateLineCount();
 			that.deleteRow(rowYCoords);
 			that.deletedRows.push(rowYCoords);
 		}
@@ -166,14 +175,3 @@ Game.prototype.drawNextTetromino = function() {
 		}
 	});
 };
-
-// Game.prototype.blackoutNextPieceBackground = function() {
-// 	console.log(this.nextShape)
-// 	var pieceContext = getNextPieceContext();
-// 	this.nextShape.cubePositions.forEach(function(position) {
-// 		console.log(position[0])
-// 		pieceContext.clearRect(position[0], position[1], boardIncrement, boardIncrement);
-// 		pieceContext.fillStyle = 'black';
-// 		pieceContext.fillRect(position[0], position[1], boardIncrement, boardIncrement);
-// 	});
-// };
