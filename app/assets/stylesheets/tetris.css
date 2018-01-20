@@ -94,13 +94,10 @@
   vertical-align: center !important;
   height: 35px;
   width: 100px;
-  border: 1px solid red;
   margin-right: 35px;
   float: right;
 }
 
 .stats_board {
-  display: block;
   height: 70px;
-  border: 1px solid pink;
 }
