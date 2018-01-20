@@ -8,22 +8,12 @@ var Tetromino = function(attributes) {
 	this.rotations = 1;
 };
 
-Tetromino.prototype.redrawBackground = function() {
-	var context = getContext("tetris");
-	this.cubePositions.forEach(function(position) {
-		context.clearRect(position[0], position[1], boardIncrement, boardIncrement);
-		context.fillStyle = 'black';
-		context.fillRect(position[0], position[1], boardIncrement, boardIncrement);
-	});
-};
-
 Tetromino.prototype.autoMove = function() {
 	var that = this;
 	currentInterval = setInterval(function() {
 		if (!that.allowedDown()) {
-			that.redrawBackground();
+			redrawBackground(that, that.cubePositions);
 			that.moveDown();
-			// that.drawTetromino();
 			drawTetromino(that, that.cubePositions);
 		} else {
 			clearInterval(currentInterval);
@@ -41,15 +31,15 @@ Tetromino.prototype.deadTetromino = function() {
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
 			setTimeout(function() {
-				currentGame.blackoutBackground();
+				redrawBackground(currentGame, currentGame.occupiedPositions);
 				currentGame.slideDownAfterRowDeleted();
-				currentGame.redrawTetrominos();
+				drawTetromino(currentGame, currentGame.occupiedPositions);
 				currentGame.deletedPositions = [];
 				currentTetromino.addNewTetromino();
 			}, (rowClearAnimationTime * 5) + 1);
 	} else {
-		currentGame.blackoutBackground();
-		currentGame.redrawTetrominos();
+		redrawBackground(currentGame, currentGame.occupiedPositions);
+		drawTetromino(currentGame, currentGame.occupiedPositions);
 		this.addNewTetromino();
 	}
 };
@@ -70,7 +60,7 @@ Tetromino.prototype.addNewTetromino = function() {
 Tetromino.prototype.getKeyboardInput = function() {
 	var that = this;
 	document.addEventListener("keydown", function(event) {
-		that.redrawBackground();
+		redrawBackground(that, that.cubePositions);
 		switch (event.keyCode) {
 			case 65: // A
 				that.moveLeft();
