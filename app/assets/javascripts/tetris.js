@@ -18,7 +18,7 @@ var nextPieceXCoords = 0;
 var nextPieceYCoords = 0;
 
 const boardIncrement = boardWidth / 10;
-const shapes = ["jay", "el", "cube", "stick", "zed", "cross", "es"];
+const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
 
 function generateCompleteRow() {
@@ -49,7 +49,6 @@ function drawInitialSetup() {
 };
 
 var startGame = function() {
-	debugger
 	currentGame = new Game();
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;

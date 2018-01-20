@@ -10,7 +10,7 @@ var Game = function() {
 };
 
 Game.prototype.addToTetrominoStatistics = function(shape) {
-	console.log(shape);
+
 };
 
 Game.prototype.updateLineStats = function() {
