@@ -2,7 +2,6 @@ const boardWidth = 350; // make sure these two match the hardcoded values in the
 const boardHeight = 700;
 
 var getContext = function(context) {
-	console.log(context)
 	var tetrisCanvas = document.getElementById(context);
 	var context = tetrisCanvas.getContext("2d");
 	return context;
