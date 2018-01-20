@@ -17,33 +17,14 @@ Tetromino.prototype.redrawBackground = function() {
 	});
 };
 
-Tetromino.prototype.drawTetromino = function() {
-	var context = getContext("tetris");
-	var that = this;
-	this.cubePositions.forEach(function(position) {
-		context.fillStyle = that.outlineColor;
-		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
-
-		context.fillStyle = that.color;
-		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
-
-		context.fillStyle = 'white';
-		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
-
-		if (that.solid) { // makes the shine on solid tetrominos
-			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
-			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
-		}
-	});
-};
-
 Tetromino.prototype.autoMove = function() {
 	var that = this;
 	currentInterval = setInterval(function() {
 		if (!that.allowedDown()) {
 			that.redrawBackground();
 			that.moveDown();
-			that.drawTetromino();
+			// that.drawTetromino();
+			drawTetromino(that, that.cubePositions);
 		} else {
 			clearInterval(currentInterval);
 			that.deadTetromino();
@@ -107,7 +88,7 @@ Tetromino.prototype.getKeyboardInput = function() {
 					that.rotateTetromino();
 				}
 			}
-		that.drawTetromino();
+		drawTetromino(that, that.cubePositions);
 	});
 };
 

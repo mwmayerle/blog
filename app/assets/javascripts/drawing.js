@@ -1,34 +1,16 @@
 const boardWidth = 350; // make sure these two match the hardcoded values in the canvas tag view file!
 const boardHeight = 700;
 
-var getContext = function(element) {
-	var tetrisCanvas = document.getElementById(element);
+var getContext = function(context) {
+	var tetrisCanvas = document.getElementById(context);
 	var context = tetrisCanvas.getContext("2d");
 	return context;
 };
 
 var drawBackground = function(context, dimensions) {
-	var context = getContext("tetris");
+	var context = getContext(context);
 	context.fillStyle = "black";
-	context.fillRect();
-};
-
-var drawNextPieceBackground = function() {
-	var nextPieceContext = getContext("next_piece");
-	nextPieceContext.fillStyle = "black";
-	nextPieceContext.fillRect(0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3);
-};
-
-var drawScoreBackground = function() {
-	var scoreContext = getContext("score");
-	scoreContext.fillStyle = "black";
-	scoreContext.fillRect(0, 0, boardWidth * 0.6, boardHeight * 0.75);
-};
-
-var drawStatsBackground = function() {
-	var statsContext = getContext("stats");
-	statsContext.fillStyle = "black";
-	statsContext.fillRect(0, 0, boardWidth / 5, boardHeight / 5); //these are larger than the box, fix this
+	context.fillRect(dimensions[0], dimensions[1], dimensions[2], dimensions[3]);
 };
 
 var drawStatsPieces = function() {
@@ -36,19 +18,20 @@ var drawStatsPieces = function() {
 	var shape = selectShape(shapes[0]);
 }
 
+var drawTetromino = function(object, tetrominoPositions) {
+	var context = getContext("tetris");
+	tetrominoPositions.forEach(function(position) {
+		context.fillStyle = object.outlineColor;
+		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
+		context.fillStyle = object.color;
+		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
 
-// this.cubePositions.forEach(function(position) {
-// 	context.fillStyle = that.outlineColor;
-// 	context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
+		context.fillStyle = 'white'; // sparkle in top left corner
+		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10);
 
-// 	context.fillStyle = that.color;
-// 	context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
-
-// 	context.fillStyle = 'white';
-// 	context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
-
-// 	if (that.solid) { // makes the shine on solid tetrominos
-// 		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
-// 		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
-// 	}
-// });
+		if (object.solid) { // makes the shine on solid tetrominos
+			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
+			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
+		}
+	});
+};
