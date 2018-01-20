@@ -10,8 +10,11 @@ var Game = function() {
 };
 
 Game.prototype.updateLineCount = function() {
-	this.lines += 1;
-	console.log(this);
+	this.lines = parseInt(this.lines) + 1;
+	if (this.lines < 10) {
+		this.lines = "0".concat(this.lines);
+	}
+	$("#lines_div p").text("LINES-".concat(this.lines));
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
