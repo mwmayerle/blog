@@ -129,33 +129,6 @@ Game.prototype.moveDownEverything = function(yCoord) {
 	});
 }
 
-Game.prototype.blackoutBackground = function() {
-	var context = getContext("tetris");
-	this.occupiedPositions.forEach(function(position) {
-		context.clearRect(position[0][0], position[0][1], boardIncrement, boardIncrement);
-		context.fillStyle = 'black';
-		context.fillRect(position[0][0], position[0][1], boardIncrement, boardIncrement);
-	});
-};
-
-Game.prototype.redrawTetrominos = function() {
-	var context = getContext("tetris");
-	this.occupiedPositions.forEach(function(position) {
-		context.fillStyle = position[2];
-		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
-
-		context.fillStyle = position[1];
-		context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
-
-		context.fillStyle = 'white';
-		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
-		if (position[3] === true) { // makes the shine on solid tetrominos
-			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
-			context.fillRect(position[0][0] + boardIncrement / 5, position[0][1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
-		}
-	});
-};
-
 Game.prototype.drawNextTetromino = function() {
 	var nextPieceXCoords = boardIncrement / 2;
 	var pieceContext = getContext("next_piece");
