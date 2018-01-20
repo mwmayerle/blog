@@ -49,6 +49,7 @@ function drawInitialSetup() {
 };
 
 var startGame = function() {
+	debugger
 	currentGame = new Game();
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;

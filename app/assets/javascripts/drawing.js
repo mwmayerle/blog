@@ -1,50 +1,36 @@
 const boardWidth = 350; // make sure these two match the hardcoded values in the canvas tag view file!
 const boardHeight = 700;
 
-var getContext = function() {
-	var tetrisCanvas = document.getElementById("tetris");
+var getContext = function(element) {
+	var tetrisCanvas = document.getElementById(element);
 	var context = tetrisCanvas.getContext("2d");
 	return context;
 };
 
 var drawBackground = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	context.fillStyle = "black";
 	context.fillRect(0, 0, boardWidth, boardHeight);
 };
 
-var getNextPieceContext = function() {
-	var nextPieceCanvas = document.getElementById("next_piece");
-	var nextPieceContext = nextPieceCanvas.getContext("2d");
-	return nextPieceContext;
-};
-
 var drawNextPieceBackground = function() {
-	var nextPieceContext = getNextPieceContext();
+	var nextPieceContext = getContext("next_piece");
 	nextPieceContext.fillStyle = "black";
 	nextPieceContext.fillRect(0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3);
 };
 
-var getScoreContext = function() {
-	var scoreCanvas = document.getElementById("score");
-	var scoreContext = scoreCanvas.getContext("2d");
-	return scoreContext;
-};
-
 var drawScoreBackground = function() {
-	var scoreContext = getScoreContext();
+	var scoreContext = getContext("score");
 	scoreContext.fillStyle = "black";
 	scoreContext.fillRect(0, 0, boardWidth * 0.6, boardHeight * 0.75);
 };
 
-var getStatsContext = function() {
-	var statsCanvas = document.getElementById("stats");
-	var statsContext = statsCanvas.getContext("2d");
-	return statsContext;
-};
-
 var drawStatsBackground = function() {
-	var statsContext = getStatsContext();
+	var statsContext = getContext("stats");
 	statsContext.fillStyle = "black";
 	statsContext.fillRect(0, 0, boardWidth / 5, boardHeight / 5); //these are larger than the box, fix this
 };
+
+var drawStatsPieces = function() {
+	var statsContext = getContext("stats");
+}
