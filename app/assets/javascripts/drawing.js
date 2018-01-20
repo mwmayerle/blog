@@ -13,18 +13,6 @@ var drawBackground = function() {
 	context.fillRect(0, 0, boardWidth, boardHeight);
 };
 
-var getStatsContext = function() {
-	var statsCanvas = document.getElementById("stats");
-	var statsContext = statsCanvas.getContext("2d");
-	return statsContext;
-};
-
-var drawStatsBackground = function() {
-	var statsContext = getStatsContext();
-	statsContext.fillStyle = "black";
-	statsContext.fillRect(0, 0, boardWidth, boardHeight); //these are larger than the box, fix this
-};
-
 var getNextPieceContext = function() {
 	var nextPieceCanvas = document.getElementById("next_piece");
 	var nextPieceContext = nextPieceCanvas.getContext("2d");
@@ -47,4 +35,16 @@ var drawScoreBackground = function() {
 	var scoreContext = getScoreContext();
 	scoreContext.fillStyle = "black";
 	scoreContext.fillRect(0, 0, boardWidth * 0.6, boardHeight * 0.75);
+};
+
+var getStatsContext = function() {
+	var statsCanvas = document.getElementById("stats");
+	var statsContext = statsCanvas.getContext("2d");
+	return statsContext;
+};
+
+var drawStatsBackground = function() {
+	var statsContext = getStatsContext();
+	statsContext.fillStyle = "black";
+	statsContext.fillRect(0, 0, boardWidth / 5, boardHeight / 5); //these are larger than the box, fix this
 };
