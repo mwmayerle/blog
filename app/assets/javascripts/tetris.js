@@ -44,8 +44,8 @@ function drawInitialSetup() {
 	generateCompleteColumn();
 	generateNextPieceCoords();
 	drawBackground("tetris",[0, 0, boardWidth, boardHeight]);
-	drawBackground("stats", [0, 0, boardWidth / 5, boardHeight / 5]);
 	drawBackground("next_piece", [0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3]);
+	drawStatsPieces();
 };
 
 var startGame = function() {
@@ -53,7 +53,7 @@ var startGame = function() {
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
-	currentGame.drawNextTetromino();
+	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	currentTetromino = getNewTetromino();
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 	currentTetromino.autoMove();
@@ -64,7 +64,7 @@ var spawnTetromino = function() {
 	var newTetromino = currentGame.nextShape;
 	drawBackground("next_piece", [0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3]);
 	currentGame.nextShape = getNewTetromino();
-	currentGame.drawNextTetromino();
+	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	drawTetromino(newTetromino, newTetromino.cubePositions);
 	return newTetromino;
 };

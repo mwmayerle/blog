@@ -26,7 +26,7 @@ Game.prototype.amountInRows = function(rowYCoords, multiplier) {
 		return rowYCoords === occupiedPosition[0][1] - multiplier;
 	});
 	return rowAmount;
-}
+};
 
 Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
 	var that = this;
@@ -37,7 +37,7 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 			that.deletedRows.push(rowYCoords);
 		}
 	});
-}
+};
 
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
@@ -119,36 +119,12 @@ Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 		}
 	});
 	return indiciesToDelete;
-}
+};
 
 Game.prototype.moveDownEverything = function(yCoord) {
 	this.occupiedPositions.forEach(function(position) {
 		if (position[0][1] <= yCoord) {
 			position[0][1] += boardIncrement;
-		}
-	});
-}
-
-Game.prototype.drawNextTetromino = function() {
-	var nextPieceXCoords = boardIncrement / 2;
-	var pieceContext = getContext("next_piece");
-	var that = this.nextShape;
-	if (this.nextShape.shape === 'stick' || this.nextShape.shape === 'cube') {
-		nextPieceXCoords = boardIncrement;
-	}
-	this.nextShape.cubePositions.forEach(function(position) {
-		pieceContext.fillStyle = that.outlineColor;
-		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 1.1111, boardIncrement / 1.1111);
-
-		pieceContext.fillStyle = that.color; // sparkle in top left corner
-		pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 1.4286, boardIncrement / 1.4286);
-
-		pieceContext.fillStyle = 'white';
-		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10); 
-
-		if (that.solid) { // makes the shine on solid tetrominos
-			pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 5, boardIncrement / 10);
-			pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 3.3333 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
 };
