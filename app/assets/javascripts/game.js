@@ -9,7 +9,11 @@ var Game = function() {
 	this.previousShape = {};
 };
 
-Game.prototype.updateLineCount = function() {
+Game.prototype.addToTetrominoStatistics = function(shape) {
+
+};
+
+Game.prototype.updateLineStats = function() {
 	this.lines = parseInt(this.lines) + 1;
 	if (this.lines < 10) {
 		this.lines = "0".concat(this.lines);
@@ -28,7 +32,7 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 	var that = this;
 	Object.keys(possibleRows).forEach(function(key) {
 		if (possibleRows[key].length === 10) {
-			that.updateLineCount();
+			that.updateLineStats();
 			that.deleteRow(rowYCoords);
 			that.deletedRows.push(rowYCoords);
 		}
@@ -65,7 +69,7 @@ Game.prototype.slideDownAfterRowDeleted = function() {
 };
 
 Game.prototype.deleteRowAnimation = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	var xCoordRight = completeRow[5];
 	var xCoordLeft = completeRow[4];
 
@@ -79,7 +83,7 @@ Game.prototype.deleteRowAnimation = function() {
 };
 
 Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
-	var context = getContext();
+	var context = getContext("tetris");
 	var coordsToVanish = currentGame.deletedPositions.filter(function(position) {
 			return position[0] === xCoordRight || position[0] === xCoordLeft
 		});
@@ -126,7 +130,7 @@ Game.prototype.moveDownEverything = function(yCoord) {
 }
 
 Game.prototype.blackoutBackground = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	this.occupiedPositions.forEach(function(position) {
 		context.clearRect(position[0][0], position[0][1], boardIncrement, boardIncrement);
 		context.fillStyle = 'black';
@@ -135,7 +139,7 @@ Game.prototype.blackoutBackground = function() {
 };
 
 Game.prototype.redrawTetrominos = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	this.occupiedPositions.forEach(function(position) {
 		context.fillStyle = position[2];
 		context.fillRect(position[0][0] + boardIncrement / 10, position[0][1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
@@ -154,7 +158,7 @@ Game.prototype.redrawTetrominos = function() {
 
 Game.prototype.drawNextTetromino = function() {
 	var nextPieceXCoords = boardIncrement / 2;
-	var pieceContext = getNextPieceContext();
+	var pieceContext = getContext("next_piece");
 	var that = this.nextShape;
 	if (this.nextShape.shape === 'stick' || this.nextShape.shape === 'cube') {
 		nextPieceXCoords = boardIncrement;
@@ -163,11 +167,11 @@ Game.prototype.drawNextTetromino = function() {
 		pieceContext.fillStyle = that.outlineColor;
 		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 1.1111, boardIncrement / 1.1111);
 
-		pieceContext.fillStyle = that.color;
+		pieceContext.fillStyle = that.color; // sparkle in top left corner
 		pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 1.4286, boardIncrement / 1.4286);
 
 		pieceContext.fillStyle = 'white';
-		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10); // sparkle in top left corner
+		pieceContext.fillRect(position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 10 + nextPieceYCoords, boardIncrement / 10, boardIncrement / 10); 
 
 		if (that.solid) { // makes the shine on solid tetrominos
 			pieceContext.fillRect(position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords, position[1] + boardIncrement / 5 + nextPieceYCoords, boardIncrement / 5, boardIncrement / 10);

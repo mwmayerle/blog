@@ -2,13 +2,14 @@ var Tetromino = function(attributes) {
 	this.shape = attributes.shape;
 	this.cubePositions = attributes.cubePositions;
 	this.color = attributes.color;
+	this.otherColor = attributes.otherColor 
 	this.outlineColor = attributes.outlineColor;
 	this.solid = attributes.solid;
 	this.rotations = 1;
 };
 
 Tetromino.prototype.redrawBackground = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	this.cubePositions.forEach(function(position) {
 		context.clearRect(position[0], position[1], boardIncrement, boardIncrement);
 		context.fillStyle = 'black';
@@ -17,7 +18,7 @@ Tetromino.prototype.redrawBackground = function() {
 };
 
 Tetromino.prototype.drawTetromino = function() {
-	var context = getContext();
+	var context = getContext("tetris");
 	var that = this;
 	this.cubePositions.forEach(function(position) {
 		context.fillStyle = that.outlineColor;
@@ -55,6 +56,7 @@ Tetromino.prototype.deadTetromino = function() {
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
 	});
+	currentGame.addToTetrominoStatistics(this.shape);
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
 			setTimeout(function() {
