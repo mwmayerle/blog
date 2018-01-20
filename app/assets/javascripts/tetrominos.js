@@ -57,7 +57,7 @@ Tetromino.prototype.addNewTetromino = function() {
 };
 
 Tetromino.prototype.getKeyboardInput = function() {
-	var that = this;
+	var that = this; //keyup will work for the listener, but bad user experience
 	document.addEventListener("keydown", function(event) {
 		redrawBackground(that, that.cubePositions);
 		switch (event.keyCode) {

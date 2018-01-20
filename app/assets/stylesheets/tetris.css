@@ -92,12 +92,14 @@
 #tetromino_stat0, #tetromino_stat1, #tetromino_stat2, #tetromino_stat3, #tetromino_stat4, #tetromino_stat5, #tetromino_stat6 {
   text-align: center !important;
   vertical-align: center !important;
-  height: 35px;
+  height: 70px;
   width: 100px;
   margin-right: 35px;
   float: right;
+  border: 1px solid green;
 }
 
 .stats_board {
   height: 70px;
+  border: 1px solid pink;
 }

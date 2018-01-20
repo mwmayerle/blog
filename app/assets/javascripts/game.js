@@ -14,12 +14,11 @@ Game.prototype.addToTetrominoStatistics = function(shape) {
 	var $stat = $("#tetromino_stat".concat(statsUpdateIndex));
 	var newAmount = parseInt($stat.text()) + 1;
 	if (newAmount < 10) {
-		$("#tetromino_stat".concat(statsUpdateIndex)).text("00".concat(newAmount));
+		newAmount = "00".concat(newAmount);
 	} else if (newAmount < 99) {
-		$("#tetromino_stat".concat(statsUpdateIndex)).text("0".concat(newAmount));
-	} else {
-		$("#tetromino_stat".concat(statsUpdateIndex)).text(newAmount);
+		newAmount = "0".concat(newAmount);
 	}
+	$("#tetromino_stat".concat(statsUpdateIndex)).html("<p>" + newAmount + "</p>");
 };
 
 Game.prototype.updateLineStats = function() {
