@@ -1,23 +1,19 @@
 var Game = function() {
+	debugger;
 	this.occupiedPositions = [];
 	this.deletedPositions = [];
 	this.deletedRows = [];
 	this.score = 0;
-	this.lines = 0;
+	this.lines = 9;
 	this.level = 0;
 	this.nextShape = {};
 	this.previousShape = {};
 };
-/*  Speed is determined based on the information in this link:
-	http://tetris.wikia.com/wiki/Tetris_(NES,_Nintendo)
-  1440ms / 30fps = 48
-  1290 / 30fps = 43
-  ...etc
-*/
+
 Game.prototype.determineSpeed = function() {
-	var levelSpeed = 1440;
+	var levelSpeed = 1200;
 	if (this.level <= 8) {
-		levelSpeed -= currentGame.level * 150;
+		levelSpeed -= currentGame.level * 125;
 	} else if (this.level === 9) {
 		levelSpeed = 180; 					// seriously is there not a JS-equivalent of a range so I can avoid this if/else garbage?
 	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
@@ -54,7 +50,6 @@ Game.prototype.updateLevel = function() {
 };
 
 Game.prototype.updateLineStats = function() {
-	debugger;
 	this.lines = parseInt(this.lines) + 1;
 	if (this.lines < 10) {
 		this.lines = "0".concat(this.lines);
@@ -66,13 +61,22 @@ Game.prototype.updateLineStats = function() {
 	}
 };
 
+Game.prototype.changeNextShapeColors = function() {
+	if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
+	} else if (this.nextShape.shape === 'jay' || this.nextShape.shape === 'es') {
+		this.nextShape.color = solidColors[currentGame.level % 10];
+		this.nextShape.outlineColor = solidColors[currentGame.level % 10];
+	} else {
+		this.nextShape.color = outlineColors[currentGame.level % 10];
+		this.nextShape.outlineColor = outlineColors[currentGame.level % 10];
+	}
+};
+
 Game.prototype.changeColors = function() {
-	currentGame.nextShape.color = solidColors[this.level];
-	currentGame.nextShape.outlineColor = outlineColors[this.level];
+	this.changeNextShapeColors();
 	drawStatsPieces();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
-	// redrawBackground(currentGame, currentGame.occupiedPositions);
-	// redrawBackground(currentTetromino, currentTetromino.cubePositions);
 	drawTetromino(currentGame, currentGame.occupiedPositions);
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 };

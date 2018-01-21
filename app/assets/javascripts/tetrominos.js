@@ -10,7 +10,7 @@ var Tetromino = function(attributes) {
 Tetromino.prototype.autoMove = function() {
 	var that = this;
 	currentInterval = setInterval(function() {
-		if (!that.allowedDown()) {
+		if (!that.notAllowedDown()) {
 			redrawBackground(that, that.cubePositions);
 			that.moveDown();
 			drawTetromino(that, that.cubePositions);
@@ -47,7 +47,7 @@ Tetromino.prototype.addNewTetromino = function() {
 	clearInterval(currentInterval);
 	this.cubePositions = [[maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal]];
 	currentTetromino = spawnTetromino();
-	if (!currentTetromino.allowedDown()) {
+	if (!currentTetromino.notAllowedDown()) {
 		currentTetromino.autoMove();
 		currentTetromino.getKeyboardInput();
 	} else {
@@ -64,7 +64,7 @@ Tetromino.prototype.getKeyboardInput = function() {
 				that.moveLeft();
 				break;
 			case 83: // S
-				if (!that.allowedDown()) {
+				if (!that.notAllowedDown()) {
 					that.moveDown();
 				}
 				break;
@@ -72,7 +72,7 @@ Tetromino.prototype.getKeyboardInput = function() {
 				that.moveRight();
 				break;
 			default:
-				if (!that.allowedDown()) {
+				if (!that.notAllowedDown()) {
 					that.rotateTetromino();
 				}
 			}
@@ -80,7 +80,7 @@ Tetromino.prototype.getKeyboardInput = function() {
 	});
 };
 
-Tetromino.prototype.allowedDown = function() {
+Tetromino.prototype.notAllowedDown = function() {
 	var pieceThereDown = 0;
 	this.cubePositions.forEach(function(cubePosition) {
 		if (cubePosition[1] > completeColumn[18]) {
