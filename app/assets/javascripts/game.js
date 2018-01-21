@@ -8,6 +8,29 @@ var Game = function() {
 	this.nextShape = {};
 	this.previousShape = {};
 };
+/*  Speed is determined based on the information in this link:
+	http://tetris.wikia.com/wiki/Tetris_(NES,_Nintendo)
+  1440ms / 30fps = 48
+  1290 / 30fps = 43
+  ...etc
+*/
+Game.prototype.determineSpeed = function() {
+	var levelSpeed = 1440;
+	if (this.level <= 8) {
+		levelSpeed -= currentGame.level * 150;
+	} else if (this.level === 9) {
+		levelSpeed = 180; //seriously is there no JS-equivalent of a range?
+	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
+		levelSpeed = 150;
+	} else if (this.level === 13 || this.level === 14 || this.level === 15) {
+		levelSpeed = 120;
+	} else if (this.level === 16 || this.level === 17 || this.level === 18) {
+		levelSpeed = 90;
+	} else {
+		levelSpeed = 60;
+	}
+	return levelSpeed;
+};
 
 Game.prototype.addToTetrominoStatistics = function(shape) {
 	var statsUpdateIndex = shapes.indexOf(currentTetromino.shape);
@@ -21,12 +44,24 @@ Game.prototype.addToTetrominoStatistics = function(shape) {
 	$("#tetromino_stat".concat(statsUpdateIndex)).html("<p>" + newAmount + "</p>");
 };
 
+Game.prototype.updateLevel = function() {
+	this.level += 1;
+	if (this.level <= 9) {
+		$("#level_div").html("<p>LEVEL</p>" + "<p>" + "0".concat(this.level) + "</p>");
+	} else {
+		$("#level_div").html("<p>LEVEL</p>" + "<p>" + this.level + "</p>");
+	}
+};
+
 Game.prototype.updateLineStats = function() {
 	this.lines = parseInt(this.lines) + 1;
 	if (this.lines < 10) {
 		this.lines = "0".concat(this.lines);
 	}
 	$("#lines_div p").text("LINES-".concat(this.lines));
+	if (this.lines % 10 === 0) {
+		this.updateLevel();
+	}
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {

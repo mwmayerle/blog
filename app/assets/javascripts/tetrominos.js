@@ -19,7 +19,7 @@ Tetromino.prototype.autoMove = function() {
 			clearInterval(currentInterval);
 			that.deadTetromino();
 		}
-	}, (rowClearAnimationTime * 5) + 1);
+	}, currentGame.determineSpeed());
 };
 
 Tetromino.prototype.deadTetromino = function() {
