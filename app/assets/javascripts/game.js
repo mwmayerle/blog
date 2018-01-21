@@ -1,5 +1,4 @@
 var Game = function() {
-	debugger;
 	this.occupiedPositions = [];
 	this.deletedPositions = [];
 	this.deletedRows = [];
@@ -57,28 +56,42 @@ Game.prototype.updateLineStats = function() {
 	$("#lines_div p").text("LINES-".concat(this.lines));
 	if (this.lines % 10 === 0) {
 		this.updateLevel();
-		this.changeColors();
+		this.updateNextShapeColors(); // not in changeColors function b/c the new piece will not be updated in time
 	}
 };
 
-Game.prototype.changeNextShapeColors = function() {
+Game.prototype.updateNextShapeColors = function() {
 	if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
 		this.nextShape.outlineColor = outlineColors[this.level % 10];
 	} else if (this.nextShape.shape === 'jay' || this.nextShape.shape === 'es') {
-		this.nextShape.color = solidColors[currentGame.level % 10];
-		this.nextShape.outlineColor = solidColors[currentGame.level % 10];
+		this.nextShape.color = solidColors[this.level % 10];
+		this.nextShape.outlineColor = solidColors[this.level % 10];
 	} else {
-		this.nextShape.color = outlineColors[currentGame.level % 10];
-		this.nextShape.outlineColor = outlineColors[currentGame.level % 10];
+		this.nextShape.color = outlineColors[this.level % 10];
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
 	}
 };
 
+Game.prototype.updateOccupiedPositionColors = function() {
+	this.occupiedPositions.forEach(function(occupiedPosition) {
+		if (occupiedPosition[4] === 'cube' || occupiedPosition[4] === 'stick' || occupiedPosition[4] === 'cross') {
+			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+		} else if (occupiedPosition[4] === 'jay' || occupiedPosition[4] === 'es') {
+			occupiedPosition[1] = solidColors[currentGame.level % 10];
+			occupiedPosition[2] = solidColors[currentGame.level % 10];
+		} else {
+			occupiedPosition[1] = outlineColors[currentGame.level % 10];
+			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+		}
+	});
+}
+
 Game.prototype.changeColors = function() {
-	this.changeNextShapeColors();
+	this.updateOccupiedPositionColors();
 	drawStatsPieces();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
+	redrawBackground(currentGame, currentGame.occupiedPositions);
 	drawTetromino(currentGame, currentGame.occupiedPositions);
-	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {

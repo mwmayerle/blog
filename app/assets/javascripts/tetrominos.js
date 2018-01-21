@@ -24,7 +24,7 @@ Tetromino.prototype.autoMove = function() {
 Tetromino.prototype.deadTetromino = function() {
 	currentGame.previousShape = this.shape;
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
-		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid]);
+		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid, currentTetromino.shape]);
 	});
 	currentGame.addToTetrominoStatistics(this.shape);
 	if (currentGame.checkForCompleteRow()) {
@@ -35,6 +35,7 @@ Tetromino.prototype.deadTetromino = function() {
 				drawTetromino(currentGame, currentGame.occupiedPositions);
 				currentGame.deletedPositions = [];
 				currentTetromino.addNewTetromino();
+				currentGame.changeColors();
 			}, (rowClearAnimationTime * 5) + 1);
 	} else {
 		redrawBackground(currentGame, currentGame.occupiedPositions);
