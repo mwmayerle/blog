@@ -3,7 +3,7 @@ var Game = function() {
 	this.deletedPositions = [];
 	this.deletedRows = [];
 	this.score = 0;
-	this.lines = 9;
+	this.lines = 0;
 	this.level = 0;
 	this.nextShape = {};
 	this.previousShape = {};
@@ -14,12 +14,12 @@ Game.prototype.determineSpeed = function() {
 	if (this.level <= 8) {
 		levelSpeed -= currentGame.level * 125;
 	} else if (this.level === 9) {
-		levelSpeed = 180; 					// seriously is there not a JS-equivalent of a range so I can avoid this if/else garbage?
-	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
+		levelSpeed = 180;
+	} else if (this.level >= 10 && this.level <= 12) {
 		levelSpeed = 150;
-	} else if (this.level === 13 || this.level === 14 || this.level === 15) {
+	} else if (this.level >= 13 && this.level <= 15) {
 		levelSpeed = 120;
-	} else if (this.level === 16 || this.level === 17 || this.level === 18) {
+	} else if (this.level >= 16 && this.level <= 18) {
 		levelSpeed = 90;
 	} else {
 		levelSpeed = 60;
@@ -112,6 +112,33 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 	});
 };
 
+Game.prototype.addToScore = function(possibleRows) {
+	switch (this.deletedRows.length) {
+		case 1:
+			this.score += 40 * (this.level + 1);
+			break;
+		case 2:
+			this.score += 100 * (this.level + 1);
+			break;
+		case 3:
+			this.score += 300 * (this.level + 1);
+			break;
+		case 4:
+			this.score += 1200 * (this.level + 1);
+			break;
+	}
+	this.updateScore();
+};
+
+Game.prototype.updateScore = function() {
+	var zeros = "SCORE ";
+	var zerosToConcat = 6 - this.score.toString().length;
+	for (var i = 0; i < zerosToConcat; i++) {
+		zeros = zeros.concat("0");
+	}
+	$("#scores").children().last().html("<p>" + zeros.concat(this.score) + "</p>");
+}
+
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
 
@@ -125,6 +152,7 @@ Game.prototype.checkForCompleteRow = function() {
 		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
 	if (this.deletedRows.length > 0) {
+		this.addToScore();
 		playDeleteAnimation = true;
 	}
 	return playDeleteAnimation;

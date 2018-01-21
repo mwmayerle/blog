@@ -1,7 +1,6 @@
 /*
 	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
-
 window.onload = function() {
 	drawInitialSetup();
 	startGame();
@@ -17,8 +16,8 @@ var rowClearAnimationTime = 50;
 var nextPieceXCoords = 0;
 var nextPieceYCoords = 0;
 
-const solidColors = ['#58d854', '#DF5FDF', '#7c7c7c', '#9FDF00', '#a80020', '#1A72FF', '#fdc158', '#3FDF7F', '#F60000', '#fb9b13'];
-const outlineColors = ['#0058f8', '#BF00B3', '#f83800', '#00a800', '#4F2BE3', '#0025C5', '#f83800', '#E40058', '#0000FF', '#E40058'];
+const solidColors = ['#58d854', '#DF5FDF', '#9FDF00', '#7c7c7c', '#a80020', '#1A72FF', '#fdc158', '#3FDF7F', '#F60000', '#fb9b13'];
+const outlineColors = ['#0058f8', '#BF00B3', '#00a800', '#f83800', '#4F2BE3', '#0025C5', '#f83800', '#E40058', '#0000FF', '#E40058'];
 const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
