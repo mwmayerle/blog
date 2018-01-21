@@ -3,7 +3,7 @@ var Game = function() {
 	this.deletedPositions = [];
 	this.deletedRows = [];
 	this.score = 0;
-	this.lines = 9;
+	this.lines = 0;
 	this.level = 0;
 	this.nextShape = {};
 	this.previousShape = {};
@@ -112,6 +112,28 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 	});
 };
 
+Game.prototype.addToScore = function(possibleRows) {
+	switch (this.deletedRows.length) {
+		case 1:
+			this.score += 40 * (this.level + 1);
+			break;
+		case 2:
+			this.score += 100 * (this.level + 1);
+			break;
+		case 3:
+			this.score += 300 * (this.level + 1);
+			break;
+		case 4:
+			this.score += 1200 * (this.level + 1);
+			break;
+	}
+	this.updateScore();
+};
+
+Game.prototype.updateScore = function() {
+	$("#scores").children().last().html("<p>" + "SCORE ".concat(this.score) + "</p>");
+}
+
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
 
@@ -125,6 +147,7 @@ Game.prototype.checkForCompleteRow = function() {
 		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
 	if (this.deletedRows.length > 0) {
+		this.addToScore();
 		playDeleteAnimation = true;
 	}
 	return playDeleteAnimation;
