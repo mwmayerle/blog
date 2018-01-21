@@ -90,6 +90,7 @@
 }
 
 #tetromino_stat0, #tetromino_stat1, #tetromino_stat2, #tetromino_stat3, #tetromino_stat4, #tetromino_stat5, #tetromino_stat6 {
+  color: #e62e00 !important;
   text-align: center !important;
   vertical-align: center !important;
   height: 70px;
