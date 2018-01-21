@@ -131,7 +131,12 @@ Game.prototype.addToScore = function(possibleRows) {
 };
 
 Game.prototype.updateScore = function() {
-	$("#scores").children().last().html("<p>" + "SCORE ".concat(this.score) + "</p>");
+	var zeros = "SCORE ";
+	var zerosToConcat = 6 - this.score.toString().length;
+	for (var i = 0; i < zerosToConcat; i++) {
+		zeros = zeros.concat("0");
+	}
+	$("#scores").children().last().html("<p>" + zeros.concat(this.score) + "</p>");
 }
 
 Game.prototype.checkForCompleteRow = function() {
