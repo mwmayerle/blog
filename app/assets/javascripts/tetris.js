@@ -13,10 +13,12 @@ var currentGame = {};
 var completeRow = [];
 var completeColumn = [];
 var maxVal = 0;
-var rowClearAnimationTime = 60;
+var rowClearAnimationTime = 50;
 var nextPieceXCoords = 0;
 var nextPieceYCoords = 0;
 
+const solidColors = ['#58d854', '#DF5FDF', '#7c7c7c', '#9FDF00', '#a80020', '#1A72FF', '#fdc158', '#3FDF7F', '#F60000', '#fb9b13'];
+const outlineColors = ['#0058f8', '#BF00B3', '#f83800', '#00a800', '#4F2BE3', '#0025C5', '#f83800', '#E40058', '#0000FF', '#E40058'];
 const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
@@ -45,11 +47,11 @@ function drawInitialSetup() {
 	generateNextPieceCoords();
 	drawBackground("tetris",[0, 0, boardWidth, boardHeight]);
 	drawBackground("next_piece", [0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3]);
-	drawStatsPieces();
 };
 
 var startGame = function() {
 	currentGame = new Game();
+	drawStatsPieces();
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
@@ -73,6 +75,10 @@ var generateRandomShape = function() {
 	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
 };
 
+var generateRandomColorScheme = function() {
+	return solidColors[Math.floor(Math.random() * (solidColors.length))]
+}
+
 var getNewTetromino = function() {
 	choosenShape = generateRandomShape();
 	if (choosenShape === currentGame.previousShape) {
@@ -86,8 +92,8 @@ var selectShape = function(choosenShape) {
 		case "el":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[4], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: '#F60000',
-					outlineColor: '#F60000',
+					color: outlineColors[currentGame.level % 10],
+					outlineColor: outlineColors[currentGame.level % 10],
 					solid: true,
 					shape: 'el'
 			};
@@ -95,8 +101,8 @@ var selectShape = function(choosenShape) {
 		case "jay":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[6], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: '#0000FF',
-					outlineColor: '#0000FF',
+					color: solidColors[currentGame.level % 10],
+					outlineColor: solidColors[currentGame.level % 10],
 					solid: true,
 					shape: 'jay'
 			};
@@ -105,7 +111,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]]],
 					color: 'white',
-					outlineColor: '#0000FF',
+					outlineColor: outlineColors[currentGame.level % 10],
 					solid: false,
 					shape: 'cube'
 			};
@@ -114,7 +120,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[3], 0], [completeRow[4], 0], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
-					outlineColor: '#0000FF',
+					outlineColor: outlineColors[currentGame.level % 10],
 					solid: false,
 					shape: 'stick'
 			};
@@ -122,8 +128,8 @@ var selectShape = function(choosenShape) {
 		case "zed":
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], 0], [completeRow[5], completeRow[1]], [completeRow[6], completeRow[1]]],
-					color: '#F60000',
-					outlineColor: '#F60000',
+					color: outlineColors[currentGame.level % 10],
+					outlineColor: outlineColors[currentGame.level % 10],
 					solid: true,
 					shape: 'zed'
 			};
@@ -132,7 +138,7 @@ var selectShape = function(choosenShape) {
 			var attributes = {
 					cubePositions: [[completeRow[4], 0], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
 					color: 'white',
-					outlineColor: '#0000FF',
+					outlineColor: outlineColors[currentGame.level % 10],
 					solid: false,
 					shape: 'cross'
 			};
@@ -140,8 +146,8 @@ var selectShape = function(choosenShape) {
 		case "es":
 			var attributes = {
 					cubePositions: [[completeRow[4], completeRow[1]], [completeRow[5], completeRow[1]], [completeRow[5], 0], [completeRow[6], 0]],
-					color: '#0000FF',
-					outlineColor: '#0000FF',
+					color: solidColors[currentGame.level % 10],
+					outlineColor: solidColors[currentGame.level % 10],
 					solid: true,
 					shape: 'es'
 			};

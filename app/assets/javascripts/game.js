@@ -3,23 +3,18 @@ var Game = function() {
 	this.deletedPositions = [];
 	this.deletedRows = [];
 	this.score = 0;
-	this.lines = 0;
+	this.lines = 9;
 	this.level = 0;
 	this.nextShape = {};
 	this.previousShape = {};
 };
-/*  Speed is determined based on the information in this link:
-	http://tetris.wikia.com/wiki/Tetris_(NES,_Nintendo)
-  1440ms / 30fps = 48
-  1290 / 30fps = 43
-  ...etc
-*/
+
 Game.prototype.determineSpeed = function() {
-	var levelSpeed = 1440;
+	var levelSpeed = 1200;
 	if (this.level <= 8) {
-		levelSpeed -= currentGame.level * 150;
+		levelSpeed -= currentGame.level * 125;
 	} else if (this.level === 9) {
-		levelSpeed = 180; //seriously is there no JS-equivalent of a range?
+		levelSpeed = 180; 					// seriously is there not a JS-equivalent of a range so I can avoid this if/else garbage?
 	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
 		levelSpeed = 150;
 	} else if (this.level === 13 || this.level === 14 || this.level === 15) {
@@ -61,7 +56,42 @@ Game.prototype.updateLineStats = function() {
 	$("#lines_div p").text("LINES-".concat(this.lines));
 	if (this.lines % 10 === 0) {
 		this.updateLevel();
+		this.updateNextShapeColors(); // not in changeColors function b/c the new piece will not be updated in time
 	}
+};
+
+Game.prototype.updateNextShapeColors = function() {
+	if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
+	} else if (this.nextShape.shape === 'jay' || this.nextShape.shape === 'es') {
+		this.nextShape.color = solidColors[this.level % 10];
+		this.nextShape.outlineColor = solidColors[this.level % 10];
+	} else {
+		this.nextShape.color = outlineColors[this.level % 10];
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
+	}
+};
+
+Game.prototype.updateOccupiedPositionColors = function() {
+	this.occupiedPositions.forEach(function(occupiedPosition) {
+		if (occupiedPosition[4] === 'cube' || occupiedPosition[4] === 'stick' || occupiedPosition[4] === 'cross') {
+			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+		} else if (occupiedPosition[4] === 'jay' || occupiedPosition[4] === 'es') {
+			occupiedPosition[1] = solidColors[currentGame.level % 10];
+			occupiedPosition[2] = solidColors[currentGame.level % 10];
+		} else {
+			occupiedPosition[1] = outlineColors[currentGame.level % 10];
+			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+		}
+	});
+}
+
+Game.prototype.changeColors = function() {
+	this.updateOccupiedPositionColors();
+	drawStatsPieces();
+	drawNextTetromino("next_piece", currentGame.nextShape, 0);
+	redrawBackground(currentGame, currentGame.occupiedPositions);
+	drawTetromino(currentGame, currentGame.occupiedPositions);
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
