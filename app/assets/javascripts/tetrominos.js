@@ -2,7 +2,6 @@ var Tetromino = function(attributes) {
 	this.shape = attributes.shape;
 	this.cubePositions = attributes.cubePositions;
 	this.color = attributes.color;
-	this.otherColor = attributes.otherColor 
 	this.outlineColor = attributes.outlineColor;
 	this.solid = attributes.solid;
 	this.rotations = 1;

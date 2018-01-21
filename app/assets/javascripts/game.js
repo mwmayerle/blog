@@ -19,7 +19,7 @@ Game.prototype.determineSpeed = function() {
 	if (this.level <= 8) {
 		levelSpeed -= currentGame.level * 150;
 	} else if (this.level === 9) {
-		levelSpeed = 180; //seriously is there no JS-equivalent of a range?
+		levelSpeed = 180; 					// seriously is there not a JS-equivalent of a range so I can avoid this if/else garbage?
 	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
 		levelSpeed = 150;
 	} else if (this.level === 13 || this.level === 14 || this.level === 15) {
@@ -54,6 +54,7 @@ Game.prototype.updateLevel = function() {
 };
 
 Game.prototype.updateLineStats = function() {
+	debugger;
 	this.lines = parseInt(this.lines) + 1;
 	if (this.lines < 10) {
 		this.lines = "0".concat(this.lines);
@@ -61,7 +62,19 @@ Game.prototype.updateLineStats = function() {
 	$("#lines_div p").text("LINES-".concat(this.lines));
 	if (this.lines % 10 === 0) {
 		this.updateLevel();
+		this.changeColors();
 	}
+};
+
+Game.prototype.changeColors = function() {
+	currentGame.nextShape.color = solidColors[this.level];
+	currentGame.nextShape.outlineColor = outlineColors[this.level];
+	drawStatsPieces();
+	drawNextTetromino("next_piece", currentGame.nextShape, 0);
+	// redrawBackground(currentGame, currentGame.occupiedPositions);
+	// redrawBackground(currentTetromino, currentTetromino.cubePositions);
+	drawTetromino(currentGame, currentGame.occupiedPositions);
+	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
