@@ -14,12 +14,12 @@ Game.prototype.determineSpeed = function() {
 	if (this.level <= 8) {
 		levelSpeed -= currentGame.level * 125;
 	} else if (this.level === 9) {
-		levelSpeed = 180; 					// seriously is there not a JS-equivalent of a range so I can avoid this if/else garbage?
-	} else if (this.level === 10 || this.level === 11 || this.level === 12) {
+		levelSpeed = 180;
+	} else if (this.level >= 10 && this.level <= 12) {
 		levelSpeed = 150;
-	} else if (this.level === 13 || this.level === 14 || this.level === 15) {
+	} else if (this.level >= 13 && this.level <= 15) {
 		levelSpeed = 120;
-	} else if (this.level === 16 || this.level === 17 || this.level === 18) {
+	} else if (this.level >= 16 && this.level <= 18) {
 		levelSpeed = 90;
 	} else {
 		levelSpeed = 60;

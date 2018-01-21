@@ -57,11 +57,20 @@
 }
 
 #scores {
+  border: 1px solid pink;
   padding-top: 5px;
   padding-bottom: 15px;
-  height: 175px;
+  height: 170px;
   background-color: black;
   border: 4px solid #A3E4D7;
+}
+
+#top_score_amount {
+  height: 60px;
+}
+
+#score_amount {
+  height: 60px;
 }
 
 #level_div {
