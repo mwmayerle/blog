@@ -112,7 +112,7 @@ Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, 
 	});
 };
 
-Game.prototype.addToScore = function(possibleRows) {
+Game.prototype.addToScore = function() {
 	switch (this.deletedRows.length) {
 		case 1:
 			this.score += 40 * (this.level + 1);
@@ -127,7 +127,7 @@ Game.prototype.addToScore = function(possibleRows) {
 			this.score += 1200 * (this.level + 1);
 			break;
 	}
-	this.updateScore();
+	this.score += 5;
 };
 
 Game.prototype.updateScore = function() {
@@ -152,9 +152,10 @@ Game.prototype.checkForCompleteRow = function() {
 		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
 	if (this.deletedRows.length > 0) {
-		this.addToScore();
 		playDeleteAnimation = true;
 	}
+	this.addToScore();
+	this.updateScore();
 	return playDeleteAnimation;
 };
 

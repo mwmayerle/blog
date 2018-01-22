@@ -58,7 +58,7 @@ var startGame = function() {
 	currentTetromino = getNewTetromino();
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 	currentTetromino.autoMove();
-	currentTetromino.getKeyboardInput();
+	document.addEventListener("keydown", pressingKey);
 };
 
 var spawnTetromino = function() {
@@ -76,7 +76,7 @@ var generateRandomShape = function() {
 
 var generateRandomColorScheme = function() {
 	return solidColors[Math.floor(Math.random() * (solidColors.length))]
-}
+};
 
 var getNewTetromino = function() {
 	choosenShape = generateRandomShape();
@@ -84,6 +84,33 @@ var getNewTetromino = function() {
 		choosenShape = generateRandomShape();
 	}
 	return new Tetromino(selectShape(choosenShape));
+};
+
+function removePressingKey() {
+	document.removeEventListener("keydown", pressingKey);
+};
+
+function pressingKey() {
+	redrawBackground(currentTetromino, currentTetromino.cubePositions);
+	switch (event.keyCode) {
+		case 65: // A
+			currentTetromino.moveLeft();
+			break;
+		case 83: // S
+			if (!currentTetromino.notAllowedDown()) {
+				currentTetromino.moveDown();
+				console.log('hi')
+			}
+			break;
+		case 68:// D
+			currentTetromino.moveRight();
+			break;
+		default:
+			if (!currentTetromino.notAllowedDown()) {
+				currentTetromino.rotateTetromino();
+			}
+		}
+	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 };
 
 var selectShape = function(choosenShape) {

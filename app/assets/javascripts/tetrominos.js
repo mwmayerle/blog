@@ -22,6 +22,7 @@ Tetromino.prototype.autoMove = function() {
 };
 
 Tetromino.prototype.deadTetromino = function() {
+	removePressingKey();
 	currentGame.previousShape = this.shape;
 	this.cubePositions.forEach(function(deadTetrominoPosition) {
 		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid, currentTetromino.shape]);
@@ -50,35 +51,10 @@ Tetromino.prototype.addNewTetromino = function() {
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.notAllowedDown()) {
 		currentTetromino.autoMove();
-		currentTetromino.getKeyboardInput();
+		document.addEventListener("keydown", pressingKey);
 	} else {
 		//game over function will go here. I already tested this with an alert message
 	}
-};
-
-Tetromino.prototype.getKeyboardInput = function() {
-	var that = this; //keyup will work for the listener, but bad user experience
-	document.addEventListener("keydown", function(event) {
-		redrawBackground(that, that.cubePositions);
-		switch (event.keyCode) {
-			case 65: // A
-				that.moveLeft();
-				break;
-			case 83: // S
-				if (!that.notAllowedDown()) {
-					that.moveDown();
-				}
-				break;
-			case 68:// D
-				that.moveRight();
-				break;
-			default:
-				if (!that.notAllowedDown()) {
-					that.rotateTetromino();
-				}
-			}
-		drawTetromino(that, that.cubePositions);
-	});
 };
 
 Tetromino.prototype.notAllowedDown = function() {
