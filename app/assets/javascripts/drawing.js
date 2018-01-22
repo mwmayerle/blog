@@ -1,5 +1,5 @@
-const boardWidth = 350; // make sure these two match the hardcoded values in the canvas tag view file!
-const boardHeight = 700;
+const boardWidth = 300; // make sure these two match the hardcoded values in the canvas tag view file!
+const boardHeight = 600;
 
 var getContext = function(context) {
 	var tetrisCanvas = document.getElementById(context);
