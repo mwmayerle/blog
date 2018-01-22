@@ -1,39 +1,37 @@
 #center {
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 3px;
+  padding-left: 3px;
 }
 
 #center p {
-  font-size: 28px;
+  font-size: 20px;
   color: white;
   text-align: center;
 }
 
 #lines_div {
   background-color: black;
-  border: 1px solid red;
-  height: 80px;
+  height: 50px;
   border: 4px solid #A3E4D7;
 
 }
 
 #tetris_div {
-  margin-top: 20px;
+  margin-top: 15px;
   background-color: black;
   padding-top: 5px;
   padding-bottom: 5px;
-  height: 600px;
+  height: 501px;
   border: 10px solid #A3E4D7;
-
 }
 
 #piece_div {
-  margin-top: 40px;
+  margin-top: 30px;
 	display: inline-block;
   vertical-align: top;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 3px;
+  padding-right: 3px;
   background-color: black;
   border: 10px solid #A3E4D7;
 }
@@ -45,13 +43,13 @@
 #score_div {
   display: inline-block;
   vertical-align: top;
-  padding-left: 5px;
-  padding-right: 5px;
-  width: 200px;
+  padding-left: 3px;
+  padding-right: 3px;
+  width: 150px;
 }
 
 #score_div p {
-  font-size: 28px;
+  font-size: 20px;
   padding-left: 7%;
   color: white;
 }
@@ -75,7 +73,7 @@
 
 #level_div {
   margin-top: 20px;
-  height: 130px;
+  height: 100px;
   background-color: black;
   padding-top: 1px;
   padding-bottom: 5px;
@@ -88,13 +86,13 @@
 
 #tetris_stats_div {
   color: white !important;
-  font-size: 28px;
+  font-size: 20px;
   background-color: black;
   display: inline-block;
-  padding-right: 5px;
-  padding-left: 5px;
+  padding-right: 3px;
+  padding-left: 3px;
   border: 4px solid #A3E4D7;
-  width: 290px;
+  width: 220px;
   text-align: center !important;
 }
 
@@ -102,12 +100,12 @@
   color: #e62e00 !important;
   text-align: center !important;
   vertical-align: center !important;
-  height: 70px;
+  height: 50px;
   width: 100px;
-  margin-right: 35px;
+  margin-right: 15px;
   float: right;
 }
 
 .stats_board {
-  height: 70px;
+  height: 60px;
 }
