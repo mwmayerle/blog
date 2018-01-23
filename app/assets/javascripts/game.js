@@ -146,25 +146,15 @@ Game.prototype.amountInRows = function(rowYCoords, multiplier) {
 
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
-	var	yCoord = 0;
 
-	for (var i = 0; i < currentTetromino.cubePositions.length; i++) {
-		if (yCoord <= currentTetromino.cubePositions[i][1]) {
-			yCoord = currentTetromino.cubePositions[i][1];
-		}
-	}
-
-	for (var rowYCoords = completeColumn[19]; rowYCoords >= yCoord; rowYCoords -= boardIncrement) {
+	for (var rowYCoords = completeColumn[19]; rowYCoords >= 0; rowYCoords -= boardIncrement) {
 		var possibleRows = {
 			amtInRow1: this.amountInRows(rowYCoords, 0),
 			amtInRow2: this.amountInRows(rowYCoords, boardIncrement),
 			amtInRow3: this.amountInRows(rowYCoords, boardIncrement * 2),
 			amtInRow4: this.amountInRows(rowYCoords, boardIncrement * 3)
 		}
-		if (possibleRows.amtInRow1.length === 10) {
-			this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
-			break;
-		}
+		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
 
 	if (this.deletedRows.length > 0) {
