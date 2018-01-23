@@ -16,3 +16,6 @@
 //= require rails-ujs
 //= require_tree .
 
+$("#music").on("click", function() {
+
+});
