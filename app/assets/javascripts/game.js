@@ -27,6 +27,11 @@ Game.prototype.determineSpeed = function() {
 	return levelSpeed;
 };
 
+Game.prototype.gameOver = function() {
+	document.getElementById("music_theme").pause();
+	document.getElementById("game_over_sound").play();
+}
+
 Game.prototype.addToTetrominoStatistics = function(shape) {
 	var statsUpdateIndex = shapes.indexOf(currentTetromino.shape);
 	var $stat = $("#tetromino_stat".concat(statsUpdateIndex));
@@ -94,13 +99,6 @@ Game.prototype.changeColors = function() {
 	drawTetromino(currentGame, currentGame.occupiedPositions);
 };
 
-Game.prototype.amountInRows = function(rowYCoords, multiplier) {
-	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
-		return rowYCoords === occupiedPosition[0][1] - multiplier;
-	});
-	return rowAmount;
-};
-
 Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
 	var that = this;
 	Object.keys(possibleRows).forEach(function(key) {
@@ -139,18 +137,36 @@ Game.prototype.updateScore = function() {
 	$("#scores").children().last().html("<p>" + zeros.concat(this.score) + "</p>");
 }
 
+Game.prototype.amountInRows = function(rowYCoords, multiplier) {
+	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
+		return rowYCoords === occupiedPosition[0][1] - multiplier;
+	});
+	return rowAmount;
+};
+
 Game.prototype.checkForCompleteRow = function() {
 	var playDeleteAnimation = false;
+	var	yCoord = 0;
 
-	for (var rowYCoords = completeColumn[19]; rowYCoords >= 0; rowYCoords -= boardIncrement) {
+	for (var i = 0; i < currentTetromino.cubePositions.length; i++) {
+		if (yCoord <= currentTetromino.cubePositions[i][1]) {
+			yCoord = currentTetromino.cubePositions[i][1];
+		}
+	}
+
+	for (var rowYCoords = completeColumn[19]; rowYCoords >= yCoord; rowYCoords -= boardIncrement) {
 		var possibleRows = {
 			amtInRow1: this.amountInRows(rowYCoords, 0),
 			amtInRow2: this.amountInRows(rowYCoords, boardIncrement),
 			amtInRow3: this.amountInRows(rowYCoords, boardIncrement * 2),
 			amtInRow4: this.amountInRows(rowYCoords, boardIncrement * 3)
 		}
-		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
+		if (possibleRows.amtInRow1.length === 10) {
+			this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
+			break;
+		}
 	}
+
 	if (this.deletedRows.length > 0) {
 		playDeleteAnimation = true;
 	}

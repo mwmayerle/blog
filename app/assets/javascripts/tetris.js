@@ -6,7 +6,6 @@ window.onload = function() {
 	drawInitialSetup();
 	startGame();
 	toggleMusic();
-	mouseOverIconChange();
 };
 
 var currentTetromino = {};
@@ -25,25 +24,25 @@ const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
 
-function generateCompleteRow() {
+var generateCompleteRow = function() {
 	for (var i = 0; i < boardWidth; i += boardWidth / 10) {
 		completeRow.push(i);
 	}
 };
 
-function generateCompleteColumn() {
+var generateCompleteColumn = function() {
 	for (var i = 0; i < boardHeight; i += boardHeight / 20) {
 		completeColumn.push(i);
 	}
-	maxVal = completeColumn[20] + completeColumn[1]
+	maxVal = completeColumn[20] + completeColumn[1];
 };
 
-function generateNextPieceCoords() {
+var generateNextPieceCoords = function() {
 	nextPieceYCoords = completeColumn[1] / 2;
 	nextPieceXCoords = completeRow[1] / 2;
 };
 
-function drawInitialSetup() {
+var drawInitialSetup = function() {
 	generateCompleteRow();
 	generateCompleteColumn();
 	generateNextPieceCoords();
@@ -77,10 +76,6 @@ var generateRandomShape = function() {
 	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
 };
 
-var generateRandomColorScheme = function() {
-	return solidColors[Math.floor(Math.random() * (solidColors.length))]
-};
-
 var getNewTetromino = function() {
 	choosenShape = generateRandomShape();
 	if (choosenShape === currentGame.previousShape) {
@@ -89,11 +84,11 @@ var getNewTetromino = function() {
 	return new Tetromino(selectShape(choosenShape));
 };
 
-function removePressingKey() {
+var removePressingKey = function() {
 	document.removeEventListener("keydown", pressingKey);
 };
 
-function pressingKey() {
+var pressingKey = function() {
 	redrawBackground(currentTetromino, currentTetromino.cubePositions);
 	switch (event.keyCode) {
 		case 65: // A
@@ -186,12 +181,12 @@ var selectShape = function(choosenShape) {
 
 var toggleMusic = function() {
 	$("#music").on("click", function() { 
-		if ($(this).text() === "MUSIC ON") {
+		if ($(this).text() === "MUSIC OFF") {
 			document.getElementById("music_theme").pause();
-			$(this).html("<p>" + "MUSIC OFF" + "</p>");
+			$(this).html("<p>" + "MUSIC ON" + "</p>");
 		} else {
 			document.getElementById("music_theme").play();
-			$(this).html("<p>" + "MUSIC ON" + "</p>");
+			$(this).html("<p>" + "MUSIC OFF" + "</p>");
 		}
 	});
 };

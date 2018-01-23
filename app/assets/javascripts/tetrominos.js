@@ -37,10 +37,8 @@ Tetromino.prototype.deadTetromino = function() {
 				currentGame.deletedPositions = [];
 				currentTetromino.addNewTetromino();
 				currentGame.changeColors();
-			}, (rowClearAnimationTime * 5) + 1);
+			}, (rowClearAnimationTime * 4) + 1);
 	} else {
-		redrawBackground(currentGame, currentGame.occupiedPositions);
-		drawTetromino(currentGame, currentGame.occupiedPositions);
 		this.addNewTetromino();
 	}
 };
@@ -53,7 +51,7 @@ Tetromino.prototype.addNewTetromino = function() {
 		currentTetromino.autoMove();
 		document.addEventListener("keydown", pressingKey);
 	} else {
-		//game over function will go here. I already tested this with an alert message
+		currentGame.gameOver();
 	}
 };
 
@@ -62,6 +60,7 @@ Tetromino.prototype.notAllowedDown = function() {
 	this.cubePositions.forEach(function(cubePosition) {
 		if (cubePosition[1] > completeColumn[18]) {
 			pieceThereDown += 1;
+			return true;
 		}
 		currentGame.occupiedPositions.forEach(function(usedPosition) {
 			if (cubePosition[0] === usedPosition[0][0] && cubePosition[1] + boardIncrement === usedPosition[0][1]) {
