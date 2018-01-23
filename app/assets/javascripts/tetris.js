@@ -51,6 +51,7 @@ function drawInitialSetup() {
 var startGame = function() {
 	currentGame = new Game();
 	drawStatsPieces();
+	document.getElementById("music_theme").play();
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
@@ -99,7 +100,6 @@ function pressingKey() {
 		case 83: // S
 			if (!currentTetromino.notAllowedDown()) {
 				currentTetromino.moveDown();
-				console.log('hi')
 			}
 			break;
 		case 68:// D

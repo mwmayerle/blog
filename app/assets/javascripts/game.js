@@ -182,6 +182,7 @@ Game.prototype.deleteRowAnimation = function() {
 			xCoordLeft -= boardIncrement;
 		}, i * rowClearAnimationTime);
 	}
+	document.getElementById("row_clear_sound").play();
 };
 
 Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
