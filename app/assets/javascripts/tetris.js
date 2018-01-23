@@ -2,8 +2,11 @@
 	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
 window.onload = function() {
+	document.getElementById("music_theme").play();
 	drawInitialSetup();
 	startGame();
+	toggleMusic();
+	mouseOverIconChange();
 };
 
 var currentTetromino = {};
@@ -51,7 +54,6 @@ function drawInitialSetup() {
 var startGame = function() {
 	currentGame = new Game();
 	drawStatsPieces();
-	document.getElementById("music_theme").play();
 	var previousShape = getNewTetromino();
 	currentGame.previousShape = previousShape.shape;
 	currentGame.nextShape = getNewTetromino();
@@ -180,4 +182,16 @@ var selectShape = function(choosenShape) {
 			break;
 	}
 	return attributes;
+};
+
+var toggleMusic = function() {
+	$("#music").on("click", function() { 
+		if ($(this).text() === "MUSIC ON") {
+			document.getElementById("music_theme").pause();
+			$(this).html("<p>" + "MUSIC OFF" + "</p>");
+		} else {
+			document.getElementById("music_theme").play();
+			$(this).html("<p>" + "MUSIC ON" + "</p>");
+		}
+	});
 };
