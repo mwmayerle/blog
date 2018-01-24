@@ -30,6 +30,7 @@ Game.prototype.determineSpeed = function() {
 Game.prototype.gameOver = function() {
 	document.getElementById("music_theme").pause();
 	document.getElementById("game_over_sound").play();
+	
 }
 
 Game.prototype.addToTetrominoStatistics = function(shape) {

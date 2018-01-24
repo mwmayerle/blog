@@ -6,6 +6,7 @@ window.onload = function() {
 	drawInitialSetup();
 	startGame();
 	toggleMusic();
+	sendScore();
 };
 
 var currentTetromino = {};
@@ -23,6 +24,18 @@ const outlineColors = ['#0058f8', '#BF00B3', '#00a800', '#f83800', '#4F2BE3', '#
 const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
+
+var toggleMusic = function() {
+	$("#music").on("click", function() { 
+		if ($(this).text() === "MUSIC OFF") {
+			document.getElementById("music_theme").pause();
+			$(this).html("<p>" + "MUSIC ON" + "</p>");
+		} else {
+			document.getElementById("music_theme").play();
+			$(this).html("<p>" + "MUSIC OFF" + "</p>");
+		}
+	});
+};
 
 var generateCompleteRow = function() {
 	for (var i = 0; i < boardWidth; i += boardWidth / 10) {
@@ -115,6 +128,36 @@ var pressingKey = function() {
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 };
 
+var sendScore = function() {
+	$("form").on("submit", function(event) {
+		event.preventDefault();
+
+		var $form = $(this);
+		var player_name = $form.find("#player_name").val();
+		var player_score = $("#score_amount").text();
+
+		var request = $.ajax({
+			type: $form.attr("method"),
+			url: $form.attr("action"),
+			headers: {
+				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+			},
+			data: {
+				player_name: player_name,
+				player_score: player_score
+			}
+		});
+
+		request.done(function(response) {
+			var topTen = response
+				$("#top_ten_list").load(document.URL + " #top_ten_list");
+			});
+		request.fail(function(response) {
+			console.log(response)
+		});
+	});
+};
+
 var selectShape = function(choosenShape) {
 	switch (choosenShape) {
 		case "el":
@@ -182,16 +225,4 @@ var selectShape = function(choosenShape) {
 			break;
 	}
 	return attributes;
-};
-
-var toggleMusic = function() {
-	$("#music").on("click", function() { 
-		if ($(this).text() === "MUSIC OFF") {
-			document.getElementById("music_theme").pause();
-			$(this).html("<p>" + "MUSIC ON" + "</p>");
-		} else {
-			document.getElementById("music_theme").play();
-			$(this).html("<p>" + "MUSIC OFF" + "</p>");
-		}
-	});
 };

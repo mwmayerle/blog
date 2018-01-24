@@ -128,3 +128,23 @@
 .stats_board {
   height: 60px;
 }
+
+#top_ten {
+  margin-top: 20px;
+  width: 700px;
+  background-color: black;
+  color: #e62e00;
+  border: 4px solid #A3E4D7;
+  font-size: 20px;
+}
+
+#top_ten_list {
+  padding-left: 70px;
+}
+
+#top_ten_title {
+  color: white;
+  padding: none !important;
+  text-align: center;
+  text-decoration: underline;
+}

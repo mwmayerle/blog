@@ -12,7 +12,7 @@ Sound effects courtesy of here:
 
 <div id="tetris_stats_div">
 	<div id="music">
-		<p>MUSIC ON</p>
+		<p>MUSIC OFF</p>
 	</div>
 	<div id="stats_background">
 		<p>STATISTICS</p>
@@ -88,5 +88,28 @@ Sound effects courtesy of here:
 	<div id="level_div">
 		<p>LEVEL</p>
 		<p>00</p>
+	</div>
+</div>
+
+<div id="gameover_modal" class="modal">
+	<form action="/tetris", method="POST">
+		<input type="text" name="player_name" id="player_name">
+		<input type="hidden" name="AUTH_TOKEN" value="token_value" id="authenticity_token">
+		<input type="submit" value="Submit">
+	</form>
+</div>
+
+<div id="top_ten">
+	<div id="top_ten_title">
+		<p>TOP TEN</p>
+	</div>
+	<div id="top_ten_list">
+		<% if @high_scores %>
+			<ol>
+				<% @high_scores.each do |score| %>
+						<li><%= score.player_name %> - <%= score.player_score%>pts</li>
+				<% end %>
+			</ol>
+		<% end %>
 	</div>
 </div>
