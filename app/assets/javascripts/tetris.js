@@ -2,6 +2,7 @@
 	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
 window.onload = function() {
+	hideSubmissionForm();
 	document.getElementById("music_theme").play();
 	drawInitialSetup();
 	startGame();
@@ -24,6 +25,14 @@ const outlineColors = ['#0058f8', '#BF00B3', '#00a800', '#f83800', '#4F2BE3', '#
 const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
+
+var hideSubmissionForm = function() {
+	$("#gameover_modal").hide();
+};
+
+var showSubmissionForm = function() {
+	$("#gameover_modal").show();
+}
 
 var toggleMusic = function() {
 	$("#music").on("click", function() { 
@@ -149,8 +158,9 @@ var sendScore = function() {
 		});
 
 		request.done(function(response) {
-			var topTen = response
-				$("#top_ten_list").load(document.URL + " #top_ten_list");
+				$form.hide();
+				$("#top_five_list").load(document.URL + " #top_five_list");
+				$("#top_score_amount").load(document.URL + " #top_score_amount");
 			});
 		request.fail(function(response) {
 			console.log(response)

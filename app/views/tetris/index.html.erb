@@ -10,6 +10,7 @@ Music courtesy of here:
 Sound effects courtesy of here:
 -->
 
+
 <div id="tetris_stats_div">
 	<div id="music">
 		<p>MUSIC OFF</p>
@@ -71,25 +72,45 @@ Sound effects courtesy of here:
 </div>
 
 <div id="score_div">
+
 	<div id="scores">
 		<div id="top_score_amount">
-			<p>TOP 000000</p>
+			<p>TOP <%= @high_score%></p>
 		</div>
 		<div id="score_amount">
 			<p>SCORE 000000</p>
 		</div>
 	</div>
+
 	<div id="piece_div">
 		<div id="next_block">
 			<p>NEXT</p>
 		</div>
 		<canvas id="next_piece" width="111" height="75"></canvas>
 	</div>
+
 	<div id="level_div">
 		<p>LEVEL</p>
 		<p>00</p>
 	</div>
+
+	<div id="top_five">
+		<div id="top_five_title">
+			<p>TOP SCORES</p>
+		</div>
+		<div id="top_five_list">
+			<% if @high_scores %>
+				<ol>
+					<% @high_scores.each do |score| %>
+						<li><%= score.player_name %> - <%= score.player_score%></li>
+					<% end %>
+				</ol>
+			<% end %>
+		</div>
+	</div>
+
 </div>
+
 
 <div id="gameover_modal" class="modal">
 	<form action="/tetris", method="POST">
@@ -97,19 +118,4 @@ Sound effects courtesy of here:
 		<input type="hidden" name="AUTH_TOKEN" value="token_value" id="authenticity_token">
 		<input type="submit" value="Submit">
 	</form>
-</div>
-
-<div id="top_ten">
-	<div id="top_ten_title">
-		<p>TOP TEN</p>
-	</div>
-	<div id="top_ten_list">
-		<% if @high_scores %>
-			<ol>
-				<% @high_scores.each do |score| %>
-						<li><%= score.player_name %> - <%= score.player_score%>pts</li>
-				<% end %>
-			</ol>
-		<% end %>
-	</div>
 </div>

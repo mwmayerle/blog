@@ -30,7 +30,7 @@ Game.prototype.determineSpeed = function() {
 Game.prototype.gameOver = function() {
 	document.getElementById("music_theme").pause();
 	document.getElementById("game_over_sound").play();
-	
+	showSubmissionForm();
 }
 
 Game.prototype.addToTetrominoStatistics = function(shape) {
@@ -136,7 +136,7 @@ Game.prototype.updateScore = function() {
 		zeros = zeros.concat("0");
 	}
 	$("#scores").children().last().html("<p>" + zeros.concat(this.score) + "</p>");
-}
+};
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
 	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
