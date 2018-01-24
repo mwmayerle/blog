@@ -75,7 +75,11 @@ Sound effects courtesy of here:
 
 	<div id="scores">
 		<div id="top_score_amount">
-			<p>TOP <%= @high_score%></p>
+			<% if @high_score %>
+				<p>TOP <%= @high_score%></p>
+			<% else %>
+				<p>TOP 000000</p>
+			<% end %>
 		</div>
 		<div id="score_amount">
 			<p>SCORE 000000</p>

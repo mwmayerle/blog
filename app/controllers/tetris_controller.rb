@@ -2,6 +2,7 @@ class TetrisController < ApplicationController
 
 	def index
 		@high_scores = Tetris.limit(5).order(player_score: :desc).all
+		
 		@high_score = Tetris.format_high_score(@high_scores.first.player_score.to_s)
 	end
 	
