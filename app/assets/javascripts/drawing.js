@@ -14,6 +14,7 @@ var drawBackground = function(context, dimensions) {
 };
 
 var drawStatsPieces = function() {
+	debugger
 	for (var i = 0; i < shapes.length; i++) {
 		drawNextTetromino("stats".concat(i), selectShape(shapes[i]), true);
 	}

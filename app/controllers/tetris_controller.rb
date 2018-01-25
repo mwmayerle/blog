@@ -11,9 +11,7 @@ class TetrisController < ApplicationController
 	
 	def create
 		score = Tetris.format_new_score(params[:player_score])
-
-		player_stats = Tetris.create(player_score: score, player_name: params[:player_name])
-
+		player_stats = Tetris.create(player_score: score, player_name: params[:player_name].upcase)
 		@high_scores = Tetris.limit(5).order(player_score: :desc).all
 		@high_score = Tetris.format_high_score(@high_scores.first.player_score.to_s)
 

@@ -28,10 +28,11 @@ Game.prototype.determineSpeed = function() {
 };
 
 Game.prototype.gameOver = function() {
+	removePressingKey();
 	document.getElementById("music_theme").pause();
 	document.getElementById("game_over_sound").play();
 	showSubmissionForm();
-}
+};
 
 Game.prototype.addToTetrominoStatistics = function(shape) {
 	var statsUpdateIndex = shapes.indexOf(currentTetromino.shape);

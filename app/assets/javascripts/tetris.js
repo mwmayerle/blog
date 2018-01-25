@@ -32,7 +32,7 @@ var hideSubmissionForm = function() {
 
 var showSubmissionForm = function() {
 	$("#gameover_modal").show();
-}
+};
 
 var toggleMusic = function() {
 	$("#music").on("click", function() { 
@@ -138,7 +138,7 @@ var pressingKey = function() {
 };
 
 var sendScore = function() {
-	$("form").on("submit", function(event) {
+	$("#gameover_form").on("submit", function(event) {
 		event.preventDefault();
 
 		var $form = $(this);
@@ -158,12 +158,12 @@ var sendScore = function() {
 		});
 
 		request.done(function(response) {
-				$form.hide();
-				$("#top_five_list").load(document.URL + " #top_five_list");
-				$("#top_score_amount").load(document.URL + " #top_score_amount");
+			$("#gameover_modal").hide();
+			location.reload();
 			});
+
 		request.fail(function(response) {
-			console.log(response)
+			console.log(response);
 		});
 	});
 };
