@@ -26,9 +26,9 @@ var redrawBackground = function(object, tetrominoPositions) {
 		if (object instanceof Game) {
 			position = position[0];
 		}
-		context.clearRect(position[0], position[1], boardIncrement, boardIncrement);
+		context.clearRect(position[0], position[1], boardIncrement + 1, boardIncrement + 1);
 		context.fillStyle = 'black';
-		context.fillRect(position[0], position[1], boardIncrement, boardIncrement);
+		context.fillRect(position[0], position[1], boardIncrement + 1, boardIncrement + 1);
 	});
 };
 
@@ -51,15 +51,15 @@ var drawTetromino = function(object, tetrominoPositions) {
 			solid = object.solid;
 		}
 		context.fillStyle = outlineColor;
-		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.1111, boardIncrement / 1.1111);
+		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 1.11, boardIncrement / 1.11);
 		context.fillStyle = color;
-		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.4286, boardIncrement / 1.4286);
+		context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 1.43, boardIncrement / 1.43);
 
 		context.fillStyle = 'white'; // sparkle in top left corner
 		context.fillRect(position[0] + boardIncrement / 10, position[1] + boardIncrement / 10, boardIncrement / 10, boardIncrement / 10);
 		if (solid) { // makes the shine on solid tetrominos
 			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 5, boardIncrement / 5, boardIncrement / 10);
-			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.3333, boardIncrement / 10, boardIncrement / 10);
+			context.fillRect(position[0] + boardIncrement / 5, position[1] + boardIncrement / 3.33, boardIncrement / 10, boardIncrement / 10);
 		}
 	});
 };
@@ -77,17 +77,17 @@ var drawNextTetromino = function(context, nextShape, scaleDown) {
 	}
 	nextShape.cubePositions.forEach(function(position) {
 		pieceContext.fillStyle = nextShape.outlineColor;
-		pieceContext.fillRect((position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 10 + nextPieceYCoords) * scale, boardIncrement / 1.1111 * scale, boardIncrement / 1.1111 * scale);
+		pieceContext.fillRect((position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 10 + nextPieceYCoords) * scale, boardIncrement / 1.11 * scale, boardIncrement / 1.11 * scale);
 
 		pieceContext.fillStyle = nextShape.color; // sparkle in top left corner
-		pieceContext.fillRect((position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 5 + nextPieceYCoords) * scale, boardIncrement / 1.4286 * scale, boardIncrement / 1.4286 * scale);
+		pieceContext.fillRect((position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 5 + nextPieceYCoords) * scale, boardIncrement / 1.43 * scale, boardIncrement / 1.43 * scale);
 
 		pieceContext.fillStyle = 'white';
 		pieceContext.fillRect((position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 10 + nextPieceYCoords) * scale, boardIncrement / 10 * scale, boardIncrement / 10 * scale); 
 
 		if (nextShape.solid) { // makes the shine on solid tetrominos
 			pieceContext.fillRect((position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 5 + nextPieceYCoords) * scale, boardIncrement / 5 * scale, boardIncrement / 10 * scale);
-			pieceContext.fillRect((position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 3.3333 + nextPieceYCoords) * scale, boardIncrement / 10 * scale, boardIncrement / 10 * scale);
+			pieceContext.fillRect((position[0] + boardIncrement / 5 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 3.33 + nextPieceYCoords) * scale, boardIncrement / 10 * scale, boardIncrement / 10 * scale);
 		}
 	});
 };

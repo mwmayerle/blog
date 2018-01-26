@@ -117,7 +117,7 @@ var pressingKey = function() {
 			currentTetromino.moveLeft();
 			break;
 		case 83: // S
-			if (!currentTetromino.notAllowedDown()) {
+			if (!currentTetromino.allowedDown()) {
 				currentTetromino.moveDown();
 			}
 			break;
@@ -125,12 +125,13 @@ var pressingKey = function() {
 			currentTetromino.moveRight();
 			break;
 		case 32:// Spacebar
-			while (!currentTetromino.notAllowedDown()) {
+			while (!currentTetromino.allowedDown()) {
 				currentTetromino.moveDown();
 			}
+			removePressingKey();
 			break;
 		default:
-			if (!currentTetromino.notAllowedDown()) {
+			if (!currentTetromino.allowedDown()) {
 				currentTetromino.rotateTetromino();
 			}
 		}

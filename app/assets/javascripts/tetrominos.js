@@ -10,7 +10,7 @@ var Tetromino = function(attributes) {
 Tetromino.prototype.autoMove = function() {
 	var that = this;
 	currentInterval = setInterval(function() {
-		if (!that.notAllowedDown()) {
+		if (!that.allowedDown()) {
 			redrawBackground(that, that.cubePositions);
 			that.moveDown();
 			drawTetromino(that, that.cubePositions);
@@ -47,7 +47,7 @@ Tetromino.prototype.addNewTetromino = function() {
 	clearInterval(currentInterval);
 	this.cubePositions = [[maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal]];
 	currentTetromino = spawnTetromino();
-	if (!currentTetromino.notAllowedDown()) {
+	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
 		document.addEventListener("keydown", pressingKey);
 	} else {
@@ -55,7 +55,7 @@ Tetromino.prototype.addNewTetromino = function() {
 	}
 };
 
-Tetromino.prototype.notAllowedDown = function() {
+Tetromino.prototype.allowedDown = function() {
 	var pieceThereDown = 0;
 	this.cubePositions.forEach(function(cubePosition) {
 		if (cubePosition[1] > completeColumn[18]) {
