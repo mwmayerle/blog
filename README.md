@@ -1,6 +1,7 @@
 # Javascript Tetris
 
 A homage to the NES version of Tetris written in Javascript. [Play the game now!](https://javascript-tetris.herokuapp.com)
+![tetris](/public/screenshot.png)
 
 ## About
 This iteration of Tetris is styled after the NES version. It utilizes ['hard-drops'](http://tetris.wikia.com/wiki/Hard_Drop), the [Nintendo Rotation System](http://tetris.wikia.com/wiki/Nintendo_Rotation_System), a modified scoring system, and a modified tetromino speed system.
