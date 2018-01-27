@@ -37,7 +37,6 @@ var toggleMusic = function() {
 			$(this).html("<p>" + "MUSIC ON" + "</p>");
 		} else {
 			document.getElementById("music_theme").play();
-						console.log('hi2')
 			$(this).html("<p>" + "MUSIC OFF" + "</p>");
 		}
 	});
