@@ -1,14 +1,14 @@
 # Javascript Tetris
 
-An homage to the NES version of Tetris written in Javascript. [Play the game now!](https://javascript-tetris.herokuapp.com)
+A homage to the NES version of Tetris written in Javascript. [Play the game now!](https://javascript-tetris.herokuapp.com)
 
 ##About
-This iteration of Tetris is styled after the NES version. It utilizes ['hard-drops'](http://tetris.wikia.com/wiki/Hard_Drop), the [Nintendo Rotation System](http://tetris.wikia.com/wiki/Nintendo_Rotation_System), a modified scoring system, and a modified tetromino speeds.
+This iteration of Tetris is styled after the NES version. It utilizes ['hard-drops'](http://tetris.wikia.com/wiki/Hard_Drop), the [Nintendo Rotation System](http://tetris.wikia.com/wiki/Nintendo_Rotation_System), a modified scoring system, and a modified tetromino speed system.
 
-The game logic is written in vanilla Javascript, and it utilizes Canvas in addition to some light JQuery. Scores and player initials are stored in a Postgresql database.
+The game logic is written in vanilla Javascript with an object-oriented approach, and it utilizes Canvas in addition to some light JQuery. Scores and player initials are stored in a PostgreSQL database.
 
 ## Configuration and Customization
-As-is this game is attached to a Rails backend, however it can be easily integrated to any back-end that accepts JSON. The *@high_score* and *@high_scores* instance variables found in the view file (app/views/tetris/index.html.erb) are called when the page loads. *@high_score* is the highest score, while *@high_scores* is the top five scores. 
+As-is this game is attached to a Rails backend, however it can be integrated into any back-end that accepts JSON. The *@high_score* and *@high_scores* instance variables found in the view file (app/views/tetris/index.html.erb) are called when the page loads. *@high_score* is the highest score, while *@high_scores* is the top five scores. 
 
 When a game is completed, JSON is sent via an AJAX request containing the score and initials of the player. The page is then reloaded using the information mentioned above.
 
@@ -41,5 +41,4 @@ To install this on your local machine, clone the repository, enter the repositor
 * Music is courtesy of [vgmpf](http://www.vgmpf.com/Wiki/index.php/Tetris_(NES))
 
 ##Known Issues
-1.) Pressing a key after a piece has "died" or during the row clear animation creates a time lag before the next tetromino shows.
-
+* Pressing a key after a piece has "died" or during the row clear animation creates a time lag before the next tetromino shows. Squashing this bug would be greatly appreciated!
