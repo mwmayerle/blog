@@ -27,11 +27,12 @@ const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
 
 var hideSubmissionForm = function() {
-	$("#gameover_modal").hide();
+	$("#gameover_form").hide();
 };
 
 var showSubmissionForm = function() {
-	$("#gameover_modal").show();
+	$("#container").css("display", "absolute");
+	$("#gameover_form").show();
 };
 
 var toggleMusic = function() {
@@ -162,7 +163,7 @@ var sendScore = function() {
 		});
 
 		request.done(function(response) {
-			$("#gameover_modal").hide();
+			$("#gameover_form").hide();
 			location.reload();
 			});
 

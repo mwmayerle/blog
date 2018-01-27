@@ -9,114 +9,124 @@ Music courtesy of here:
 	http://www.vgmpf.com/Wiki/index.php/Tetris_(NES) 
 Sound effects courtesy of here:
 -->
-
-<div id="tetris_stats_div">
-	<div id="music">
-		<p>MUSIC OFF</p>
-	</div>
-	<div id="stats_background">
-		<p>STATISTICS</p>
-		<div class="stats_board">
-			<canvas id="stats0" width="90" height="50"></canvas>
-			<div id="tetromino_stat0">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-			<canvas id="stats1" width="90" height="50"></canvas>
-			<div id="tetromino_stat1">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-			<canvas id="stats2" width="90" height="50"></canvas>
-			<div id="tetromino_stat2">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-		<canvas id="stats3" width="90" height="50"></canvas>
-			<div id="tetromino_stat3">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-			<canvas id="stats4" width="90" height="50"></canvas>
-			<div id="tetromino_stat4">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-			<canvas id="stats5" width="90" height="50"></canvas>
-			<div id="tetromino_stat5">
-				<p>000</p>
-			</div>
-		</div>
-		<div class="stats_board">
-			<canvas id="stats6" width="90" height="50"></canvas>
-			<div id="tetromino_stat6">
-				<p>000</p>
-			</div>
-		</div>
-	</div>
+<div id="directions">
+	<p> MOVE LEFT: 'A' | MOVE RIGHT: 'D'| MOVE DOWN: 'S' | ROTATE: 'ANY KEY' | HARD DROP: 'SPACEBAR'</p>
 </div>
 
-<div id="center">
-	<div id="lines_div">
-		<p>LINES-00</p>
-	</div>
-	<div id="tetris_div">
-		<canvas id="tetris" width="275" height="550"></canvas>
-	</div>
-</div>
-
-<div id="score_div">
-	<div id="scores">
-		<div id="top_score_amount">
-			<% if @high_score %>
-				<p>TOP <%= @high_score%></p>
-			<% else %>
-				<p>TOP 000000</p>
-			<% end %>
+<div id="container">
+	<div id="tetris_stats_div">
+		<div id="music">
+			<p>MUSIC OFF</p>
 		</div>
-		<div id="score_amount">
-			<p>SCORE 000000</p>
+		<div id="stats_background">
+			<p>STATISTICS</p>
+			<div class="stats_board">
+				<canvas id="stats0" width="90" height="50"></canvas>
+				<div id="tetromino_stat0">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+				<canvas id="stats1" width="90" height="50"></canvas>
+				<div id="tetromino_stat1">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+				<canvas id="stats2" width="90" height="50"></canvas>
+				<div id="tetromino_stat2">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+			<canvas id="stats3" width="90" height="50"></canvas>
+				<div id="tetromino_stat3">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+				<canvas id="stats4" width="90" height="50"></canvas>
+				<div id="tetromino_stat4">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+				<canvas id="stats5" width="90" height="50"></canvas>
+				<div id="tetromino_stat5">
+					<p>000</p>
+				</div>
+			</div>
+			<div class="stats_board">
+				<canvas id="stats6" width="90" height="50"></canvas>
+				<div id="tetromino_stat6">
+					<p>000</p>
+				</div>
+			</div>
 		</div>
 	</div>
 
-	<div id="piece_div">
-		<div id="next_block">
-			<p>NEXT</p>
+	<div id="center">
+		<div id="lines_div">
+			<p>LINES-00</p>
 		</div>
-		<canvas id="next_piece" width="111" height="75"></canvas>
+		<div id="tetris_div">
+			<canvas id="tetris" width="275" height="550"></canvas>
+		</div>
 	</div>
 
-	<div id="level_div">
-		<p>LEVEL</p>
-		<p>00</p>
-	</div>
-
-	<div id="top_five">
-		<div id="top_five_title">
-			<p>TOP SCORES</p>
-		</div>
-		<div id="top_five_list">
-			<% if @high_scores %>
-				<% @high_scores.each do |score| %>
-					<p><%= score.player_name %> - <%= score.player_score%></p>
+	<div id="score_div">
+		<div id="scores">
+			<div id="top_score_amount">
+				<% if @high_score %>
+					<p>TOP <%= @high_score%></p>
+				<% else %>
+					<p>TOP 000000</p>
 				<% end %>
-			<% end %>
+			</div>
+			<div id="score_amount">
+				<p>SCORE 000000</p>
+			</div>
 		</div>
+
+		<div id="piece_div">
+			<div id="next_block">
+				<p>NEXT</p>
+			</div>
+			<canvas id="next_piece" width="111" height="75"></canvas>
+		</div>
+
+		<div id="level_div">
+			<p>LEVEL</p>
+			<p>00</p>
+		</div>
+
+		<div id="top_five">
+			<div id="top_five_title">
+				<p>TOP SCORES</p>
+			</div>
+			<div id="top_five_list">
+				<% if @high_scores %>
+					<% @high_scores.each do |score| %>
+						<p><%= score.player_name %> - <%= score.player_score%></p>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+
 	</div>
 
-</div>
 
-
-<div id="gameover_modal" class="modal">
-	<form action="/tetris", method="POST" id="gameover_form">
-		<p>Please Enter Your Initials (3 char max):</p>
-		<input type="text" name="player_name" id="player_name">
-		<input type="hidden" name="AUTH_TOKEN" value="token_value" id="authenticity_token">
-		<input type="submit" value="Submit">
-	</form>
+	<div id="gameover_form">
+		<div id="form_div">
+			<form action="/tetris", method="POST">
+				<span id="big_text"><p>GAME OVER!</p></span>
+				<br>
+				<p>PLEASE ENTER YOUR INITIALS</p>
+				<p>(3 CHARS MAX):</p>
+				<input type="text" name="player_name" id="player_name">
+				<input type="hidden" name="AUTH_TOKEN" value="token_value" id="authenticity_token">
+				<input type="submit" value="Submit Score" class="button">
+			</form>
+		</div>
+	</div>
 </div>
