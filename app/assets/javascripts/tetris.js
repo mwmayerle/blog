@@ -75,11 +75,11 @@ var drawInitialSetup = function() {
 var startGame = function() {
 	currentGame = new Game();
 	drawStatsPieces();
-	var previousShape = getNewTetromino();
-	currentGame.previousShape = previousShape.shape;
-	currentGame.nextShape = getNewTetromino();
+	getNewTetrominoSequence();
+	currentGame.previousShape = currentGame.tetrominoBag.shift();
+	currentGame.nextShape = currentGame.tetrominoBag.shift();
+	currentTetromino = currentGame.tetrominoBag.shift();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
-	currentTetromino = getNewTetromino();
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 	currentTetromino.autoMove();
 	document.addEventListener("keydown", pressingKey);
@@ -88,7 +88,7 @@ var startGame = function() {
 var spawnTetromino = function() {
 	var newTetromino = currentGame.nextShape;
 	drawBackground("next_piece", [0, 0, boardWidth * 0.4 + 3, boardHeight * 0.4 + 3]);
-	currentGame.nextShape = getNewTetromino();
+	currentGame.nextShape = currentGame.tetrominoBag.shift();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	drawTetromino(newTetromino, newTetromino.cubePositions);
 	return newTetromino;
@@ -98,12 +98,15 @@ var generateRandomShape = function() {
 	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
 };
 
-var getNewTetromino = function() {
-	choosenShape = generateRandomShape();
-	if (choosenShape === currentGame.previousShape) {
-		choosenShape = generateRandomShape();
+var getNewTetrominoSequence = function() {
+	var newShapes = [];
+	while (currentGame.tetrominoBag.length < 7) {
+		var newShape = generateRandomShape();
+		if (!newShapes.includes(newShape)) {
+			newShapes.push(newShape);
+			currentGame.tetrominoBag.push(new Tetromino(selectShape(newShape)));
+		}
 	}
-	return new Tetromino(selectShape(choosenShape));
 };
 
 var removePressingKey = function() {

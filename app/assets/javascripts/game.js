@@ -3,10 +3,17 @@ var Game = function() {
 	this.deletedPositions = [];
 	this.deletedRows = [];
 	this.score = 0;
-	this.lines = 0;
+	this.lines = 9;
 	this.level = 0;
 	this.nextShape = {};
 	this.previousShape = {};
+	this.tetrominoBag = [];
+};
+
+Game.prototype.checkTetrominoBag = function() {
+	if (this.tetrominoBag.length === 0) {
+		getNewTetrominoSequence();
+	}
 };
 
 Game.prototype.determineSpeed = function() {
@@ -67,17 +74,37 @@ Game.prototype.updateLineStats = function() {
 	}
 };
 
+Game.prototype.updateTetrominoColors = function() {
+	this.updateTetrominoBagColors();
+	this.updateOccupiedPositionColors();
+	this.updateNextShapeColors();
+}
+
 Game.prototype.updateNextShapeColors = function() {
-	if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
-		this.nextShape.outlineColor = outlineColors[this.level % 10];
+		if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
+		currentGame.nextShape.outlineColor = outlineColors[currentGame.level % 10];
 	} else if (this.nextShape.shape === 'jay' || this.nextShape.shape === 'es') {
-		this.nextShape.color = solidColors[this.level % 10];
-		this.nextShape.outlineColor = solidColors[this.level % 10];
+		currentGame.nextShape.color = solidColors[currentGame.level % 10];
+		currentGame.nextShape.outlineColor = solidColors[currentGame.level % 10];
 	} else {
-		this.nextShape.color = outlineColors[this.level % 10];
-		this.nextShape.outlineColor = outlineColors[this.level % 10];
+		currentGame.nextShape.color = outlineColors[currentGame.level % 10];
+		currentGame.nextShape.outlineColor = outlineColors[currentGame.level % 10];
 	}
 };
+
+Game.prototype.updateTetrominoBagColors = function() {
+	this.tetrominoBag.forEach(function(queuedShape) {
+		if (queuedShape.shape === 'cube' || queuedShape.shape === 'stick' || queuedShape.shape === 'cross') {
+			queuedShape.outlineColor = outlineColors[currentGame.level % 10];
+		} else if (queuedShape.shape === 'jay' || queuedShape.shape === 'es') {
+			queuedShape.color = solidColors[currentGame.level % 10];
+			queuedShape.outlineColor = solidColors[currentGame.level % 10];
+		} else {
+			queuedShape.color = outlineColors[currentGame.level % 10];
+			queuedShape.outlineColor = outlineColors[currentGame.level % 10];
+		}
+	});
+}
 
 Game.prototype.updateOccupiedPositionColors = function() {
 	this.occupiedPositions.forEach(function(occupiedPosition) {
@@ -93,8 +120,9 @@ Game.prototype.updateOccupiedPositionColors = function() {
 	});
 }
 
+
 Game.prototype.changeColors = function() {
-	this.updateOccupiedPositionColors();
+	this.updateTetrominoColors();
 	drawStatsPieces();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	redrawBackground(currentGame, currentGame.occupiedPositions);
