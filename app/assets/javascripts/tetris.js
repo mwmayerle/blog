@@ -33,10 +33,10 @@ var showSubmissionForm = function() {
 var toggleMusic = function() {
 	$("#music").on("click", function() { 
 		if ($(this).text() === "MUSIC OFF") {
-			document.getElementById("music_theme").pause();
+			$("#music_theme").pause();
 			$(this).html("<p>" + "MUSIC ON" + "</p>");
 		} else {
-			document.getElementById("music_theme").play();
+			$("#music_theme").play();
 			$(this).html("<p>" + "MUSIC OFF" + "</p>");
 		}
 	});
