@@ -13,6 +13,9 @@ As-is this game is attached to a Rails backend, however it can be integrated int
 
 When a game is completed, JSON is sent via an AJAX request containing the score and initials of the player. The page is then reloaded using the information mentioned above.
 
+###Randomizer
+The current in-game randomizer creates a "bag" of all 7 possible tetrominos. The ordering of said bag is always completely random.
+
 ### Scoring
 Scores are calculated similarly to the [NES Tetris scoring system](http://tetris.wikia.com/wiki/Scoring), which assigns a multiplier based on the number of rows cleared. Unlike the NES version, this version assigns 5 points when a tetromino lands instead of calculating a score based on the distance that a ['soft drop'](http://tetris.wikia.com/wiki/Drop). The scoring system can be altered within the game.js file inside the Game.prototype.addToScore function.
 
