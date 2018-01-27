@@ -32,11 +32,12 @@ var showSubmissionForm = function() {
 
 var toggleMusic = function() {
 	$("#music").on("click", function() { 
-		if ($(this).text() === "MUSIC OFF") {
-			$("#music_theme").pause();
+		if ($(this).text().includes("MUSIC OFF")) {
+			document.getElementById("music_theme").pause();
 			$(this).html("<p>" + "MUSIC ON" + "</p>");
 		} else {
-			$("#music_theme").play();
+			document.getElementById("music_theme").play();
+						console.log('hi2')
 			$(this).html("<p>" + "MUSIC OFF" + "</p>");
 		}
 	});
