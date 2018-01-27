@@ -17,9 +17,9 @@ Game.prototype.checkTetrominoBag = function() {
 };
 
 Game.prototype.determineSpeed = function() {
-	var levelSpeed = 1200;
+	var levelSpeed = 1000;
 	if (this.level <= 8) {
-		levelSpeed -= currentGame.level * 125;
+		levelSpeed -= currentGame.level * 100;
 	} else if (this.level === 9) {
 		levelSpeed = 180;
 	} else if (this.level >= 10 && this.level <= 12) {

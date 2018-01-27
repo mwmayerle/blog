@@ -145,7 +145,6 @@ var sendScore = function() {
 		var playerName = $form.find("#player_name").val();
 		var playerNameLength = $form.find("#player_name").val().length;
 		var playerScore = $("#score_amount").text();
-		console.log(playerNameLength)
 
 		if (playerNameLength <= 3) {
 			var request = $.ajax({
