@@ -2,7 +2,6 @@
 	This game initially started with a 500 x 1000 sized board, which is way too large when Chrome is set to 100%. The boardIncrement variables and the weird fractions in some of the drawing functions (boardIncement / 1.482676 or whatever) were created with the initial 500 x 1000 board dimensions in mind.
 */
 window.onload = function() {
-	hideSubmissionForm();
 	document.getElementById("music_theme").play();
 	drawInitialSetup();
 	startGame();
@@ -26,13 +25,9 @@ const boardIncrement = boardWidth / 10;
 const shapes = ["cross", "jay", "zed", "cube", "es", "el", "stick"];
 const negBoardIncrement = -(boardWidth / 10);
 
-var hideSubmissionForm = function() {
-	$("#gameover_form").hide();
-};
-
 var showSubmissionForm = function() {
 	$("#container").css("display", "absolute");
-	$("#gameover_form").show();
+	$("#gameover_form").css("visibility", "visible");
 };
 
 var toggleMusic = function() {
@@ -143,33 +138,39 @@ var pressingKey = function() {
 };
 
 var sendScore = function() {
-	$("#gameover_form").on("submit", function(event) {
+	$("#the_form").on("submit", function(event) {
 		event.preventDefault();
 
 		var $form = $(this);
-		var player_name = $form.find("#player_name").val();
-		var player_score = $("#score_amount").text();
+		var playerName = $form.find("#player_name").val();
+		var playerNameLength = $form.find("#player_name").val().length;
+		var playerScore = $("#score_amount").text();
+		console.log(playerNameLength)
 
-		var request = $.ajax({
-			type: $form.attr("method"),
-			url: $form.attr("action"),
-			headers: {
-				'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-			},
-			data: {
-				player_name: player_name,
-				player_score: player_score
-			}
-		});
-
-		request.done(function(response) {
-			$("#gameover_form").hide();
-			location.reload();
+		if (playerNameLength <= 3) {
+			var request = $.ajax({
+				type: $form.attr("method"),
+				url: $form.attr("action"),
+				headers: {
+					'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+				},
+				data: {
+					player_name: playerName,
+					player_score: playerScore
+				}
 			});
 
-		request.fail(function(response) {
-			console.log(response);
-		});
+			request.done(function(response) {
+				$("#gameover_form").hide();
+				location.reload();
+				});
+
+			request.fail(function(response) {
+				console.log(response);
+			});
+		} else {
+			$("#three_chars").css("color", "red");
+		}
 	});
 };
 

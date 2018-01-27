@@ -115,14 +115,13 @@ Sound effects courtesy of here:
 
 	</div>
 
-
 	<div id="gameover_form">
 		<div id="form_div">
-			<form action="/tetris", method="POST">
+			<form action="/tetris", method="POST" id="the_form">
 				<span id="big_text"><p>GAME OVER!</p></span>
 				<br>
 				<p>PLEASE ENTER YOUR INITIALS</p>
-				<p>(3 CHARS MAX):</p>
+				<span id="three_chars"><p>(3 CHARS MAX):</p></span>
 				<input type="text" name="player_name" id="player_name">
 				<input type="hidden" name="AUTH_TOKEN" value="token_value" id="authenticity_token">
 				<input type="submit" value="Submit Score" class="button">
