@@ -162,7 +162,7 @@ var sendScore = function() {
 			request.done(function(response) {
 				$("#gameover_form").hide();
 				location.reload();
-				});
+			});
 
 			request.fail(function(response) {
 				console.log(response);
