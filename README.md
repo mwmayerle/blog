@@ -13,7 +13,7 @@ As-is this game is attached to a Rails backend, however it can be integrated int
 
 When a game is completed, JSON is sent via an AJAX request containing the score and initials of the player. The page is then reloaded using the information mentioned above.
 
-###Randomizer
+### Randomizer
 The current in-game randomizer creates a "bag" of 7 tetrominos with code to prevent repetition. 7 is chosen because other versions of tetris utilize more complex randomizers.
 
 ### Scoring
