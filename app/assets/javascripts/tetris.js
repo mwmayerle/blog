@@ -82,9 +82,7 @@ var startGame = function() {
 };
 
 function addKeyboardEvent() {
-	document.addEventListener("keydown", event => {
-		pressingKey(event)
-	});	
+	document.addEventListener("keydown", event => { pressingKey(event); });	
 };
 
 function removeKeyboardEvent(event) {
@@ -101,14 +99,14 @@ var spawnTetromino = function() {
 };
 
 var generateRandomShape = function() {
-	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
+	return shapes[Math.floor(Math.random() * (7))];
 };
 
 var getNewTetrominoSequence = function() {
 	var newShapes = [];
-	while (currentGame.tetrominoBag.length < 7) {
+	while (currentGame.tetrominoBag.length < 14) { // easier to modify for other randomizer versions if it's an increment of 7
 		var newShape = generateRandomShape();
-		if (!newShapes.includes(newShape)) {
+		if (newShape !== newShapes[newShapes.length - 1]) {
 			newShapes.push(newShape);
 			currentGame.tetrominoBag.push(new Tetromino(selectShape(newShape)));
 		}
@@ -173,6 +171,7 @@ var sendScore = function() {
 			request.fail(function(response) {
 				console.log(response);
 			});
+
 		} else {
 			$("#three_chars").css("color", "red");
 		}
