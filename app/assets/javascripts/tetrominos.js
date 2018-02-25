@@ -8,7 +8,7 @@ var Tetromino = function(attributes) {
 };
 
 Tetromino.prototype.autoMove = function() {
-	currentInterval = setInterval(function() {
+	currentInterval = setInterval(() => {
 		if (!this.allowedDown()) {
 			redrawBackground(this, this.cubePositions);
 			this.moveDown();
@@ -17,20 +17,20 @@ Tetromino.prototype.autoMove = function() {
 			clearInterval(currentInterval);
 			this.deadTetromino();
 		}
-	}.bind(this), currentGame.determineSpeed());
+	}, currentGame.determineSpeed());
 };
 
 Tetromino.prototype.deadTetromino = function() {
 	removePressingKey();
 	currentGame.checkTetrominoBag();
 	currentGame.previousShape = this.shape;
-	this.cubePositions.forEach(function(deadTetrominoPosition) {
-		currentGame.occupiedPositions.push([deadTetrominoPosition, currentTetromino.color, currentTetromino.outlineColor, currentTetromino.solid, currentTetromino.shape]);
+	this.cubePositions.forEach(deadTetrominoPosition => {
+		currentGame.occupiedPositions.push([deadTetrominoPosition, this.color, this.outlineColor, this.solid, this.shape]);
 	});
 	currentGame.addToTetrominoStatistics(this.shape);
 	if (currentGame.checkForCompleteRow()) {
 			currentGame.deleteRowAnimation();
-			setTimeout(function() {
+			setTimeout(() => {
 				redrawBackground(currentGame, currentGame.occupiedPositions);
 				currentGame.slideDownAfterRowDeleted();
 				drawTetromino(currentGame, currentGame.occupiedPositions);
@@ -57,12 +57,12 @@ Tetromino.prototype.addNewTetromino = function() {
 
 Tetromino.prototype.allowedDown = function() {
 	var pieceThereDown = 0;
-	this.cubePositions.forEach(function(cubePosition) {
+	this.cubePositions.forEach(cubePosition => {
 		if (cubePosition[1] > completeColumn[18]) {
 			pieceThereDown += 1;
 			return true;
 		}
-		currentGame.occupiedPositions.forEach(function(usedPosition) {
+		currentGame.occupiedPositions.forEach(usedPosition => {
 			if (cubePosition[0] === usedPosition[0][0] && cubePosition[1] + boardIncrement === usedPosition[0][1]) {
 				pieceThereDown += 1;
 			}
@@ -76,13 +76,13 @@ Tetromino.prototype.allowedDown = function() {
 
 Tetromino.prototype.allowedLeft = function() {
 	var pieceThere = 0;
-	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		this.cubePositions.forEach(function(cubePosition) {
+	currentGame.occupiedPositions.forEach(usedPosition => {
+		this.cubePositions.forEach(cubePosition => {
 			if (cubePosition[0] - boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});
-	}.bind(this));
+	});
 	if (this.cubePositions[0][0] < boardIncrement) {
 		pieceThere += 1;
 	}
@@ -93,13 +93,13 @@ Tetromino.prototype.allowedLeft = function() {
 
 Tetromino.prototype.allowedRight = function() {
 	var pieceThere = 0;
-	currentGame.occupiedPositions.forEach(function(usedPosition) {
-		this.cubePositions.forEach(function(cubePosition) {
+	currentGame.occupiedPositions.forEach(usedPosition => {
+		this.cubePositions.forEach(cubePosition => {
 			if (cubePosition[0] + boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
 				pieceThere += 1;
 			} 
 		});
-	}.bind(this));
+	});
 	if (this.cubePositions[3][0] > completeRow[8]) {
 		pieceThere += 1;
 	}
@@ -110,7 +110,7 @@ Tetromino.prototype.allowedRight = function() {
 // All functions starting with "move" only adjust the cubePositions, they do not draw/redraw
 Tetromino.prototype.moveLeft = function() {
 	if (this.allowedLeft()) {
-		this.cubePositions.forEach(function(position) {
+		this.cubePositions.forEach(position => {
 			position[0] -= boardIncrement;
 		});
 	}
@@ -118,14 +118,14 @@ Tetromino.prototype.moveLeft = function() {
 
 Tetromino.prototype.moveRight = function() {
 	if (this.allowedRight()) {
-		this.cubePositions.forEach(function(position) {
+		this.cubePositions.forEach(position => {
 			position[0] += boardIncrement;
 		});
 	}
 };
 
 Tetromino.prototype.moveDown = function() {
-	this.cubePositions.forEach(function(position) {
+	this.cubePositions.forEach(position => {
 		position[1] += boardIncrement;
 	});
 };
@@ -163,7 +163,7 @@ Tetromino.prototype.rotateStick = function() {
 		this.cubePositions[3][1] += boardIncrement;
 		this.rotations += 1;
 	} else {
-		if (this.allowedRight() && this.allowedLeft()) {
+		if (this.allowedRight() && this.allowedLeft() && this.cubePositions[0][0] - boardIncrement !== 0) {
 			this.cubePositions[0][0] += negBoardIncrement * 2;
 			this.cubePositions[0][1] += boardIncrement * 2;
 			this.cubePositions[1][0] += negBoardIncrement;

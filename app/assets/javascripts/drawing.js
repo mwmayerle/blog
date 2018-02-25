@@ -21,7 +21,8 @@ var drawStatsPieces = function() {
 
 var redrawBackground = function(object, tetrominoPositions) {
 	var context = getContext("tetris");
-	tetrominoPositions.forEach(function(position) {
+	var position = '';
+	tetrominoPositions.forEach(position => {
 		if (object instanceof Game) {
 			position = position[0];
 		}
@@ -36,8 +37,9 @@ var drawTetromino = function(object, tetrominoPositions) {
 	var outlineColor = '';
 	var solid = '';
 	var context = getContext("tetris");
+	var position = '';
 
-	tetrominoPositions.forEach(function(coords) {
+	tetrominoPositions.forEach(coords => {
 		if (object instanceof Game) {
 			position = coords[0]; //currentGame.occupiedPositions array contains position array AND attributes
 			color = coords[1];
@@ -74,7 +76,7 @@ var drawNextTetromino = function(context, nextShape, scaleDown) {
 	if (nextShape.shape === 'stick' || nextShape.shape === 'cube') {
 		nextPieceXCoords = boardIncrement;
 	}
-	nextShape.cubePositions.forEach(function(position) {
+	nextShape.cubePositions.forEach(position => {
 		pieceContext.fillStyle = nextShape.outlineColor;
 		pieceContext.fillRect((position[0] + boardIncrement / 10 - completeRow[4] + nextPieceXCoords) * scale, (position[1] + boardIncrement / 10 + nextPieceYCoords) * scale, boardIncrement / 1.11 * scale, boardIncrement / 1.11 * scale);
 

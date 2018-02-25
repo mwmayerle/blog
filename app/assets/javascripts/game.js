@@ -19,7 +19,7 @@ Game.prototype.checkTetrominoBag = function() {
 Game.prototype.determineSpeed = function() {
 	var levelSpeed = 1000;
 	if (this.level <= 8) {
-		levelSpeed -= currentGame.level * 100;
+		levelSpeed -= this.level * 100;
 	} else if (this.level === 9) {
 		levelSpeed = 180;
 	} else if (this.level >= 10 && this.level <= 12) {
@@ -82,40 +82,40 @@ Game.prototype.updateTetrominoColors = function() {
 
 Game.prototype.updateNextShapeColors = function() {
 		if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
-		currentGame.nextShape.outlineColor = outlineColors[currentGame.level % 10];
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
 	} else if (this.nextShape.shape === 'jay' || this.nextShape.shape === 'es') {
-		currentGame.nextShape.color = solidColors[currentGame.level % 10];
-		currentGame.nextShape.outlineColor = solidColors[currentGame.level % 10];
+		this.nextShape.color = solidColors[this.level % 10];
+		this.nextShape.outlineColor = solidColors[this.level % 10];
 	} else {
-		currentGame.nextShape.color = outlineColors[currentGame.level % 10];
-		currentGame.nextShape.outlineColor = outlineColors[currentGame.level % 10];
+		this.nextShape.color = outlineColors[this.level % 10];
+		this.nextShape.outlineColor = outlineColors[this.level % 10];
 	}
 };
 
 Game.prototype.updateTetrominoBagColors = function() {
-	this.tetrominoBag.forEach(function(queuedShape) {
+	this.tetrominoBag.forEach(queuedShape => {
 		if (queuedShape.shape === 'cube' || queuedShape.shape === 'stick' || queuedShape.shape === 'cross') {
-			queuedShape.outlineColor = outlineColors[currentGame.level % 10];
+			queuedShape.outlineColor = outlineColors[this.level % 10];
 		} else if (queuedShape.shape === 'jay' || queuedShape.shape === 'es') {
-			queuedShape.color = solidColors[currentGame.level % 10];
-			queuedShape.outlineColor = solidColors[currentGame.level % 10];
+			queuedShape.color = solidColors[this.level % 10];
+			queuedShape.outlineColor = solidColors[this.level % 10];
 		} else {
-			queuedShape.color = outlineColors[currentGame.level % 10];
-			queuedShape.outlineColor = outlineColors[currentGame.level % 10];
+			queuedShape.color = outlineColors[this.level % 10];
+			queuedShape.outlineColor = outlineColors[this.level % 10];
 		}
 	});
 }
 
 Game.prototype.updateOccupiedPositionColors = function() {
-	this.occupiedPositions.forEach(function(occupiedPosition) {
+	this.occupiedPositions.forEach(occupiedPosition => {
 		if (occupiedPosition[4] === 'cube' || occupiedPosition[4] === 'stick' || occupiedPosition[4] === 'cross') {
-			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+			occupiedPosition[2] = outlineColors[this.level % 10];
 		} else if (occupiedPosition[4] === 'jay' || occupiedPosition[4] === 'es') {
-			occupiedPosition[1] = solidColors[currentGame.level % 10];
-			occupiedPosition[2] = solidColors[currentGame.level % 10];
+			occupiedPosition[1] = solidColors[this.level % 10];
+			occupiedPosition[2] = solidColors[this.level % 10];
 		} else {
-			occupiedPosition[1] = outlineColors[currentGame.level % 10];
-			occupiedPosition[2] = outlineColors[currentGame.level % 10];
+			occupiedPosition[1] = outlineColors[this.level % 10];
+			occupiedPosition[2] = outlineColors[this.level % 10];
 		}
 	});
 }
@@ -124,19 +124,19 @@ Game.prototype.updateOccupiedPositionColors = function() {
 Game.prototype.changeColors = function() {
 	this.updateTetrominoColors();
 	drawStatsPieces();
-	drawNextTetromino("next_piece", currentGame.nextShape, 0);
-	redrawBackground(currentGame, currentGame.occupiedPositions);
-	drawTetromino(currentGame, currentGame.occupiedPositions);
+	drawNextTetromino("next_piece", this.nextShape, 0);
+	redrawBackground(this, this.occupiedPositions);
+	drawTetromino(this, this.occupiedPositions);
 };
 
 Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
-	Object.keys(possibleRows).forEach(function(key) {
+	Object.keys(possibleRows).forEach(key => {
 		if (possibleRows[key].length === 10) {
 			this.updateLineStats();
 			this.deleteRow(rowYCoords);
 			this.deletedRows.push(rowYCoords);
 		}
-	}.bind(this));
+	});
 };
 
 Game.prototype.addToScore = function() {
@@ -167,10 +167,7 @@ Game.prototype.updateScore = function() {
 };
 
 Game.prototype.amountInRows = function(rowYCoords, multiplier) {
-	var rowAmount = this.occupiedPositions.filter(function(occupiedPosition){
-		return rowYCoords === occupiedPosition[0][1] - multiplier;
-	});
-	return rowAmount;
+	return this.occupiedPositions.filter(occupiedPosition => rowYCoords === occupiedPosition[0][1] - multiplier);
 };
 
 Game.prototype.checkForCompleteRow = function() {
@@ -211,8 +208,8 @@ Game.prototype.deleteRowAnimation = function() {
 	var xCoordLeft = completeRow[4];
 
 	for (var i = 0; i < 5; i++) {
-		setTimeout(function() {
-			currentGame.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
+		setTimeout(() => {
+			this.deleteRowAnimationSegment(xCoordRight, xCoordLeft);
 			xCoordRight += boardIncrement;
 			xCoordLeft -= boardIncrement;
 		}, i * rowClearAnimationTime);
@@ -222,7 +219,7 @@ Game.prototype.deleteRowAnimation = function() {
 
 Game.prototype.deleteRowAnimationSegment = function(xCoordRight, xCoordLeft) {
 	var context = getContext("tetris");
-	var coordsToVanish = currentGame.deletedPositions.filter(function(position) {
+	var coordsToVanish = this.deletedPositions.filter(function(position) {
 			return position[0] === xCoordRight || position[0] === xCoordLeft
 		});
 	coordsToVanish.forEach(function(coordinate) {
@@ -237,9 +234,7 @@ Game.prototype.deleteRow = function(rowYCoord) {
 	var deletedIndicies = [];
 
 	while (rowIndicies.length > 0) {
-		var toKill = rowIndicies.reduce(function(a,b) {
-			return Math.max(a,b);
-		});
+		var toKill = rowIndicies.reduce((a,b) =>  Math.max(a,b));
 		deletedIndicies.push(this.occupiedPositions.splice(toKill, 1));
 		var toKillIndex = rowIndicies.indexOf(toKill);
 		rowIndicies.splice(toKillIndex, 1);
@@ -248,18 +243,18 @@ Game.prototype.deleteRow = function(rowYCoord) {
 
 Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 	var indiciesToDelete = [];
-		this.occupiedPositions.forEach(function(position) {
+		this.occupiedPositions.forEach(position => {
 		if (position[0][1] === rowYCoord) {
 			this.deletedPositions.push(position[0]);
 			var positionIndex = this.occupiedPositions.indexOf(position)
 			indiciesToDelete.push(positionIndex);
 		}
-	}.bind(this));
+	});
 	return indiciesToDelete;
 };
 
 Game.prototype.moveDownEverything = function(yCoord) {
-	this.occupiedPositions.forEach(function(position) {
+	this.occupiedPositions.forEach(position => {
 		if (position[0][1] <= yCoord) {
 			position[0][1] += boardIncrement;
 		}
