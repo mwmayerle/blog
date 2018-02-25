@@ -21,7 +21,6 @@ var drawStatsPieces = function() {
 
 var redrawBackground = function(object, tetrominoPositions) {
 	var context = getContext("tetris");
-	var position = '';
 	tetrominoPositions.forEach(position => {
 		if (object instanceof Game) {
 			position = position[0];
@@ -37,8 +36,7 @@ var drawTetromino = function(object, tetrominoPositions) {
 	var outlineColor = '';
 	var solid = '';
 	var context = getContext("tetris");
-	var position = '';
-
+	
 	tetrominoPositions.forEach(coords => {
 		if (object instanceof Game) {
 			position = coords[0]; //currentGame.occupiedPositions array contains position array AND attributes
