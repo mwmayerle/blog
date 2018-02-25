@@ -1,4 +1,5 @@
 # Javascript Tetris
+~~~ Event.keyCode is currently malfunctioning on Firefox, will address soon! ~~~
 
 A homage to the NES version of Tetris written in Javascript. [Play the game now!](https://javascript-tetris.herokuapp.com)
 ![tetris](/public/screenshot.png)
@@ -46,3 +47,4 @@ To install this on your local machine, clone the repository, enter the repositor
 
 ## Known Issues
 * Pressing a key after a piece has "died" or during the row clear animation creates a time lag before the next tetromino shows. Squashing this bug would be greatly appreciated!
+* event.keyCode hates Firefox
