@@ -1,5 +1,4 @@
 # Javascript Tetris
-~~~ Event.keyCode is currently malfunctioning on Firefox, will address soon! ~~~
 
 A homage to the NES version of Tetris written in Javascript. [Play the game now!](https://javascript-tetris.herokuapp.com)
 ![tetris](/public/screenshot.png)
@@ -15,7 +14,7 @@ As-is this game is attached to a Rails backend, however it can be integrated int
 When a game is completed, JSON is sent via an AJAX request containing the score and initials of the player. The page is then reloaded using the information mentioned above.
 
 ###Randomizer
-The current in-game randomizer creates a "bag" of all 7 possible tetrominos. The ordering of said bag is always completely random.
+The current in-game randomizer creates a "bag" of 7 tetrominos with code to prevent repetition. 7 is chosen because other versions of tetris utilize more complex randomizers.
 
 ### Scoring
 Scores are calculated similarly to the [NES Tetris scoring system](http://tetris.wikia.com/wiki/Scoring), which assigns a multiplier based on the number of rows cleared. Unlike the NES version, this version assigns 5 points when a tetromino lands instead of calculating a score based on the distance that a ['soft drop'](http://tetris.wikia.com/wiki/Drop). The scoring system can be altered within the game.js file inside the Game.prototype.addToScore function.
@@ -32,8 +31,8 @@ Two constants, boardWidth and boardHeight are found in the drawing.js file. The 
 ## Dependencies
 Before generating your application, you will need:
 
-* The Ruby language – version 2.4.2
-* The Rails gem – version 5.1
+* The Ruby language – version 2.5.0
+* The Rails gem – version 5.1.5
 * Javascript ES6
 
 ## Installation
@@ -48,4 +47,4 @@ To install this on your local machine, clone the repository, enter the repositor
 
 ## Known Issues
 * Pressing a key after a piece has "died" or during the row clear animation creates a time lag before the next tetromino shows. Squashing this bug would be greatly appreciated!
-* event.keyCode hates Firefox
+* I have no idea if this works in IE or Safari.

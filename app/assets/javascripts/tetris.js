@@ -77,8 +77,16 @@ var startGame = function() {
 	currentTetromino = currentGame.tetrominoBag.shift();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
-	currentTetromino.autoMove();
-	document.addEventListener("keydown", pressingKey);
+	addKeyboardEvent();
+	currentTetromino.autoMove('');
+};
+
+function addKeyboardEvent() {
+	document.addEventListener("keydown", event => { pressingKey(event); });	
+};
+
+function removeKeyboardEvent(event) {
+	document.removeEventListener("keydown", pressingKey);
 };
 
 var spawnTetromino = function() {
@@ -91,25 +99,21 @@ var spawnTetromino = function() {
 };
 
 var generateRandomShape = function() {
-	return shapes[Math.floor(Math.random() * (7))]; // look at randomizer logic again later...
+	return shapes[Math.floor(Math.random() * (7))];
 };
 
 var getNewTetrominoSequence = function() {
 	var newShapes = [];
-	while (currentGame.tetrominoBag.length < 7) {
+	while (currentGame.tetrominoBag.length < 14) { // easier to modify for other randomizer versions if it's an increment of 7
 		var newShape = generateRandomShape();
-		if (!newShapes.includes(newShape)) {
+		if (newShape !== newShapes[newShapes.length - 1]) {
 			newShapes.push(newShape);
 			currentGame.tetrominoBag.push(new Tetromino(selectShape(newShape)));
 		}
 	}
 };
 
-var removePressingKey = function() {
-	document.removeEventListener("keydown", pressingKey);
-};
-
-var pressingKey = function() {
+var pressingKey = function(event) {
 	redrawBackground(currentTetromino, currentTetromino.cubePositions);
 	switch (event.keyCode) {
 		case 65: // A
@@ -127,7 +131,6 @@ var pressingKey = function() {
 			while (!currentTetromino.allowedDown()) {
 				currentTetromino.moveDown();
 			}
-			removePressingKey();
 			break;
 		default:
 			if (!currentTetromino.allowedDown()) {
@@ -135,6 +138,7 @@ var pressingKey = function() {
 			}
 		}
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
+	return event;
 };
 
 var sendScore = function() {
@@ -167,6 +171,7 @@ var sendScore = function() {
 			request.fail(function(response) {
 				console.log(response);
 			});
+
 		} else {
 			$("#three_chars").css("color", "red");
 		}
