@@ -77,8 +77,18 @@ var startGame = function() {
 	currentTetromino = currentGame.tetrominoBag.shift();
 	drawNextTetromino("next_piece", currentGame.nextShape, 0);
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
-	currentTetromino.autoMove();
-	document.addEventListener("keydown", pressingKey);
+	addKeyboardEvent();
+	currentTetromino.autoMove('');
+};
+
+function addKeyboardEvent() {
+	document.addEventListener("keydown", event => {
+		pressingKey(event)
+	});	
+};
+
+function removeKeyboardEvent(event) {
+	document.removeEventListener("keydown", pressingKey);
 };
 
 var spawnTetromino = function() {
@@ -105,11 +115,7 @@ var getNewTetrominoSequence = function() {
 	}
 };
 
-var removePressingKey = function() {
-	document.removeEventListener("keydown", pressingKey);
-};
-
-var pressingKey = function() {
+var pressingKey = function(event) {
 	redrawBackground(currentTetromino, currentTetromino.cubePositions);
 	switch (event.keyCode) {
 		case 65: // A
@@ -127,7 +133,6 @@ var pressingKey = function() {
 			while (!currentTetromino.allowedDown()) {
 				currentTetromino.moveDown();
 			}
-			removePressingKey();
 			break;
 		default:
 			if (!currentTetromino.allowedDown()) {
@@ -135,6 +140,7 @@ var pressingKey = function() {
 			}
 		}
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
+	return event;
 };
 
 var sendScore = function() {

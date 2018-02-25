@@ -7,7 +7,7 @@ var Tetromino = function(attributes) {
 	this.rotations = 1;
 };
 
-Tetromino.prototype.autoMove = function() {
+Tetromino.prototype.autoMove = function(event) {
 	currentInterval = setInterval(() => {
 		if (!this.allowedDown()) {
 			redrawBackground(this, this.cubePositions);
@@ -15,13 +15,13 @@ Tetromino.prototype.autoMove = function() {
 			drawTetromino(this, this.cubePositions);
 		} else {
 			clearInterval(currentInterval);
-			this.deadTetromino();
+			this.deadTetromino(event);
 		}
 	}, currentGame.determineSpeed());
 };
 
-Tetromino.prototype.deadTetromino = function() {
-	removePressingKey();
+Tetromino.prototype.deadTetromino = function(event) {
+	removeKeyboardEvent(event);
 	currentGame.checkTetrominoBag();
 	currentGame.previousShape = this.shape;
 	this.cubePositions.forEach(deadTetrominoPosition => {
@@ -49,7 +49,6 @@ Tetromino.prototype.addNewTetromino = function() {
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
-		document.addEventListener("keydown", pressingKey);
 	} else {
 		currentGame.gameOver();
 	}

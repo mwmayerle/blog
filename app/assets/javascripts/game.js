@@ -35,7 +35,7 @@ Game.prototype.determineSpeed = function() {
 };
 
 Game.prototype.gameOver = function() {
-	removePressingKey();
+	removeKeyboardEvent(event);
 	document.getElementById("music_theme").pause();
 	document.getElementById("game_over_sound").play();
 	showSubmissionForm();
