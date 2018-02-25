@@ -32,8 +32,9 @@ Two constants, boardWidth and boardHeight are found in the drawing.js file. The 
 ## Dependencies
 Before generating your application, you will need:
 
-The Ruby language – version 2.4.2
-The Rails gem – version 5.1
+* The Ruby language – version 2.4.2
+* The Rails gem – version 5.1
+* Javascript ES6
 
 ## Installation
 To install this on your local machine, clone the repository, enter the repository, and then run bundler by typing
