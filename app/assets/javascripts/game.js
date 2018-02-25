@@ -130,14 +130,13 @@ Game.prototype.changeColors = function() {
 };
 
 Game.prototype.deleteFromOccupiedPositions = function(possibleRows, rowYCoords, deletedRows) {
-	var that = this;
 	Object.keys(possibleRows).forEach(function(key) {
 		if (possibleRows[key].length === 10) {
-			that.updateLineStats();
-			that.deleteRow(rowYCoords);
-			that.deletedRows.push(rowYCoords);
+			this.updateLineStats();
+			this.deleteRow(rowYCoords);
+			this.deletedRows.push(rowYCoords);
 		}
-	});
+	}.bind(this));
 };
 
 Game.prototype.addToScore = function() {
@@ -248,15 +247,14 @@ Game.prototype.deleteRow = function(rowYCoord) {
 };
 
 Game.prototype.getIndiciesToDelete = function(rowYCoord) {
-	var that = this;
 	var indiciesToDelete = [];
 		this.occupiedPositions.forEach(function(position) {
 		if (position[0][1] === rowYCoord) {
-			that.deletedPositions.push(position[0]);
-			var positionIndex = that.occupiedPositions.indexOf(position)
+			this.deletedPositions.push(position[0]);
+			var positionIndex = this.occupiedPositions.indexOf(position)
 			indiciesToDelete.push(positionIndex);
 		}
-	});
+	}.bind(this));
 	return indiciesToDelete;
 };
 
