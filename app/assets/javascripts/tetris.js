@@ -163,11 +163,11 @@ var sendScore = function() {
 				}
 			});
 
-			request.done(response => {
+			request.done(function(response) {
 				$("#gameover_form").hide();
 				location.reload();
 			});
-			request.fail(response => { console.log(response); });
+			request.fail(function(response) { console.log(response); });
 
 		} else {
 			$("#three_chars").css("color", "red");

@@ -78,7 +78,7 @@ Game.prototype.updateTetrominoColors = function() {
 	this.updateTetrominoBagColors();
 	this.updateOccupiedPositionColors();
 	this.updateNextShapeColors();
-}
+};
 
 Game.prototype.updateNextShapeColors = function() {
 		if (this.nextShape.shape === 'cube' || this.nextShape.shape === 'stick' || this.nextShape.shape === 'cross') {
