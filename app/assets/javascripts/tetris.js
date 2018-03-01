@@ -131,6 +131,7 @@ var pressingKey = function(event) {
 			while (!currentTetromino.allowedDown()) {
 				currentTetromino.moveDown();
 			}
+			removeKeyboardEvent(event);
 			break;
 		default:
 			if (!currentTetromino.allowedDown()) {
@@ -144,7 +145,6 @@ var pressingKey = function(event) {
 var sendScore = function() {
 	$("#the_form").on("submit", function(event) {
 		event.preventDefault();
-
 		var $form = $(this);
 		var playerName = $form.find("#player_name").val();
 		var playerNameLength = $form.find("#player_name").val().length;
@@ -163,14 +163,11 @@ var sendScore = function() {
 				}
 			});
 
-			request.done(function(response) {
+			request.done(response => {
 				$("#gameover_form").hide();
 				location.reload();
 			});
-
-			request.fail(function(response) {
-				console.log(response);
-			});
+			request.fail(response => { console.log(response); });
 
 		} else {
 			$("#three_chars").css("color", "red");

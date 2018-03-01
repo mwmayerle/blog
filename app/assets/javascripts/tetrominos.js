@@ -68,7 +68,6 @@ Tetromino.prototype.allowedDown = function() {
 		});
 	});
 	if (pieceThereDown > 0) {
-		// clearInterval(currentInterval);
 		return true;
 	}
 };
