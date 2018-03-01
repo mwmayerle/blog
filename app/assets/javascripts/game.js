@@ -34,7 +34,7 @@ Game.prototype.determineSpeed = function() {
 	return levelSpeed;
 };
 
-Game.prototype.gameOver = function() {
+Game.prototype.gameOver = function(event) {
 	removeKeyboardEvent(event);
 	document.getElementById("music_theme").pause();
 	document.getElementById("game_over_sound").play();

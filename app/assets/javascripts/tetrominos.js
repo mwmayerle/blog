@@ -35,22 +35,22 @@ Tetromino.prototype.deadTetromino = function(event) {
 				currentGame.slideDownAfterRowDeleted();
 				drawTetromino(currentGame, currentGame.occupiedPositions);
 				currentGame.deletedPositions = [];
-				currentTetromino.addNewTetromino();
+				currentTetromino.addNewTetromino(event);
 				currentGame.changeColors();
 			}, (rowClearAnimationTime * 4) + 1);
 	} else {
-		this.addNewTetromino();
+		this.addNewTetromino(event);
 	}
 };
 
-Tetromino.prototype.addNewTetromino = function() {
+Tetromino.prototype.addNewTetromino = function(event) {
 	clearInterval(currentInterval);
 	this.cubePositions = [[maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal], [maxVal, maxVal]];
 	currentTetromino = spawnTetromino();
 	if (!currentTetromino.allowedDown()) {
 		currentTetromino.autoMove();
 	} else {
-		currentGame.gameOver();
+		currentGame.gameOver(event);
 	}
 };
 
