@@ -11,9 +11,7 @@ var Game = function() {
 };
 
 Game.prototype.checkTetrominoBag = function() {
-	if (this.tetrominoBag.length === 0) {
-		getNewTetrominoSequence();
-	}
+	if (this.tetrominoBag.length === 0) { getNewTetrominoSequence(); }
 };
 
 Game.prototype.determineSpeed = function() {
@@ -64,10 +62,10 @@ Game.prototype.updateLevel = function() {
 
 Game.prototype.updateLineStats = function() {
 	this.lines = parseInt(this.lines) + 1;
-	if (this.lines < 10) {
-		this.lines = "0".concat(this.lines);
-	}
+	if (this.lines < 10) { this.lines = "0".concat(this.lines); }
+
 	$("#lines_div p").text("LINES-".concat(this.lines));
+
 	if (this.lines % 10 === 0) {
 		this.updateLevel();
 		this.updateNextShapeColors(); // not in changeColors function b/c the new piece will not be updated in time
@@ -183,9 +181,8 @@ Game.prototype.checkForCompleteRow = function() {
 		this.deleteFromOccupiedPositions(possibleRows, rowYCoords);
 	}
 
-	if (this.deletedRows.length > 0) {
-		playDeleteAnimation = true;
-	}
+	if (this.deletedRows.length > 0) { playDeleteAnimation = true; }
+
 	this.addToScore();
 	this.updateScore();
 	return playDeleteAnimation;
@@ -255,8 +252,6 @@ Game.prototype.getIndiciesToDelete = function(rowYCoord) {
 
 Game.prototype.moveDownEverything = function(yCoord) {
 	this.occupiedPositions.forEach(position => {
-		if (position[0][1] <= yCoord) {
-			position[0][1] += boardIncrement;
-		}
+		if (position[0][1] <= yCoord) { position[0][1] += boardIncrement; }
 	});
 };

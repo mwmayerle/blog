@@ -31,7 +31,7 @@ var showSubmissionForm = function() {
 };
 
 var toggleMusic = function() {
-	$("#music").on("click", function() { 
+	$("#music").on("click", () => { 
 		if ($(this).text().includes("MUSIC OFF")) {
 			document.getElementById("music_theme").pause();
 			$(this).html("<p>" + "MUSIC ON" + "</p>");
@@ -120,9 +120,7 @@ var pressingKey = function(event) {
 			currentTetromino.moveLeft();
 			break;
 		case 83: // S
-			if (!currentTetromino.allowedDown()) {
-				currentTetromino.moveDown();
-			}
+			if (!currentTetromino.allowedDown()) { currentTetromino.moveDown(); }
 			break;
 		case 68:// D
 			currentTetromino.moveRight();
@@ -134,9 +132,7 @@ var pressingKey = function(event) {
 			removeKeyboardEvent(event);
 			break;
 		default:
-			if (!currentTetromino.allowedDown()) {
-				currentTetromino.rotateTetromino();
-			}
+			if (!currentTetromino.allowedDown()) { currentTetromino.rotateTetromino(); }
 		}
 	drawTetromino(currentTetromino, currentTetromino.cubePositions);
 	return event;

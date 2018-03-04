@@ -93,23 +93,16 @@ Tetromino.prototype.allowedRight = function() {
 	var pieceThere = 0;
 	currentGame.occupiedPositions.forEach(usedPosition => {
 		this.cubePositions.forEach(cubePosition => {
-			if (cubePosition[0] + boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) {
-				pieceThere += 1;
-			} 
+			if (cubePosition[0] + boardIncrement === usedPosition[0][0] && cubePosition[1] === usedPosition[0][1]) { pieceThere += 1; } 
 		});
 	});
-	if (this.cubePositions[3][0] > completeRow[8]) {
-		pieceThere += 1;
-	}
-	if (pieceThere === 0) {
-		return true;
-	}
+	if (this.cubePositions[3][0] > completeRow[8]) { pieceThere += 1; }
+	if (pieceThere === 0) { return true; }
 };
 // All functions starting with "move" only adjust the cubePositions, they do not draw/redraw
 Tetromino.prototype.moveLeft = function() {
 	if (this.allowedLeft()) {
-		this.cubePositions.forEach(position => {
-			position[0] -= boardIncrement;
+		this.cubePositions.forEach(position => { position[0] -= boardIncrement;
 		});
 	}
 };
