@@ -5,6 +5,7 @@ var Tetromino = function(attributes) {
 	this.outlineColor = attributes.outlineColor;
 	this.solid = attributes.solid;
 	this.rotations = 1;
+	this.hardDrop = false;
 };
 
 Tetromino.prototype.autoMove = function(event) {

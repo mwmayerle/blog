@@ -31,13 +31,14 @@ var showSubmissionForm = function() {
 };
 
 var toggleMusic = function() {
-	$("#music").on("click", () => { 
-		if ($(this).text().includes("MUSIC OFF")) {
+	$("#music").on("click", () => {
+		var $musicDiv = $("#music");
+		if ($musicDiv.text().includes("MUSIC OFF")) {
 			document.getElementById("music_theme").pause();
-			$(this).html("<p>" + "MUSIC ON" + "</p>");
+			$musicDiv.html("<p>" + "MUSIC ON" + "</p>");
 		} else {
 			document.getElementById("music_theme").play();
-			$(this).html("<p>" + "MUSIC OFF" + "</p>");
+			$musicDiv.html("<p>" + "MUSIC OFF" + "</p>");
 		}
 	});
 };
