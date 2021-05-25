@@ -16,9 +16,7 @@ class TetrisController < ApplicationController
 		@high_score = Tetris.format_high_score(@high_scores.first.player_score.to_s)
 
 		respond_to do |format|
-			format.json {
-				render json: {}, status: 200
-			}
+			format.json { render json: {}, status: 200 }
 			format.html {
 				render :index
 			}
