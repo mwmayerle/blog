@@ -17,9 +17,7 @@ class TetrisController < ApplicationController
 
 		respond_to do |format|
 			format.json { render json: {}, status: 200 }
-			format.html {
-				render :index
-			}
+			format.html { render :index }
 		end
 	end
 end
